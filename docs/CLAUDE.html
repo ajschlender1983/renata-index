@@ -1,0 +1,96 @@
+<!doctype html><html lang=en><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Working conventions · Renata</title><style>
+  :root{--paper:#F7F6F2;--ink:#16161F;--soft:#5A5A6E;--violet:#574FC7;--line:#E7E5DD;--card:#fff;--gold:#B5852E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .bar{position:sticky;top:0;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px}
+  .bar a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:500}
+  .doc{max-width:780px;margin:0 auto;padding:34px 24px 80px}
+  h1{font:600 30px/1.25 Georgia,serif;margin:.2em 0 .5em}
+  h2{font:600 21px/1.3 Georgia,serif;margin:1.7em 0 .5em;border-top:1px solid var(--line);padding-top:1.1em}
+  h3{font:600 16px/1.3 Georgia,serif;margin:1.4em 0 .4em}
+  p,li{color:#26263a}
+  code{background:#ECEAE3;border-radius:4px;padding:.1em .4em;font:13.5px "IBM Plex Mono",ui-monospace,monospace}
+  pre{background:#1C1C28;color:#E7E5F4;border-radius:11px;padding:15px 17px;overflow:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  pre code{background:none;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:#EDEBFA;color:#332C8A;font-weight:600}
+  a{color:var(--violet)}
+  blockquote{border-left:3px solid var(--violet);margin:1em 0;padding:.2em 0 .2em 16px;color:var(--soft)}
+  hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+</style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="claudemd-renata">CLAUDE.md — Renata</h1>
+<p>Context for working in this repo with Claude Code.</p>
+<h2 id="what-this-is">What this is</h2>
+<p>Renata is renewal intelligence for employee-benefits brokers. She reads public filings,
+fuses them into a per-company <strong>In-Play Score</strong> (which accounts are about to switch
+brokers), and drafts the outreach. The product persona — content, chatbot, in-app
+assistant — is also named Renata. Tagline: <em>the oracle, and the easy button.</em></p>
+<h2 id="architecture-data-flows-one-direction">Architecture (data flows one direction)</h2>
+<pre><code>dedicated source agents ──▶ signals + source_health ──▶ scoring (In-Play Score)
+        │                                                      │
+   DOL 5500 ingest ──▶ companies + plans ─────────────────────┘
+                                                               ▼
+                                          Renewal Radar generator + serving API
+                                                               ▼
+                                          frontend (landing, dashboard, app)
+</code></pre>
+<p>Each data source has its <strong>own dedicated agent</strong> (<code>agents/</code>) that owns access, cadence,
+retry, normalization, and health. One source failing never degrades the others. System
+freshness and lead temperature are computed from real state (<code>system_temperature()</code>),
+not faked — that powers the landing page's "last refreshed" and quality readouts.</p>
+<h2 id="repo-layout">Repo layout</h2>
+<pre><code>schema.sql              all tables (companies, plans, signals, scores, source_health, ...)
+config.py               dataset URLs + the 5500 column mapping (the one thing that drifts)
+ingest/                 DOL 5500 fetch + load (the foundation feed)
+pipeline/
+  run_phase0.py         fetch -&gt; load -&gt; ops report
+  score.py              the In-Play Score (transparent, rules-based, reason codes)
+  radar.py              the free Renewal Radar one-pager (lead magnet)
+agents/
+  base_agent.py         the SourceAgent contract (retry, heartbeat, freshness SLA)
+  sources.py            one agent per source + orchestrator + system_temperature()
+frontend/               landing, opportunity brief, in-app + settings mockups, brand + motion
+docs/
+  ARCHITECTURE.md       infrastructure design + the 3 infra EBI passes
+  BUILD_PLAN.md         operating model, the human gates, naming, GTM
+  GTM_LINKEDIN_PLAYBOOK.md   community/channel map + autonomous LinkedIn strategy
+</code></pre>
+<h2 id="brand-source-of-truth">Brand source of truth</h2>
+<p><code>frontend/renata_logo_system.html</code> is the <strong>current</strong> mark (the Aperture + motion states).
+<code>frontend/renata_brand_guide.html</code> defines color, type, and voice — but its <em>mark</em> section
+predates the Aperture and shows the old presence dot; defer to the logo system for the mark.
+<code>renata_app_mockup.html</code> and <code>renata_automation_settings.html</code> define the in-app agent UX
+and the earned-autonomy settings model.</p>
+<h2 id="run-it">Run it</h2>
+<pre><code class="language-bash">pip install -r requirements.txt
+cp .env.example .env                      # set DATABASE_URL (Supabase) or leave blank (SQLite)
+python - &lt;&lt;'PY'                           # create schema
+import sqlite3; sqlite3.connect(&quot;renata.db&quot;).executescript(open(&quot;schema.sql&quot;).read())
+PY
+python -m pipeline.run_phase0 --year 2023 --state TX   # ingest (uses sample fixture w/ --skip-fetch)
+python -m pipeline.score --month 6                     # compute In-Play Scores
+python -m agents.sources                               # run source agents + temperature
+python -m pipeline.radar --state TX --out radar.html   # generate the Renewal Radar
+</code></pre>
+<p>A synthetic fixture in <code>data/2023/</code> lets the whole chain run with <code>--skip-fetch</code> (no download).</p>
+<h2 id="conventions">Conventions</h2>
+<ul>
+<li><strong>Scoring is transparent on purpose</strong> — every point maps to a plain-English reason code.
+  Keep it that way; Renata has to explain herself.</li>
+<li><strong>Column drift lives in <code>config.py</code></strong> — if a 5500 load warns about a missing column,
+  fix the mapping there against DOL's File Layout, nowhere else.</li>
+<li><strong>Adding a data source = a new <code>SourceAgent</code> subclass</strong> in <code>agents/sources.py</code> +
+  register it. Don't fold source logic into the pipeline.</li>
+<li><strong>The operating model has gates</strong> — pricing, compliance, spend, "publish as me," and a
+  weekly green-light are human decisions; everything else runs autonomously.</li>
+</ul>
+<h2 id="compliance-guardrails-do-not-cross">Compliance guardrails (do not cross)</h2>
+<ul>
+<li>LinkedIn outreach is drafted, human-sent — never bulk-automated (TOS/bans).</li>
+<li>5500/WARN/Form D are public; SERFF rate-filing access varies by state (start with open ones).</li>
+<li>Run Renata transparently as an AI analyst, paired with a real human face — never a fake person.</li>
+</ul>
+<h2 id="status">Status</h2>
+<p>Done: data spine (5500), scoring, Radar, dedicated agents + health/temperature, full brand
++ motion system, landing page, opportunity one-pager. Next: live DOL pull in prod, the
+serving API, auth + Stripe, and the in-app agent UI.</p></article></body></html>

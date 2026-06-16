@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renata — Radar to Close</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F2EC;--card:#fff;--ink:#16161F;--soft:#5A5A6E;--line:#E7E5DD;--line2:#F0EEE8;
+    --violet:#574FC7;--violet-soft:#EDEBFA;--violet-ink:#332C8A;--teal:#0F7256;--teal-soft:#E2F4ED;
+    --amber:#8A5A0C;--amber-soft:#FAF0DC;--alert:#A6342E;--alert-soft:#F8E7E5;--gold:#B5852E;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .voice{font-family:Newsreader,Georgia,serif}.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  a{color:var(--violet)}
+  button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:9px 15px}
+  button.primary{background:var(--violet);border-color:var(--violet);color:#fff;font-weight:600}
+  button.ghost{background:transparent}
+  button:hover{filter:brightness(.99)}
+
+  /* app bar + stepper */
+  .bar{position:sticky;top:0;z-index:10;background:rgba(244,242,236,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:11px 22px;display:flex;align-items:center;gap:14px}
+  .bar .mk{width:30px;height:30px}
+  .bar b{font:500 20px/1 Newsreader,serif}
+  .temp{margin-left:auto;font-size:12px;color:var(--soft);display:flex;align-items:center;gap:7px}
+  .tdot{width:8px;height:8px;border-radius:50%;background:var(--amber)}
+  .steps{display:flex;gap:4px;overflow:auto;padding:10px 22px 0;flex-wrap:wrap}
+  .step{font:11px/1 "IBM Plex Mono",monospace;letter-spacing:.04em;color:var(--soft);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:7px}
+  .step .n{width:17px;height:17px;border-radius:50%;background:var(--line2);color:var(--soft);display:flex;align-items:center;justify-content:center;font-size:10px}
+  .step.active{color:var(--violet-ink);border-color:var(--violet);background:var(--violet-soft)}
+  .step.active .n{background:var(--violet);color:#fff}
+  .step.done .n{background:var(--teal);color:#fff}
+
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 22px 70px}
+  .screen{display:none;animation:fade .25s ease}
+  .screen.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+  .eyebrow{font:11px/1 "IBM Plex Mono",monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--violet);margin-bottom:8px}
+  h1{font:600 27px/1.2 Newsreader,serif;margin:0 0 4px}
+  h2{font:600 19px/1.25 Newsreader,serif;margin:26px 0 12px}
+  .sub{color:var(--soft);margin:0 0 18px;max-width:62ch}
+  .nav{display:flex;gap:10px;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+  .nav .sp{margin-left:auto}
+  .rena{border-left:3px solid var(--violet);padding:10px 0 10px 16px;margin:16px 0;font:italic 16px/1.5 Newsreader,serif;color:#3a3470}
+
+  /* radar dashboard */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:4px 0 18px}
+  @media(max-width:720px){.kpis{grid-template-columns:1fr 1fr}}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 16px}
+  .kpi .v{font:500 24px/1 "IBM Plex Mono",monospace}
+  .kpi .l{font-size:11.5px;color:var(--soft);margin-top:5px}
+  .kpi .v.teal{color:var(--teal)}.kpi .v.amber{color:var(--amber)}.kpi .v.violet{color:var(--violet)}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .chipf{font-size:12px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;color:var(--soft)}
+  .chipf b{color:var(--ink);font-weight:600}
+  .chipf.on{border-color:var(--violet);background:var(--violet-soft);color:var(--violet-ink)}
+  .board{display:grid;grid-template-columns:1fr 270px;gap:16px}
+  @media(max-width:860px){.board{grid-template-columns:1fr}}
+  .rows{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .row{display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:center;padding:13px 16px;border-bottom:1px solid var(--line2);cursor:pointer}
+  .row:last-child{border-bottom:none}
+  .row:hover{background:var(--line2)}
+  .row.lead{background:linear-gradient(90deg,var(--violet-soft),transparent 60%)}
+  .row .rk{font:500 12px/1 "IBM Plex Mono",monospace;color:var(--soft)}
+  .row .nm{font-weight:600}
+  .row .meta{font-size:12px;color:var(--soft);margin-top:2px}
+  .row .chips{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+  .chip{font-size:11px;border-radius:999px;padding:3px 9px;border:1px solid var(--line)}
+  .chip.alert{color:var(--alert);border-color:#e6c2bf;background:var(--alert-soft)}
+  .chip.time{color:var(--amber);border-color:#e6d6ad;background:var(--amber-soft)}
+  .chip.teal{color:var(--teal);border-color:#bfe0d3;background:var(--teal-soft)}
+  .row .right{text-align:right}
+  .score{font:700 20px/1 "IBM Plex Mono",monospace}
+  .s-hot{color:var(--teal)}.s-warm{color:var(--amber)}.s-cold{color:var(--soft)}
+  .row .spend{font-size:12px;color:var(--soft);margin-top:4px}
+  .row .held{font-size:11px;color:var(--soft);margin-top:3px}
+  .side{display:flex;flex-direction:column;gap:14px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px}
+  .panel h3{font:600 12px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);margin:0 0 12px}
+  .barrow{display:flex;align-items:center;gap:9px;margin-bottom:9px;font-size:12px}
+  .barrow .lab{width:74px;color:var(--soft)}
+  .barrow .track{flex:1;height:8px;background:var(--line2);border-radius:5px;overflow:hidden}
+  .barrow .fill{height:100%;border-radius:5px;background:var(--violet)}
+  .barrow .val{width:26px;text-align:right;font-family:"IBM Plex Mono",monospace}
+  .feed{font-size:12.5px;color:var(--ink)}
+  .feed .fi{padding:8px 0;border-bottom:1px solid var(--line2)}
+  .feed .fi:last-child{border:none}
+  .feed .t{color:var(--soft);font-size:11px}
+
+  /* account */
+  .acct{display:grid;grid-template-columns:1fr 300px;gap:20px}
+  @media(max-width:820px){.acct{grid-template-columns:1fr}}
+  .ring{display:flex;align-items:center;gap:16px;margin-bottom:6px}
+  .ring svg{width:96px;height:96px}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;margin:16px 0}
+  .facts .f{font-size:13px}.facts .f .k{color:var(--soft);font-size:11.5px}.facts .f .v{font-weight:600;margin-top:1px}
+  .facts .v.alert{color:var(--alert)}
+  .benchbar{margin:12px 0 4px}
+  .benchbar .bl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--soft);margin-bottom:5px}
+  .benchbar .track{height:11px;background:var(--line2);border-radius:6px;position:relative}
+  .benchbar .you{position:absolute;left:0;top:0;height:100%;background:var(--alert);border-radius:6px}
+  .benchbar .peer{position:absolute;top:-3px;width:2px;height:17px;background:var(--ink)}
+
+  /* outreach + proposal */
+  .touch{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 16px;margin:12px 0}
+  .touch .meta{display:flex;align-items:center;gap:9px;color:var(--soft);font-size:11.5px;margin-bottom:7px}
+  .touch .st{background:var(--line2);border-radius:6px;padding:2px 8px;color:var(--ink)}
+  .touch .subj{font-weight:600;margin-bottom:5px}
+  .touch .body{white-space:pre-wrap;font-size:13.5px}
+  .touch textarea{display:none;width:100%;min-height:90px;border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;margin-top:6px}
+  .touch.editing .body{display:none}.touch.editing textarea{display:block}
+  .touch .act{display:flex;gap:8px;margin-top:11px;align-items:center}
+  .pill{margin-left:auto;font:10px/1 "IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--soft)}
+  .touch.approved .pill{color:var(--teal)}
+  .touch.approved{border-color:#bfe0d3}
+  .ok{color:var(--teal);font-size:12px}
+
+  .doc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:0;overflow:hidden}
+  .doc .dh{background:var(--ink);color:#fff;padding:20px 24px}
+  .doc .dh .t{font:500 19px/1.25 Newsreader,serif}
+  .doc .dh .m{color:#bdbad8;font-size:12px;margin-top:4px}
+  .doc .db{padding:20px 24px}
+  .doc .db h4{font:600 12px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);margin:18px 0 9px}
+  .doc .db h4:first-child{margin-top:0}
+  .cs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:720px){.cs{grid-template-columns:1fr 1fr}}
+  .cs .c{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .cs .c .k{font-size:11px;color:var(--soft)}.cs .c .v{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:15px;margin-top:3px}
+  .disc{background:var(--amber-soft);border-radius:10px;padding:11px 14px;font-size:12px;color:#5a4212;margin-top:6px}
+
+  /* connect / upload */
+  .doors{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:720px){.doors{grid-template-columns:1fr}}
+  .door{border:1px solid var(--line);border-radius:13px;padding:16px;background:var(--card)}
+  .door .di{font-size:22px}.door .dt{font-weight:600;margin:7px 0 3px}.door .dd{font-size:12px;color:var(--soft)}
+  .drops{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+  @media(max-width:720px){.drops{grid-template-columns:1fr}}
+  .drop{border:1.5px dashed var(--line);border-radius:12px;padding:16px;text-align:center;color:var(--soft);background:var(--card)}
+  .drop .dn{font-weight:600;color:var(--ink);font-size:13px}
+  .drop.done{border-style:solid;border-color:var(--teal);background:var(--teal-soft);color:var(--teal)}
+  .unlocked{display:none;margin-top:18px}
+  .unlocked.show{display:block}
+
+  /* close */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0}
+  @media(max-width:640px){.compare{grid-template-columns:1fr}}
+  .cmp{border:1px solid var(--line);border-radius:13px;padding:15px 16px;background:var(--card)}
+  .cmp.win{border-color:var(--teal);background:var(--teal-soft)}
+  .cmp .ct{font-size:12px;color:var(--soft)}.cmp .cv{font:500 22px/1 "IBM Plex Mono",monospace;margin:6px 0 2px}
+  .cmp .cn{font-size:12px;color:var(--soft)}
+  .save{background:var(--ink);color:#fff;border-radius:13px;padding:16px 18px;margin:12px 0}
+  .save .sv{font:500 24px/1 "IBM Plex Mono",monospace;color:#E6C77A}
+  .path{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;margin:8px 0}
+  .path .node{background:var(--violet-soft);color:var(--violet-ink);border-radius:8px;padding:6px 11px;font-weight:500}
+  .path .ar{color:var(--soft)}
+  .pipe{display:flex;gap:4px;margin:14px 0;flex-wrap:wrap}
+  .pstage{flex:1;min-width:88px;text-align:center;font-size:11px;color:var(--soft);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 6px}
+  .pstage.done{background:var(--teal-soft);color:var(--teal);border-color:#bfe0d3}
+  .pstage.won{background:var(--teal);color:#fff;border-color:var(--teal);font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <svg class="mk" viewBox="0 0 100 100" aria-hidden="true">
+    <path d="M 70 15.36 A 40 40 0 1 1 30 15.36" fill="none" stroke="#16161F" stroke-width="4.2" stroke-linecap="round"/>
+    <path d="M 78.56 44.96 A 29 29 0 1 1 59.92 22.75" fill="none" stroke="#16161F" stroke-width="4.8" stroke-linecap="round"/>
+    <path d="M 63.79 61.57 A 18 18 0 1 1 66.91 43.84" fill="none" stroke="#16161F" stroke-width="5.4" stroke-linecap="round"/>
+    <circle cx="73.85" cy="11.84" r="10" fill="#574FC7" fill-opacity="0.16"/><circle cx="73.85" cy="11.84" r="5" fill="#574FC7"/>
+  </svg>
+  <b>Renata</b>
+  <span class="voice" style="color:var(--soft);font-size:13px;font-style:italic">radar to close</span>
+  <span class="temp"><span class="tdot"></span>Austin metro · 312 in play · WARM · 5/5 feeds healthy</span>
+</div>
+<div class="steps" id="steps">
+  <div class="step" data-step="0"><span class="n">1</span>Radar</div>
+  <div class="step" data-step="1"><span class="n">2</span>Account</div>
+  <div class="step" data-step="2"><span class="n">3</span>Outreach</div>
+  <div class="step" data-step="3"><span class="n">4</span>Proposal</div>
+  <div class="step" data-step="4"><span class="n">5</span>Connect CRM</div>
+  <div class="step" data-step="5"><span class="n">6</span>Close</div>
+</div>
+
+<div class="wrap">
+
+  <!-- 1. RADAR DASHBOARD -->
+  <section class="screen" data-screen="0">
+    <div class="eyebrow">Step 1 · The Renewal Radar</div>
+    <h1>Every group in Austin that is about to be in play.</h1>
+    <p class="sub">Renata reads the public filings, scores switch likelihood, and ranks the accounts. This is the moment you land. Pick the loudest one.</p>
+    <div class="kpis">
+      <div class="kpi"><div class="v violet">312</div><div class="l">In-play accounts in your metro</div></div>
+      <div class="kpi"><div class="v teal">64</div><div class="l">Hot (score ≥ 80)</div></div>
+      <div class="kpi"><div class="v amber">87</div><div class="l">Renewing in the next 90 days</div></div>
+      <div class="kpi"><div class="v">$4.1M</div><div class="l">Est. commission in the pipeline</div></div>
+    </div>
+    <div class="filters">
+      <span class="chipf on">Metro <b>Austin</b></span>
+      <span class="chipf on">Group size <b>100–499</b></span>
+      <span class="chipf">Renews <b>next 90 days</b></span>
+      <span class="chipf">In-play only</span>
+    </div>
+    <div class="board">
+      <div class="rows">
+        <div class="row lead" data-go="1">
+          <div class="rk">01</div>
+          <div><div class="nm">Hill Country Health</div><div class="meta">Austin · 320 employees · NAICS 621</div>
+            <div class="chips"><span class="chip time">Renews July</span><span class="chip alert">Paying 22% over peers</span><span class="chip alert">Aetna filed an increase</span></div></div>
+          <div class="right"><div class="score s-hot">87</div><div class="spend">$5.1M/yr est.</div><div class="held">held by Capitol Risk</div></div>
+        </div>
+        <div class="row" data-go="1">
+          <div class="rk">02</div>
+          <div><div class="nm">Lone Star Logistics</div><div class="meta">Austin · 240 employees · NAICS 484</div>
+            <div class="chips"><span class="chip time">Renews August</span><span class="chip alert">Carrier raised rates</span></div></div>
+          <div class="right"><div class="score s-hot">81</div><div class="spend">$3.2M/yr est.</div><div class="held">held by Capitol Risk</div></div>
+        </div>
+        <div class="row" data-go="1">
+          <div class="rk">03</div>
+          <div><div class="nm">Riverside Manufacturing</div><div class="meta">Round Rock · 410 employees · NAICS 333</div>
+            <div class="chips"><span class="chip time">Renews September</span><span class="chip teal">Just raised capital</span></div></div>
+          <div class="right"><div class="score s-warm">74</div><div class="spend">$6.0M/yr est.</div><div class="held">held by Greenline Benefits</div></div>
+        </div>
+        <div class="row" data-go="1">
+          <div class="rk">04</div>
+          <div><div class="nm">Barton Springs Dental Group</div><div class="meta">Austin · 130 employees · NAICS 621</div>
+            <div class="chips"><span class="chip time">Renews July</span><span class="chip alert">18% over peers</span></div></div>
+          <div class="right"><div class="score s-warm">69</div><div class="spend">$1.9M/yr est.</div><div class="held">held by Greenline Benefits</div></div>
+        </div>
+        <div class="row" data-go="1">
+          <div class="rk">05</div>
+          <div><div class="nm">Capital Metro Foods</div><div class="meta">Austin · 280 employees · NAICS 311</div>
+            <div class="chips"><span class="chip time">Renews October</span></div></div>
+          <div class="right"><div class="score s-warm">61</div><div class="spend">$3.8M/yr est.</div><div class="held">held by Capitol Risk</div></div>
+        </div>
+      </div>
+      <div class="side">
+        <div class="panel"><h3>Where the gap is</h3>
+          <div class="barrow"><span class="lab">100–499</span><span class="track"><span class="fill" style="width:78%"></span></span><span class="val">78</span></div>
+          <div class="barrow"><span class="lab">50–99</span><span class="track"><span class="fill" style="width:54%;background:#8A7BE0"></span></span><span class="val">41</span></div>
+          <div class="barrow"><span class="lab">500+</span><span class="track"><span class="fill" style="width:33%;background:#A99CEA"></span></span><span class="val">22</span></div>
+          <p style="font-size:11.5px;color:var(--soft);margin:8px 0 0">In-play accounts by group size. Your 100–499 sweet spot is the densest.</p>
+        </div>
+        <div class="panel"><h3>This week</h3>
+          <div class="feed">
+            <div class="fi"><div>Aetna filed a 14% increase in TX.</div><div class="t">2 days ago · affects 38 of your accounts</div></div>
+            <div class="fi"><div>3 brokers in your metro joined Renata.</div><div class="t">this week</div></div>
+            <div class="fi"><div>Capitol Risk holds 5 accounts now in play.</div><div class="t">view their book</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav"><span class="sp"></span><button class="primary" data-go="1">Open Hill Country Health →</button></div>
+  </section>
+
+  <!-- 2. ACCOUNT -->
+  <section class="screen" data-screen="1">
+    <div class="eyebrow">Step 2 · The account</div>
+    <div class="acct">
+      <div>
+        <div class="ring">
+          <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E7E5DD" stroke-width="9"/>
+            <circle cx="50" cy="50" r="42" fill="none" stroke="#0F7256" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="264" stroke-dashoffset="34" transform="rotate(-90 50 50)"/>
+            <text x="50" y="49" text-anchor="middle" font-family="IBM Plex Mono" font-size="26" font-weight="500" fill="#16161F">87</text>
+            <text x="50" y="65" text-anchor="middle" font-family="Inter" font-size="9" fill="#5A5A6E">IN PLAY</text></svg>
+          <div><h1 style="margin:0">Hill Country Health</h1><div class="sub" style="margin:4px 0 0">Austin, TX · 320 employees · Outpatient care · held by Capitol Risk</div></div>
+        </div>
+        <div class="chips" style="display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 4px">
+          <span class="chip time">Renews July</span><span class="chip alert">Paying 22% over peers</span><span class="chip alert">Aetna filed an increase</span>
+        </div>
+        <div class="facts">
+          <div class="f"><div class="k">Carrier</div><div class="v">Aetna</div></div>
+          <div class="f"><div class="k">Broker of record</div><div class="v">Capitol Risk</div></div>
+          <div class="f"><div class="k">Est. annual spend</div><div class="v">$5,120,000</div></div>
+          <div class="f"><div class="k">Cost / head</div><div class="v alert">$16,000</div></div>
+          <div class="f"><div class="k">Peer median (100–499, Austin)</div><div class="v">$13,100</div></div>
+          <div class="f"><div class="k">Renewal window opens</div><div class="v">February (for a July renewal)</div></div>
+        </div>
+        <div class="benchbar">
+          <div class="bl"><span>This group · $16,000/head</span><span>peer median · $13,100</span></div>
+          <div class="track"><span class="you" style="width:100%"></span><span class="peer" style="left:82%"></span></div>
+        </div>
+        <div class="rena">They are paying about 22% over comparable Austin employers, and Aetna just filed an increase. Strong time to approach. They renew in July, so the window to market is February through April.</div>
+      </div>
+      <div class="side">
+        <div class="panel"><h3>What you can do</h3>
+          <p style="font-size:13px;margin:0 0 12px;color:var(--soft)">Renata already drafted the opening. Send it as you, or build the full proposal.</p>
+          <button class="primary" style="width:100%;margin-bottom:9px" data-go="2">Draft the outreach →</button>
+          <button style="width:100%" data-go="3">Build the proposal →</button>
+        </div>
+        <div class="panel"><h3>Why it scored 87</h3>
+          <div class="feed"><div class="fi">+30 Renews in next 90 days</div><div class="fi">+25 Paying 22% over peers</div><div class="fi">+20 Carrier filed a rate increase</div><div class="fi" style="color:var(--soft)">Every point maps to a reason. No black box.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="nav"><button class="ghost" data-go="0">← Radar</button><span class="sp"></span><button class="primary" data-go="2">The easy button →</button></div>
+  </section>
+
+  <!-- 3. OUTREACH (the easy button) -->
+  <section class="screen" data-screen="2">
+    <div class="eyebrow">Step 3 · The easy button</div>
+    <h1>The outreach, drafted and waiting.</h1>
+    <p class="sub">A four-touch sequence in Renata's voice, grounded in the real numbers. Review each one, edit anything, send as you. Renata never sends on her own.</p>
+    <div class="rena">I read Hill Country Health's filing and drafted a four-touch sequence. The intro leads with the renewal and the cost gap. Send as you, or edit first.</div>
+
+    <div class="touch approved" data-touch>
+      <div class="meta"><span class="st">Intro</span><span>email · send now</span><span class="pill">approved</span></div>
+      <div class="subj">Hill Country Health: renews July</div>
+      <div class="body">I read Hill Country Health's latest benefits filing. The short version is that their plan renews in July, and they are running about 22% over comparable Austin employers, with Aetna having just filed an increase. Groups this size usually start the conversation a few months before renewal, so July is the moment to look. Worth fifteen minutes to walk the numbers? Happy to send the full benchmark first.</div>
+      <textarea></textarea>
+      <div class="act"><button class="primary" data-action="send">Send as me</button><button class="ghost" data-action="edit">Edit</button><span class="ok">approved · opens in your mail client</span></div>
+    </div>
+    <div class="touch" data-touch>
+      <div class="meta"><span class="st">Follow-up 1</span><span>email · send +4 days</span><span class="pill">draft</span></div>
+      <div class="subj">The benchmark for Hill Country Health</div>
+      <div class="body">Following up on Hill Country Health. Their renewal window opens in February for a July renewal, which is when a broker can actually move the rate. I can pull the peer benchmark and the cost-per-head comparison so you walk in with the numbers. Want me to put that together?</div>
+      <textarea></textarea>
+      <div class="act"><button class="primary" data-action="send">Send as me</button><button class="ghost" data-action="edit">Edit</button></div>
+    </div>
+    <div class="touch" data-touch>
+      <div class="meta"><span class="st">Follow-up 2</span><span>email · send +7 days</span><span class="pill">draft</span></div>
+      <div class="subj">Texas rate filings</div>
+      <div class="body">A market note you can use: Aetna filed higher rates in Texas this quarter, and Hill Country Health renews in July. That timing is the opening. I am seeing the same pattern across mid-market groups in the metro, so this is a good week to reach out.</div>
+      <textarea></textarea>
+      <div class="act"><button class="primary" data-action="send">Send as me</button><button class="ghost" data-action="edit">Edit</button></div>
+    </div>
+    <div class="nav"><button class="ghost" data-go="1">← Account</button><span class="sp"></span><button class="primary" data-go="3">Turn this into a proposal →</button></div>
+  </section>
+
+  <!-- 4. PROPOSAL -->
+  <section class="screen" data-screen="3">
+    <div class="eyebrow">Step 4 · The proposal</div>
+    <h1>A professional switch analysis, generated.</h1>
+    <p class="sub">Built from the public filing and your firm profile. It earns the meeting. It never promises a number a carrier has not put in writing.</p>
+    <div class="doc">
+      <div class="dh"><div class="t">Switch Analysis · Hill Country Health</div><div class="m">Prepared by Lone Star Benefits Advisors · for discussion · June 2026</div></div>
+      <div class="db">
+        <h4>What the public record shows</h4>
+        <div class="cs">
+          <div class="c"><div class="k">Carrier</div><div class="v">Aetna</div></div>
+          <div class="c"><div class="k">Renews</div><div class="v">July</div></div>
+          <div class="c"><div class="k">Annual premium</div><div class="v">$5.12M</div></div>
+          <div class="c"><div class="k">Cost / head</div><div class="v">$16,000</div></div>
+        </div>
+        <p style="font-size:13px;color:var(--soft);margin:11px 0 0">Source: Hill Country Health's most recent DOL Form 5500 filing (2023 plan year).</p>
+
+        <h4>Where you stand vs comparable employers</h4>
+        <div class="benchbar"><div class="bl"><span>You · $16,000/head</span><span>Austin peer median (100–499) · $13,100</span></div>
+          <div class="track"><span class="you" style="width:100%"></span><span class="peer" style="left:82%"></span></div></div>
+        <p style="font-size:13px;margin:9px 0 0">On a premium basis you appear to run about <b>22% above</b> comparable Austin employers your size. A gap like this usually comes from plan design that has drifted, a renewal that has not been marketed in a few years, or a carrier you have outgrown. We confirm which in the first meeting.</p>
+
+        <h4>The opportunity, and how we would pursue it</h4>
+        <p style="font-size:13px;margin:0">The size of that gap is the size of the opportunity we would go after. Our first 90 days: market your plan to the major Texas carriers, pressure-test the gap with firm quotes, and bring you real numbers before we make a single claim. You renew in July, so the window to act is February through April.</p>
+        <div class="disc">Estimated and illustrative, based on public filings. Not a quote, an offer of coverage, or a guarantee of savings. Actual rates are set by the carrier through underwriting and may differ materially.</div>
+      </div>
+    </div>
+    <div class="nav"><button class="ghost" data-go="2">← Outreach</button><span class="sp"></span><button class="primary" data-go="4">Make it a firm, quoted proposal →</button></div>
+  </section>
+
+  <!-- 5. CONNECT CRM / UPLOAD -->
+  <section class="screen" data-screen="4">
+    <div class="eyebrow">Step 5 · Connect your network and hand Renata the paperwork</div>
+    <h1>Turn the analysis into a real, quoted proposal.</h1>
+    <p class="sub">Connecting is free and fuels your map. Upload the plan, census, and the quotes you get back, and Renata assembles the proposal that goes to committee, plus the warm paths into the account.</p>
+
+    <h2>Connect your network</h2>
+    <div class="doors">
+      <div class="door"><div class="di">📇</div><div class="dt">Email / CRM import</div><div class="dd">Your own book of contacts. The default, and the most defensible.</div></div>
+      <div class="door"><div class="di">in</div><div class="dt">LinkedIn export</div><div class="dd">Upload your own connections archive. Your data, your right to share.</div></div>
+      <div class="door"><div class="di">🔑</div><div class="dt">Sign in with LinkedIn</div><div class="dd">Verify your broker identity. No scraping, ever.</div></div>
+    </div>
+
+    <h2>Hand Renata the paperwork</h2>
+    <div class="drops">
+      <div class="drop" data-drop><div class="dn">Current plan / SBC</div>PDF · drag or browse</div>
+      <div class="drop" data-drop><div class="dn">Employee census</div>XLSX / CSV</div>
+      <div class="drop" data-drop><div class="dn">Carrier quotes</div>PDF · we verify every number</div>
+    </div>
+    <div class="nav" style="border:none;padding-top:14px">
+      <span class="sp"></span><button class="primary" id="connectBtn" data-action="connect">Connect &amp; upload</button>
+    </div>
+
+    <div class="unlocked" id="unlocked">
+      <div class="rena">Connected. I matched your network and the uploaded plan. Two things just unlocked: a warm path into this account, and the marketed proposal with real quotes.</div>
+      <div class="doors">
+        <div class="door" style="border-color:var(--teal);background:var(--teal-soft)"><div class="di">🤝</div><div class="dt">A warm path appeared</div><div class="dd">You → Dana Reyes → Marcus Lin, CFO. 2nd-degree, through a Renata member.</div></div>
+        <div class="door" style="border-color:var(--violet);background:var(--violet-soft)"><div class="di">📄</div><div class="dt">Marketed proposal ready</div><div class="dd">Plan-design side-by-side and quoted savings, assembled from your uploads.</div></div>
+        <div class="door"><div class="di">✓</div><div class="dt">Census parsed</div><div class="dd">320 members matched. Stored to your tenant only, one-click purge.</div></div>
+      </div>
+      <div class="nav" style="border:none"><span class="sp"></span><button class="primary" data-go="5">See the close →</button></div>
+    </div>
+  </section>
+
+  <!-- 6. CLOSE -->
+  <section class="screen" data-screen="5">
+    <div class="eyebrow">Step 6 · The close</div>
+    <h1>Real numbers, a warm introduction, and a won account.</h1>
+    <p class="sub">The marketed proposal with quotes you can stand behind, delivered through the warmest path in sales.</p>
+
+    <h2>The marketed proposal</h2>
+    <div class="compare">
+      <div class="cmp"><div class="ct">Stay with the incumbent</div><div class="cv" style="color:var(--alert)">+14%</div><div class="cn">Aetna renewal · $5.84M/yr</div></div>
+      <div class="cmp win"><div class="ct">Renata-marketed option</div><div class="cv" style="color:var(--teal)">+3%</div><div class="cn">Cigna, comparable network · $5.27M/yr</div></div>
+    </div>
+    <div class="save">First-year impact for the employer: <span class="sv">$570,000</span><div style="color:#bdbad8;font-size:12.5px;margin-top:4px">Quoted, not estimated. Every figure traces to a carrier quote on file.</div></div>
+
+    <h2>The warm introduction</h2>
+    <div class="path"><span class="node">You</span><span class="ar">→</span><span class="node">Dana Reyes</span><span class="ar">→</span><span class="node">Marcus Lin, CFO</span></div>
+    <div class="touch approved" style="margin-top:8px">
+      <div class="meta"><span class="st">Warm intro</span><span>drafted · human-sent</span><span class="pill">approved</span></div>
+      <div class="body">Hi Marcus, Dana Reyes and I worked together on the Vela rollout, and she mentioned you are heading benefits at Hill Country. Your plan renews in July, and I have a marketed option that holds your network at a 3% increase against Aetna's 14%. Worth fifteen minutes before you re-up? Happy to have Dana vouch that I am worth the call.</div>
+      <div class="act"><button class="primary">Send as me</button><button class="ghost">Ask Dana to intro first</button><span class="ok">approved · opens in your mail client</span></div>
+    </div>
+
+    <h2>The pipeline</h2>
+    <div class="pipe">
+      <div class="pstage done">Sourced</div><div class="pstage done">Researched</div><div class="pstage done">Outreach</div>
+      <div class="pstage done">Meeting</div><div class="pstage done">Proposal</div><div class="pstage won">Won ✓</div>
+    </div>
+    <div class="rena">From the radar to a signed account: scored it, explained it, drafted the opening, built the proposal, found the warm path, and closed. The whole point is the one thing only you do, the human touch, at the perfect time.</div>
+    <div class="nav"><button class="ghost" data-go="0">↺ Back to the Radar</button><span class="sp"></span><a href="index.html" style="align-self:center;font-size:13px">Back to the project index</a></div>
+  </section>
+
+</div>
+
+<script>
+  var screens = document.querySelectorAll('.screen');
+  var steps = document.querySelectorAll('.step');
+  function go(n){
+    n = +n;
+    screens.forEach(function(s,i){ s.classList.toggle('active', i===n); });
+    steps.forEach(function(s,i){
+      s.classList.toggle('active', i===n);
+      s.classList.toggle('done', i<n);
+    });
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  document.addEventListener('click', function(e){
+    var go_t = e.target.closest('[data-go]');
+    if(go_t){ go(go_t.getAttribute('data-go')); return; }
+    var step = e.target.closest('.step');
+    if(step){ go(step.getAttribute('data-step')); return; }
+    var act = e.target.dataset.action;
+    if(act==='edit'){
+      var card = e.target.closest('[data-touch]');
+      var ta = card.querySelector('textarea');
+      if(!card.classList.contains('editing')){ ta.value = card.querySelector('.body').textContent.trim(); card.classList.add('editing'); e.target.textContent='Save'; }
+      else { card.querySelector('.body').textContent = ta.value; card.classList.remove('editing'); e.target.textContent='Edit'; }
+    } else if(act==='send'){
+      var c = e.target.closest('[data-touch]'); c.classList.add('approved');
+      c.querySelector('.pill').textContent='approved'; e.target.disabled=true;
+      if(!c.querySelector('.ok')){ var s=document.createElement('span'); s.className='ok'; s.textContent='approved · opens in your mail client'; e.target.parentNode.appendChild(s); }
+    } else if(act==='connect'){
+      document.querySelectorAll('[data-drop]').forEach(function(d){ d.classList.add('done'); var n=d.querySelector('.dn').textContent; d.childNodes[d.childNodes.length-1].textContent=' uploaded ✓'; });
+      e.target.textContent='Connected ✓'; e.target.disabled=true;
+      document.getElementById('unlocked').classList.add('show');
+      document.getElementById('unlocked').scrollIntoView({behavior:'smooth'});
+    }
+  });
+  go(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html><html lang=en><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Architecture &amp; infrastructure · Renata</title><style>
+  :root{--paper:#F7F6F2;--ink:#16161F;--soft:#5A5A6E;--violet:#574FC7;--line:#E7E5DD;--card:#fff;--gold:#B5852E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .bar{position:sticky;top:0;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px}
+  .bar a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:500}
+  .doc{max-width:780px;margin:0 auto;padding:34px 24px 80px}
+  h1{font:600 30px/1.25 Georgia,serif;margin:.2em 0 .5em}
+  h2{font:600 21px/1.3 Georgia,serif;margin:1.7em 0 .5em;border-top:1px solid var(--line);padding-top:1.1em}
+  h3{font:600 16px/1.3 Georgia,serif;margin:1.4em 0 .4em}
+  p,li{color:#26263a}
+  code{background:#ECEAE3;border-radius:4px;padding:.1em .4em;font:13.5px "IBM Plex Mono",ui-monospace,monospace}
+  pre{background:#1C1C28;color:#E7E5F4;border-radius:11px;padding:15px 17px;overflow:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  pre code{background:none;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:#EDEBFA;color:#332C8A;font-weight:600}
+  a{color:var(--violet)}
+  blockquote{border-left:3px solid var(--violet);margin:1em 0;padding:.2em 0 .2em 16px;color:var(--soft)}
+  hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+</style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="architecture-infrastructure">Architecture &amp; Infrastructure</h1>
+<h2 id="strategic-resolve-dedicated-agents-own-the-data-sources">Strategic resolve: dedicated agents own the data sources</h2>
+<p>Every recommended data source gets its <strong>own dedicated agent</strong> with isolated access,
+cadence, and health. This is the resolution to "make sure we actually have agents on the
+sources we said we'd pull from." The registry:</p>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Source</th>
+<th>Access</th>
+<th>Cadence</th>
+<th>Freshness SLA</th>
+<th>Trigger it emits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>form5500</code></td>
+<td>DOL EFAST2 "Latest" datasets</td>
+<td>bulk download</td>
+<td>monthly</td>
+<td>45 days</td>
+<td>foundation: renewal, incumbent, spend</td>
+</tr>
+<tr>
+<td><code>rate_filing</code></td>
+<td>State DOI / SERFF (open states first)</td>
+<td>portal/API</td>
+<td>weekly</td>
+<td>10 days</td>
+<td>carrier raised rates (strongest)</td>
+</tr>
+<tr>
+<td><code>formd</code></td>
+<td>SEC EDGAR Form D</td>
+<td>public API</td>
+<td>daily</td>
+<td>2 days</td>
+<td>just raised — new capacity</td>
+</tr>
+<tr>
+<td><code>warn</code></td>
+<td>State WARN portals</td>
+<td>scrape</td>
+<td>daily</td>
+<td>2 days</td>
+<td>workforce in flux</td>
+</tr>
+<tr>
+<td><code>jobs</code></td>
+<td>postings provider/scrape</td>
+<td>API</td>
+<td>weekly</td>
+<td>14 days</td>
+<td>outgrowing current plan</td>
+</tr>
+</tbody>
+</table>
+<p>Each agent inherits one contract (<code>agents/base_agent.py</code>): <code>fetch()</code> → <code>normalize()</code> →
+common <code>Signal</code> schema, with shared retry/backoff, an idempotent write, and a heartbeat to
+<code>source_health</code>. <strong>Isolation is the point</strong> — one source erroring backs off and flags
+itself; the others keep running and the score degrades gracefully instead of silently.</p>
+<hr />
+<h2 id="the-three-infrastructure-ebi-passes">The three infrastructure EBI passes</h2>
+<h3 id="pass-1-isolation-resilience">Pass 1 — Isolation &amp; resilience</h3>
+<p><em>Even better if one bad source can't poison the system.</em>
+- Split monolithic ingest into <strong>dedicated per-source agents</strong> (done — <code>agents/</code>).
+- <strong>Exponential backoff + bounded retries</strong> per agent; failures are caught and isolated.
+- <strong><code>source_health</code> table</strong> records last run, ok/fail, signal count, and error per source.
+- <strong>Idempotent upserts</strong> (existing) so re-runs are safe; 5500 uses the monthly <em>delta</em> feed.</p>
+<h3 id="pass-2-observability-honest-freshness">Pass 2 — Observability &amp; honest freshness</h3>
+<p><em>Even better if the UI's "live / last refreshed / lead quality" reflects reality.</em>
+- Every agent emits a <strong>heartbeat + freshness SLA</strong>; <code>freshness_hours()</code> exposes staleness.
+- <strong><code>system_temperature()</code></strong> derives lead volume, hot-lead ratio, and source health into the
+  quality readout — so the landing page's temperature and "last refreshed" are computed from
+  real state, never hardcoded. (When a feed goes stale, the dashboard should say so.)
+- Run ledger: agent outcomes logged to <code>events</code> for auditing and the Monday dossier.</p>
+<h3 id="pass-3-scale-cost-extensibility">Pass 3 — Scale, cost &amp; extensibility</h3>
+<p><em>Even better if growth and new sources are cheap.</em>
+- <strong>Per-source cadence scheduling</strong> instead of one big cron — 5500 monthly, WARN/Form D
+  daily, rate filings/jobs weekly. In production, a queue/scheduler (e.g., cron+worker or a
+  task queue) runs each agent on its own clock.
+- <strong>Separate batch ingest from realtime serving</strong> — heavy 5500 loads run offline; the score
+  and Radar serve from precomputed tables, so the app stays fast and cheap.
+- <strong>Config-driven source registry</strong> — adding a source is a new <code>SourceAgent</code> subclass +
+  one line in <code>REGISTRY</code>, not a rewrite.
+- <strong>Per-agent secret isolation</strong> — each agent reads only its own scoped credentials, so a
+  leak or revocation is contained to one source.</p>
+<hr />
+<h2 id="serving-next">Serving (next)</h2>
+<p>The frontend reads three things, all precomputed: the ranked <strong>Radar</strong> per metro, the
+<strong>reason codes</strong> per account, and the <strong>temperature/freshness</strong> snapshot. Auth + Stripe gate
+the unlock; the free preview is the same query with names masked. Keeping serving read-only
+over precomputed tables is what makes the "live dashboard" both honest and inexpensive.</p></article></body></html>

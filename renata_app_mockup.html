@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renata — account view</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F6F2; --card:#FFFFFF; --ink:#1B1B2A; --ink-soft:#5A5A6E;
+    --line:#E7E5DD; --line-soft:#F0EEE8;
+    --violet:#574FC7; --violet-soft:#EDEBFA; --violet-ink:#332C8A;
+    --teal:#0F7256; --teal-soft:#E2F4ED;
+    --alert:#A6342E; --alert-soft:#FAEAE7; --amber:#8A5A0C; --amber-soft:#FAF0DC;
+    --radius:14px; --radius-sm:9px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;padding:22px 16px 48px;}
+  .wrap{max-width:840px;margin:0 auto;}
+  .mono{font-family:"IBM Plex Mono",monospace;}
+  .voice{font-family:"Newsreader",Georgia,serif;}
+
+  /* top bar */
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-family:"Newsreader",serif;
+    font-size:21px;font-weight:500;letter-spacing:.01em;}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--violet);
+    box-shadow:0 0 0 4px var(--violet-soft);}
+  .greet{font-size:13px;color:var(--ink-soft);}
+  .greet b{color:var(--ink);font-weight:500;}
+
+  .grid{display:grid;grid-template-columns:1fr;gap:16px;}
+  @media(min-width:720px){.grid{grid-template-columns:1.25fr 1fr;align-items:start;}}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);}
+  .pad{padding:16px 18px;}
+
+  /* account head */
+  .acct-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+  .acct-name{font-size:19px;font-weight:600;letter-spacing:-.01em;}
+  .acct-sub{font-size:13px;color:var(--ink-soft);margin-top:3px;}
+  .score{flex:none;text-align:center;background:var(--teal-soft);border-radius:var(--radius-sm);
+    padding:8px 13px;min-width:72px;}
+  .score .n{font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:500;color:var(--teal);line-height:1;}
+  .score .l{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);margin-top:3px;}
+
+  .codes{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;}
+  .chip{font-size:12px;padding:4px 9px;border-radius:7px;display:inline-flex;gap:5px;align-items:center;white-space:nowrap;}
+  .chip.t{background:var(--amber-soft);color:var(--amber);}
+  .chip.r{background:var(--alert-soft);color:var(--alert);}
+  .ic{width:13px;height:13px;display:inline-block;vertical-align:-2px;}
+
+  .facts{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line-soft);margin-top:16px;}
+  .fact{padding:12px 4px;border-right:1px solid var(--line-soft);}
+  .fact:nth-child(2n){border-right:none;padding-left:14px;}
+  .fact .k{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);}
+  .fact .v{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:500;margin-top:3px;}
+  .fact .v.flag{color:var(--alert);}
+
+  .stages{display:flex;gap:6px;margin-top:16px;font-size:11px;color:var(--ink-soft);}
+  .stages span{flex:1;text-align:center;padding:6px 0;border-radius:6px;background:var(--line-soft);}
+  .stages span.on{background:var(--violet-soft);color:var(--violet-ink);font-weight:500;}
+
+  /* renata rail */
+  .rail-head{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line-soft);}
+  .av{flex:none;width:34px;height:34px;border-radius:50%;background:var(--violet);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:"Newsreader",serif;font-size:17px;}
+  .rail-head .who{font-size:13px;font-weight:500;}
+  .rail-head .role{font-size:11px;color:var(--ink-soft);}
+
+  .say{font-family:"Newsreader",serif;font-size:16px;line-height:1.45;color:var(--ink);margin:0 0 14px;}
+  .say em{font-style:italic;color:var(--violet-ink);}
+
+  .drop{border:1.5px dashed #CFCCE6;border-radius:var(--radius-sm);padding:18px;text-align:center;
+    color:var(--ink-soft);background:#FCFCFE;cursor:pointer;transition:border-color .15s,background .15s;}
+  .drop:hover,.drop:focus-visible{border-color:var(--violet);background:var(--violet-soft);outline:none;}
+  .drop .big{display:block;font-size:13px;color:var(--ink);font-weight:500;margin-bottom:2px;}
+  .drop .sm{font-size:12px;}
+
+  .draft{margin-top:14px;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;}
+  .draft .lab{font-size:11px;color:var(--ink-soft);padding:9px 12px;background:var(--line-soft);
+    display:flex;align-items:center;gap:6px;}
+  .draft .body{font-size:13px;line-height:1.55;color:var(--ink);padding:12px;}
+  .draft .acts{display:flex;gap:8px;padding:0 12px 12px;}
+  .btn{font-family:"Inter",sans-serif;font-size:13px;font-weight:500;border-radius:8px;
+    padding:9px 14px;cursor:pointer;border:1px solid transparent;}
+  .btn.p{background:var(--violet);color:#fff;flex:1;}
+  .btn.p:hover{background:#473FB0;}
+  .btn.s{background:transparent;color:var(--ink-soft);border-color:var(--line);}
+  .btn.s:hover{border-color:var(--ink-soft);color:var(--ink);}
+
+  .nudge{margin-top:14px;display:flex;gap:10px;align-items:flex-start;background:var(--amber-soft);
+    border-radius:var(--radius-sm);padding:12px;}
+  .nudge .x{flex:none;color:var(--amber);}
+  .nudge .tt{font-size:12.5px;line-height:1.45;color:#5A3C08;}
+  .nudge a{color:var(--amber);font-weight:500;text-decoration:none;border-bottom:1px solid currentColor;}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="brand"><span class="dot"></span>Renata</div>
+    <div class="greet">Morning, Adam — <b>3 accounts</b> entered their renewal window this week.</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- ACCOUNT INTELLIGENCE -->
+    <section class="card pad" aria-label="Account intelligence">
+      <div class="acct-head">
+        <div>
+          <div class="acct-name">Hill Country Health</div>
+          <div class="acct-sub">Austin, TX · 320 employees · NAICS 621</div>
+        </div>
+        <div class="score" title="In-Play Score">
+          <div class="n">87</div><div class="l">in play</div>
+        </div>
+      </div>
+
+      <div class="codes">
+        <span class="chip t"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>renews july</span>
+        <span class="chip r"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v6h-6"/></svg>22% over peers</span>
+        <span class="chip r"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s5 4 5 9a5 5 0 01-10 0c0-2 1-3 1-3s4 1 4-6z"/></svg>aetna filed increase</span>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><div class="k">Carrier</div><div class="v">Aetna</div></div>
+        <div class="fact"><div class="k">Incumbent broker</div><div class="v">Capitol Risk</div></div>
+        <div class="fact"><div class="k">Cost / head</div><div class="v flag">$16,000</div></div>
+        <div class="fact"><div class="k">Peer median</div><div class="v">$13,100</div></div>
+      </div>
+
+      <div class="stages" aria-label="Pipeline stage">
+        <span class="on">Sourced</span><span class="on">Researched</span><span>Outreach</span><span>Meeting</span><span>Won</span>
+      </div>
+    </section>
+
+    <!-- RENATA AGENT RAIL -->
+    <aside class="card" aria-label="Renata">
+      <div class="rail-head">
+        <div class="av">R</div>
+        <div><div class="who">Renata</div><div class="role">benefits intelligence</div></div>
+      </div>
+      <div class="pad">
+        <p class="say">I pulled this group from their filing. They're <em>overpaying ~22%</em> and Aetna just filed an increase — strong time to approach. Hand me their paperwork and I'll do the rest.</p>
+
+        <div class="drop" tabindex="0" role="button" aria-label="Upload census, renewal letter, or plan PDF">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#574FC7" stroke-width="2"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 20h14"/></svg>
+          <span class="big">Hand Renata the paperwork</span>
+          <span class="sm">census · renewal letter · plan PDF — I'll clean it and match it to the filing</span>
+        </div>
+
+        <div class="draft">
+          <div class="lab"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>I drafted an intro</div>
+          <div class="body voice">"Hi — saw Hill Country's plan renews in July. Groups your size with Aetna are seeing double-digit increases this cycle, and you're running about 22% above comparable Austin employers. Worth a 15-minute look before you re-up?"</div>
+          <div class="acts">
+            <button class="btn p">Send as me</button>
+            <button class="btn s">Edit</button>
+          </div>
+        </div>
+
+        <div class="nudge">
+          <svg class="x" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+          <div class="tt">You closed 3 accounts last quarter. On the flat plan you'd have saved <b>$1,350</b>. <a href="#">Switch to flat →</a></div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+</body>
+</html>

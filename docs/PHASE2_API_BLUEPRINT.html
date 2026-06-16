@@ -1,0 +1,120 @@
+<!doctype html><html lang=en><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Phase 2 — serving API · Renata</title><style>
+  :root{--paper:#F7F6F2;--ink:#16161F;--soft:#5A5A6E;--violet:#574FC7;--line:#E7E5DD;--card:#fff;--gold:#B5852E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .bar{position:sticky;top:0;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px}
+  .bar a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:500}
+  .doc{max-width:780px;margin:0 auto;padding:34px 24px 80px}
+  h1{font:600 30px/1.25 Georgia,serif;margin:.2em 0 .5em}
+  h2{font:600 21px/1.3 Georgia,serif;margin:1.7em 0 .5em;border-top:1px solid var(--line);padding-top:1.1em}
+  h3{font:600 16px/1.3 Georgia,serif;margin:1.4em 0 .4em}
+  p,li{color:#26263a}
+  code{background:#ECEAE3;border-radius:4px;padding:.1em .4em;font:13.5px "IBM Plex Mono",ui-monospace,monospace}
+  pre{background:#1C1C28;color:#E7E5F4;border-radius:11px;padding:15px 17px;overflow:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  pre code{background:none;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:#EDEBFA;color:#332C8A;font-weight:600}
+  a{color:var(--violet)}
+  blockquote{border-left:3px solid var(--violet);margin:1em 0;padding:.2em 0 .2em 16px;color:var(--soft)}
+  hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+</style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="renata-phase-2-serving-api-build-blueprint">Renata — Phase 2 Serving API (build blueprint)</h1>
+<p>Read-only FastAPI over precomputed tables. Implementation-ready. Produced 2026-06-13.</p>
+<h2 id="ground-rules-from-the-codebase">Ground rules (from the codebase)</h2>
+<ul>
+<li>Python 3.9.6 -&gt; every API file starts with <code>from __future__ import annotations</code>.</li>
+<li>Raw <code>sqlalchemy.text()</code>, same style as <code>radar.py</code>/<code>score.py</code>. No ORM.</li>
+<li>Engine: <code>from ingest.load_5500 import get_engine</code> called as <code>get_engine(role="serving")</code>
+  (prefers <code>DATABASE_URL_POOLED</code>, <code>pool_pre_ping=True</code>). Build ONE engine at app startup on
+  <code>app.state.engine</code>, not per request.</li>
+<li>Read-only over <code>companies</code>/<code>plans</code>/<code>signals</code>/<code>scores</code>/<code>source_health</code>; writes only to
+  <code>events</code> (telemetry) and later <code>outreach_drafts</code>. DB role grant enforces the wall too.</li>
+<li><code>reason_codes</code> is a JSON string on SQLite, JSONB on Postgres after the port. One helper
+  (<code>parse_reason_codes</code>) accepts both. Same for <code>updated_at</code>/<code>last_run</code> (string vs datetime).</li>
+</ul>
+<h2 id="file-tree">File tree</h2>
+<pre><code>api/
+  __init__.py
+  main.py          FastAPI app, CORS, routers, /healthz, startup engine on app.state
+  deps.py          get_engine_dep(), entitlement() dependency + Tier model
+  models.py        Pydantic v2 response models
+  queries.py       all SQL as text() + fetch functions (the only DB code)
+  masking.py       parse_reason_codes(), project_radar_row(row, unlocked) — THE mask seam
+  pagination.py    encode_cursor / decode_cursor (opaque keyset cursor)
+  telemetry.py     log_event(engine, ...) -&gt; events, try/except so it never 500s a response
+  routers/
+    radar.py        GET /v1/radar
+    accounts.py     GET /v1/accounts/{company_id}
+    temperature.py  GET /v1/temperature
+tests/api/         conftest seeds temp SQLite via schema.sql; test masking/radar/accounts/temperature
+</code></pre>
+<h2 id="endpoints">Endpoints</h2>
+<h3 id="get-v1radar-ranked-masked-renewal-radar">GET /v1/radar — ranked, masked Renewal Radar</h3>
+<p>Params: <code>state</code> (default TX), <code>metro</code>, <code>min_participants</code>/<code>max_participants</code> (ge=0), <code>band</code>
+(enum &lt;50|50-99|100-499|500+), <code>renewal_within</code> (1-12 months), <code>limit</code> (default 25, max 200),
+<code>cursor</code> (opaque keyset). Effective limit clamped server-side: <code>min(limit, free_row_cap)</code> when
+locked (free cap default 10). Keyset on <code>(in_play_score DESC, company_id ASC)</code>; fetch
+<code>eff+1</code> to know if <code>next_cursor</code> exists.</p>
+<p>CRITICAL: the <code>scores</code>&lt;-&gt;<code>plans</code> JOIN is one-to-many (a sponsor can have multiple plan rows).
+Use a <code>ROW_NUMBER() OVER (PARTITION BY company_id ORDER BY total_premium DESC NULLS LAST, id)</code>
+CTE to pick one plan per company, mirroring <code>load_schedule_a</code>'s "largest-premium headline"
+rule. Without it, the row cap and cursor corrupt (a company straddles a page boundary).</p>
+<p>Masking (<code>project_radar_row</code>): real <code>in_play_score</code>, <code>reason_codes</code>, <code>est_annual_spend</code>,
+<code>carrier</code>, <code>renewal_month</code> for everyone; <code>name</code> -&gt; "Account locked" and <code>incumbent_broker</code>
+-&gt; null when locked. Mask happens AFTER SQL; the masked name never enters the payload, so
+view-source reveals nothing. Free row cap and mask are server-side only.</p>
+<h3 id="get-v1accountscompany_id-full-brief-402-for-free-tier">GET /v1/accounts/{company_id} — full brief, 402 for free tier</h3>
+<p>If <code>not unlocked</code> -&gt; raise <code>HTTPException(402)</code> BEFORE any DB read (no data leaves the server
+for the locked tier). Returns the full account + <code>contributing_signals</code> from the <code>signals</code>
+table. 404 if no scored account for the id.</p>
+<h3 id="get-v1temperature-public-cached-60s">GET /v1/temperature — public, cached 60s</h3>
+<p>No <code>entitlement()</code> dependency (it is the honest "live" proof for the landing page).
+Passthrough of <code>system_temperature(engine)</code> plus per-source freshness via
+<code>SourceAgent.freshness_hours()</code>. 60s in-process TTL cache (module-level, thread-locked);
+send <code>Cache-Control: public, max-age=60</code>.</p>
+<h2 id="the-entitlement-seam-phase-3-plugs-in-here-nothing-else-changes">The entitlement seam (Phase 3 plugs in here, nothing else changes)</h2>
+<p>One <code>entitlement(request) -&gt; Tier</code> dependency. Phase 2: returns <code>Tier(unlocked=False)</code> for
+everyone (anon), so the whole API is functional and demoable before auth/Stripe exist. Every
+endpoint takes <code>tier: Tier = Depends(entitlement)</code>. Phase 3 wires only <code>_verify_supabase_jwt</code>
+(PyJWT + <code>SUPABASE_JWT_SECRET</code>) and one <code>users.plan_tier</code> lookup; <code>unlocked = plan_tier in
+("monthly","annual")</code>.</p>
+<h2 id="requirementstxt-additions">requirements.txt additions</h2>
+<pre><code>fastapi&gt;=0.110,&lt;1.0
+uvicorn[standard]&gt;=0.27
+pydantic&gt;=2.6,&lt;3.0
+# Phase 3: PyJWT&gt;=2.8
+</code></pre>
+<p>Run: <code>python -m uvicorn api.main:app --reload --port 8000</code> (the <code>python -m</code> form keeps the
+project root on sys.path so <code>from ingest.load_5500 import ...</code> resolves like the existing
+<code>python -m pipeline.score</code> calls).</p>
+<h2 id="test-assertions-the-load-bearing-ones">Test assertions (the load-bearing ones)</h2>
+<ul>
+<li>Masked radar: every row name == "Account locked", <code>incumbent_broker</code> null, and the real
+  seeded names appear NOWHERE in the raw JSON body.</li>
+<li>Real values still present when masked (score, spend, reason_codes, carrier).</li>
+<li>Free row cap enforced even with <code>limit=200</code>.</li>
+<li>One row per company (the two-plan fixture appears once; higher-premium plan wins).</li>
+<li>Keyset: no dup company_id across pages; garbage cursor -&gt; 400.</li>
+<li>402 on brief for anon, with no company data in the body; 200 + full brief when unlocked.</li>
+<li>Temperature public, shape correct, two calls within 60s share <code>cached_at</code>.</li>
+<li><code>parse_reason_codes</code> handles both a JSON string and a Python list.</li>
+</ul>
+<h2 id="status-built-2026-06-13">Status — BUILT 2026-06-13</h2>
+<p>The <code>api/</code> package and all three endpoints are implemented and verified: 13 tests pass
+(<code>tests/api/</code>), and the server runs live against SQLite (masked Radar, public temperature,
+402-gated brief all confirmed via curl). Phase 3 wires auth into the single <code>entitlement()</code>
+seam; the Supabase port (Phase 1 remainder) swaps the engine with no API changes.</p>
+<h3 id="follow-up-before-launch">Follow-up before launch</h3>
+<ul>
+<li><strong>Masked <code>company_id</code> is the sponsor EIN.</strong> A determined free user could reverse-look-up
+  the EIN to the company, partially defeating the name mask. Before public launch, emit an
+  opaque per-account token as the public id in masked responses (keep the EIN server-side,
+  map token-&gt;EIN on unlock). Low effort, do it when auth lands.</li>
+</ul>
+<h2 id="top-gotchas">Top gotchas</h2>
+<ol>
+<li>The one-to-many <code>scores</code>/<code>plans</code> JOIN (use the ROW_NUMBER CTE).</li>
+<li><code>reason_codes</code> type changes across the SQLite-&gt;Postgres port (handle str OR list).</li>
+<li>Build one engine at startup with <code>role="serving"</code>; keep every query parameterized via
+   <code>text()</code> bindparams; never f-string user input into SQL.</li>
+</ol></article></body></html>

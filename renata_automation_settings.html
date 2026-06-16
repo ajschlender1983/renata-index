@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renata — what she can do on her own</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F6F2;--card:#FFFFFF;--ink:#1B1B2A;--ink-soft:#5A5A6E;
+    --line:#E7E5DD;--line-soft:#F0EEE8;
+    --violet:#574FC7;--violet-soft:#EDEBFA;--violet-ink:#332C8A;
+    --teal:#0F7256;--teal-soft:#E2F4ED;--amber:#8A5A0C;--amber-soft:#FAF0DC;
+    --radius:14px;--radius-sm:9px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;padding:22px 16px 48px;}
+  .wrap{max-width:600px;margin:0 auto;}
+  .voice{font-family:"Newsreader",Georgia,serif;}
+  .mono{font-family:"IBM Plex Mono",monospace;}
+
+  .head{margin-bottom:18px;}
+  .brand{display:flex;align-items:center;gap:9px;font-family:"Newsreader",serif;font-size:20px;font-weight:500;margin-bottom:14px;}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 4px var(--violet-soft);}
+  h1{font-size:22px;font-weight:600;letter-spacing:-.01em;margin:0 0 4px;}
+  .sub{font-size:13.5px;color:var(--ink-soft);}
+
+  .meter{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:14px 16px;margin:16px 0;}
+  .meter .lvl{flex:none;}
+  .meter .lvl .k{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);}
+  .meter .lvl .v{font-family:"Newsreader",serif;font-size:18px;font-weight:500;color:var(--violet-ink);}
+  .rungs{flex:1;display:flex;gap:5px;}
+  .rungs span{flex:1;height:7px;border-radius:4px;background:var(--line);}
+  .rungs span.on{background:var(--violet);}
+  .pause{flex:none;font-size:12.5px;font-weight:500;color:var(--ink-soft);border:1px solid var(--line);
+    background:transparent;border-radius:8px;padding:8px 12px;cursor:pointer;}
+  .pause:hover{border-color:var(--ink-soft);color:var(--ink);}
+
+  .group{margin-top:22px;}
+  .group > .gl{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);
+    margin:0 2px 9px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .row{display:flex;gap:13px;padding:15px 16px;border-bottom:1px solid var(--line-soft);align-items:flex-start;}
+  .row:last-child{border-bottom:none;}
+  .row .txt{flex:1;}
+  .row .name{font-size:14.5px;font-weight:500;}
+  .row .desc{font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.45;}
+  .row .guard{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--amber);
+    background:var(--amber-soft);border-radius:6px;padding:2px 7px;margin-top:8px;}
+
+  /* toggle */
+  .sw{flex:none;width:42px;height:24px;border-radius:13px;background:var(--line);position:relative;
+    cursor:pointer;transition:background .15s;margin-top:2px;}
+  .sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:left .15s;}
+  .sw.on{background:var(--violet);}
+  .sw.on::after{left:21px;}
+  .sw.locked{opacity:.5;cursor:not-allowed;}
+
+  .offer{display:flex;gap:11px;align-items:flex-start;background:var(--violet-soft);
+    border-radius:var(--radius-sm);padding:13px 14px;margin-top:12px;}
+  .offer .av{flex:none;width:26px;height:26px;border-radius:50%;background:var(--violet);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:"Newsreader",serif;font-size:14px;}
+  .offer .tt{flex:1;font-size:13px;line-height:1.5;color:var(--violet-ink);}
+  .offer .acts{display:flex;gap:8px;margin-top:9px;}
+  .offer .acts button{font-size:12.5px;font-weight:500;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid transparent;}
+  .offer .acts .y{background:var(--violet);color:#fff;}
+  .offer .acts .n{background:transparent;color:var(--violet-ink);border-color:#CFCCE6;}
+
+  .guards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft);}
+  .gx{background:var(--card);padding:13px 15px;}
+  .gx .k{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);}
+  .gx .v{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:500;margin-top:4px;}
+
+  .log .row{align-items:center;}
+  .log .when{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);flex:none;width:54px;}
+  .log .what{flex:1;font-size:13px;}
+  .log .undo{flex:none;font-size:12px;font-weight:500;color:var(--violet);background:transparent;border:none;cursor:pointer;}
+  .log .undo:hover{text-decoration:underline;}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="brand"><span class="dot"></span>Renata</div>
+    <h1>What Renata can do on her own</h1>
+    <div class="sub">Everything starts off. Turn on what you're comfortable with — pull any of it back in one tap.</div>
+  </div>
+
+  <div class="meter">
+    <div class="lvl"><div class="k">Operating as</div><div class="v">Drafter</div></div>
+    <div class="rungs" aria-label="Trust ladder, rung 2 of 5">
+      <span class="on"></span><span class="on"></span><span></span><span></span><span></span>
+    </div>
+    <button class="pause">Pause all</button>
+  </div>
+
+  <!-- OUTREACH -->
+  <div class="group">
+    <div class="gl">Outreach</div>
+    <div class="card">
+      <div class="row">
+        <div class="txt">
+          <div class="name">Draft outreach for flagged accounts</div>
+          <div class="desc">Have the intro written and waiting when you open an in-play account.</div>
+        </div>
+        <div class="sw on" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+      <div class="row">
+        <div class="txt">
+          <div class="name">Send approved drafts on a schedule</div>
+          <div class="desc">You approve; Renata sends at the best time instead of immediately.</div>
+          <span class="guard"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>business hours only</span>
+        </div>
+        <div class="sw" role="switch" aria-checked="false" tabindex="0"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPLIES -->
+  <div class="group">
+    <div class="gl">Replies</div>
+    <div class="card">
+      <div class="row">
+        <div class="txt">
+          <div class="name">Reply to warm & inbound leads</div>
+          <div class="desc">Answer replies and chatbot leads on your behalf, within guardrails.</div>
+          <span class="guard"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>pauses anything sensitive</span>
+        </div>
+        <div class="sw" role="switch" aria-checked="false" tabindex="0"></div>
+      </div>
+      <div class="row">
+        <div class="txt">
+          <div class="name">Run full follow-up sequences</div>
+          <div class="desc">Multi-touch cadence that stops the moment a human replies.</div>
+        </div>
+        <div class="sw locked" role="switch" aria-checked="false" aria-disabled="true" title="Unlocks once auto-reply is trusted"></div>
+      </div>
+    </div>
+
+    <div class="offer">
+      <div class="av">R</div>
+      <div class="tt">
+        You've sent 6 of my drafts this week with barely an edit. Want me to start replying to warm leads for you? You'll see everything I send.
+        <div class="acts">
+          <button class="y">Turn on</button>
+          <button class="n">Maybe next time</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTS -->
+  <div class="group">
+    <div class="gl">Documents</div>
+    <div class="card">
+      <div class="row">
+        <div class="txt">
+          <div class="name">Auto-prep paperwork on arrival</div>
+          <div class="desc">Clean and match any census, renewal letter, or plan PDF the moment it lands.</div>
+        </div>
+        <div class="sw on" role="switch" aria-checked="true" tabindex="0"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="group">
+    <div class="gl">Guardrails — the seatbelts</div>
+    <div class="card">
+      <div class="guards">
+        <div class="gx"><div class="k">Daily auto-send cap</div><div class="v">25 / day</div></div>
+        <div class="gx"><div class="k">Quiet hours</div><div class="v">7pm – 8am</div></div>
+        <div class="gx"><div class="k">Never auto-contact</div><div class="v">existing clients</div></div>
+        <div class="gx"><div class="k">Send identity</div><div class="v">as me</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY -->
+  <div class="group">
+    <div class="gl">What Renata did on her own — all reversible</div>
+    <div class="card log">
+      <div class="row"><span class="when">9:14a</span><span class="what">Drafted intro for <b>Hill Country Health</b></span><button class="undo">Undo</button></div>
+      <div class="row"><span class="when">8:02a</span><span class="what">Cleaned census for <b>Lone Star Logistics</b> (140 rows)</span><button class="undo">Undo</button></div>
+      <div class="row"><span class="when">Yest.</span><span class="what">Replied to inbound lead <b>Maria O.</b></span><button class="undo">Undo</button></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

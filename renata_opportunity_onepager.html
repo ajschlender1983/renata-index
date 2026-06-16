@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renata — The Opportunity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F6F2;--card:#FFFFFF;--ink:#16161F;--ink-soft:#5A5A6E;--line:#E7E5DD;--line-soft:#F0EEE8;
+    --violet:#574FC7;--violet-soft:#EDEBFA;--violet-ink:#332C8A;--teal:#0F7256;--teal-soft:#E2F4ED;
+    --amber:#8A5A0C;--amber-soft:#FAF0DC;--alert:#A6342E;--gold:#B5852E;--gold-soft:#EFE2C4;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;
+    font-size:14px;line-height:1.52;-webkit-font-smoothing:antialiased;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  @media print{ .wrap{padding:24px 26px 30px;} h2{break-after:avoid;} .valuebox,.case,.stat,.tier,figure{break-inside:avoid;} }
+  .wrap{max-width:840px;margin:0 auto;padding:40px 26px 60px;}
+  .voice{font-family:"Newsreader",serif;} .mono{font-family:"IBM Plex Mono",monospace;}
+  header{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:16px;}
+  .brand{display:flex;align-items:center;gap:11px;font-family:"Newsreader",serif;font-size:24px;font-weight:500;}
+  .mk{width:34px;height:34px;}
+  .doc{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);text-align:right;}
+  .thesis{font-family:"Newsreader",serif;font-size:21px;line-height:1.4;margin:22px 0 16px;max-width:64ch;}
+  .thesis b{color:var(--violet-ink);}
+  .posit{background:var(--violet-soft);border-radius:13px;padding:14px 16px;margin:0 0 28px;font-size:13.5px;color:var(--violet-ink);}
+  .posit b{font-weight:600;}
+  h2{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--violet);
+    margin:30px 0 13px;border-top:1px solid var(--line);padding-top:24px;}
+  h2:first-of-type{border-top:none;padding-top:4px;}
+  p{margin:0 0 11px;} .soft{color:var(--ink-soft);}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+  @media(max-width:640px){.row{grid-template-columns:1fr;gap:18px;}}
+
+  /* stat teaser */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:2px 0 6px;}
+  @media(max-width:640px){.stats{grid-template-columns:1fr 1fr;}}
+  .stat{border:1px solid var(--line);border-radius:13px;padding:14px;background:var(--card);}
+  .stat .n{font-family:"IBM Plex Mono",monospace;font-size:21px;font-weight:500;color:var(--ink);}
+  .stat .l{font-size:11px;color:var(--ink-soft);margin-top:4px;line-height:1.35;}
+
+  ul{margin:4px 0 0;padding-left:0;list-style:none;}
+  li{position:relative;padding-left:18px;margin-bottom:8px;font-size:13px;}
+  li::before{content:"";position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%;background:var(--violet);}
+
+  .valuebox{background:var(--ink);color:#fff;border-radius:16px;padding:22px 24px;margin:6px 0;}
+  .valuebox .big{font-family:"Newsreader",serif;font-size:20px;line-height:1.4;}
+  .valuebox .big b{color:#C9C4F2;}
+  .vmath{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;}
+  .vm{flex:1;min-width:150px;background:#23233A;border-radius:11px;padding:13px 15px;}
+  .vm .k{font-size:11px;color:#9C97C7;letter-spacing:.04em;text-transform:uppercase;}
+  .vm .v{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:500;margin-top:4px;}
+  .vm .v.gold{color:#E6C77A;}
+
+  .tam{display:flex;gap:10px;margin:4px 0 8px;}
+  .tier{flex:1;border:1px solid var(--line);border-radius:13px;padding:14px;background:var(--card);}
+  .tier .lab{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);}
+  .tier .num{font-family:"IBM Plex Mono",monospace;font-size:21px;font-weight:500;margin:5px 0 2px;}
+  .tier.t1 .num{color:var(--violet);} .tier .d{font-size:11.5px;color:var(--ink-soft);line-height:1.35;}
+  .pool{background:var(--gold-soft);border-radius:13px;padding:13px 16px;font-size:13px;color:#5A4212;margin-top:6px;}
+  .pool b{color:#3F2B06;}
+
+  table{width:100%;border-collapse:collapse;margin-top:4px;}
+  th,td{text-align:left;padding:9px 10px;font-size:12.5px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+  th{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;}
+  td.price{font-family:"IBM Plex Mono",monospace;white-space:nowrap;}
+  .gap{background:var(--violet-soft);border-radius:11px;padding:13px 15px;font-size:13px;color:var(--violet-ink);margin-top:12px;}
+
+  /* rubric */
+  .rubric td.y{color:var(--teal);font-weight:500;} .rubric td.n{color:var(--alert);}
+  .rubric td.first{font-weight:500;}
+
+  /* case studies */
+  .cases{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px;}
+  @media(max-width:640px){.cases{grid-template-columns:1fr;}}
+  .case{border:1px solid var(--line);border-radius:15px;overflow:hidden;background:var(--card);}
+  .case .ch{padding:14px 16px;background:var(--line-soft);}
+  .case .ch b{font-size:14px;} .case .ch span{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .case .cb{padding:14px 16px;}
+  .case .lab{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:10px 0 4px;}
+  .case .lab:first-child{margin-top:0;}
+  .case .now{font-size:12.5px;color:var(--ink-soft);}
+  .case .us{font-size:12.5px;}
+  .case .ben{background:var(--teal-soft);color:var(--teal);border-radius:9px;padding:9px 11px;font-size:12.5px;font-weight:500;margin-top:10px;}
+
+  .src{font-size:10.5px;color:var(--ink-soft);margin-top:10px;}
+  footer{border-top:1px solid var(--line);margin-top:24px;padding-top:14px;font-size:11px;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <svg class="mk" viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M 70.00 15.36 A 40 40 0 1 1 30.00 15.36" fill="none" stroke="#16161F" stroke-width="4.2" stroke-linecap="round"/>
+        <path d="M 78.56 44.96 A 29 29 0 1 1 59.92 22.75" fill="none" stroke="#16161F" stroke-width="4.8" stroke-linecap="round"/>
+        <path d="M 63.79 61.57 A 18 18 0 1 1 66.91 43.84" fill="none" stroke="#16161F" stroke-width="5.4" stroke-linecap="round"/>
+        <circle cx="73.85" cy="11.84" r="10" fill="#574FC7" fill-opacity="0.16"/>
+        <circle cx="73.85" cy="11.84" r="5" fill="#574FC7"/>
+      </svg>
+      Renata
+    </div>
+    <div class="doc">The Opportunity<br>Confidential · 2026</div>
+  </header>
+
+  <div class="thesis">
+    The signal that an employer is about to switch benefits brokers is sitting in public filings — fragmented, ugly, and ignored. <b>Renata is the agent</b> that fuses it into one <b>In-Play Score</b> and writes the outreach — so the broker's only job is the one thing that closes: <b>the right human touch, at the perfect time.</b>
+  </div>
+  <div class="posit"><b>The positioning:</b> Renata is both the brand and the agent — and the agent is the service. Not a database the broker searches; a service that finds the moment, scores it, and drafts the opening, leaving the human to do what only humans do well.</div>
+
+  <h2>The market, by the numbers</h2>
+  <div class="stats">
+    <div class="stat"><div class="n">100,000+</div><div class="l">US benefits brokers &amp; agencies — the buyers</div></div>
+    <div class="stat"><div class="n">$60–120K</div><div class="l">annual commission on a single mid-market group (3–6% of a ~$2M plan)</div></div>
+    <div class="stat"><div class="n">5–10 yrs</div><div class="l">a won account stays — $300K–$1M+ in lifetime commission</div></div>
+    <div class="stat"><div class="n">~$70B</div><div class="l">US benefits-brokerage commission pool by 2032 (from ~$35B in 2022)</div></div>
+  </div>
+  <p class="soft" style="margin-top:12px;">Production is top-heavy: a minority of top-performing brokers write most of the new business, and each new mid-market group is worth tens of thousands a year for years. The whole game is finding the few accounts that are actually in play — which today is done blind.</p>
+
+  <h2>The value math — why 1% is more than fair</h2>
+  <div class="valuebox">
+    <div class="big">Our TAM is <b>~1% of the commission pool our customers chase.</b> We don't need to take value from this market — we need to <b>unlock</b> it.</div>
+    <div class="vmath">
+      <div class="vm"><div class="k">Commission pool</div><div class="v">~$70B</div></div>
+      <div class="vm"><div class="k">Our TAM (≈1%)</div><div class="v">~$360M</div></div>
+      <div class="vm"><div class="k">Value we must create</div><div class="v gold">~$3.6B+</div></div>
+    </div>
+    <p style="color:#C9C4F2;font-size:13px;margin:16px 0 0;">To justify capturing ~1% in software fees, we deliver roughly <b>10× that in value</b> to brokers — about $3.6B in commissions they'd otherwise leave on the table. That's only a <b>~5% lift</b> on a pool this size. Given that brokers prospect blind today, a 5% improvement in finding and timing in-play accounts is conservative — making 1% capture an easy trade for the market.</p>
+  </div>
+
+  <h2>Why now — the AI window</h2>
+  <p>This data has always been public. What changed is the <b>cost of using it.</b> Cleaning messy filings, fusing a dozen fragmented sources, and writing tailored outreach used to require an enterprise data team — which is exactly why only a few incumbents could do it, and only at enterprise prices. AI collapsed that cost to near zero.</p>
+  <div class="row">
+    <div><ul>
+      <li><b>AI does the unglamorous work</b> — normalizing dirty 5500 data, reconciling sources, drafting per-account outreach — at the marginal cost of a model call.</li>
+      <li><b>A small AI-native team ships what took an enterprise.</b> The working data spine, scoring, and Radar already exist, built in weeks, not years.</li>
+    </ul></div>
+    <div><ul>
+      <li><b>Speed is the moat-for-now.</b> The window is the gap between "AI makes this cheap" and "incumbents retrofit AI onto legacy databases." We move first and own the indie segment they ignore.</li>
+      <li><b>Agentic, not a tool.</b> The leap isn't a better search box — it's an agent that finds, scores, and acts. Incumbents sell data; we sell the outcome.</li>
+    </ul></div>
+  </div>
+
+  <h2>Why benefits brokers first — and not the other plays</h2>
+  <p class="soft">Several public-data opportunities were assessed — layoff (WARN) feeds, UCC financing filings, building permits, healthcare provider data. Benefits brokers won on every axis that matters:</p>
+  <table class="rubric">
+    <thead><tr><th>Test</th><th>Benefits brokers</th><th>The others</th></tr></thead>
+    <tbody>
+      <tr><td class="first">Buyer ROI per win</td><td class="y">$300K–$1M+ lifetime</td><td>often small, one-off tickets</td></tr>
+      <tr><td class="first">Buyer reachability</td><td class="y">100K, organized (NABIP, chapters)</td><td>fragmented, hard to find</td></tr>
+      <tr><td class="first">Demand validation</td><td class="y">proven (miEdge: 8,000 users)</td><td>mostly unproven</td></tr>
+      <tr><td class="first">Public-data fit</td><td class="y">5500 Schedule A = renewal, broker, spend</td><td>thinner or single-signal</td></tr>
+      <tr><td class="first">Recurring need</td><td class="y">annual renewals → subscription</td><td>often one-and-done</td></tr>
+    </tbody>
+  </table>
+  <p class="soft" style="margin-top:10px;">Benefits is the wedge with the richest data, the clearest buyer, and validated demand. The same engine extends to the other plays later — but this is where it starts paying immediately.</p>
+
+  <h2>Market size</h2>
+  <div class="tam">
+    <div class="tier t1"><div class="lab">TAM</div><div class="num">$360M+</div><div class="d">~100K benefits brokers × ~$3,600/yr blended. Expands past $1B across all-lines brokers, carriers, MGAs &amp; advisors the same engine serves.</div></div>
+    <div class="tier"><div class="lab">SAM</div><div class="num">$110–145M</div><div class="d">~30–40K independent &amp; small-mid agencies who self-serve at our price.</div></div>
+    <div class="tier"><div class="lab">SOM · 3yr</div><div class="num">$4–11M ARR</div><div class="d">Texas beachhead + 1–2 niches; 1,000–3,000 brokers.</div></div>
+  </div>
+
+  <h2>Competition — validated, but wide open</h2>
+  <table>
+    <thead><tr><th>Player</th><th>What they do</th><th>Pricing</th><th>The gap Renata fills</th></tr></thead>
+    <tbody>
+      <tr><td><b>Zywave miEdge</b></td><td>5500 + renewal alerts; 8,000 users, 80 of top 100 brokers</td><td class="price">~$18–41K+/yr suite; opaque, annual</td><td>Enterprise-priced search database; all-lines generalist</td></tr>
+      <tr><td><b>Judy Diamond / ALM</b></td><td>5500 data, FreeERISA, DaaS API; retirement-leaning</td><td class="price">Quote-based packages</td><td>A data warehouse, not an agent — no fusion, no outreach</td></tr>
+      <tr><td><b>FreeERISA</b></td><td>Basic 5500 lookup</td><td class="price">Free / paid Deluxe</td><td>Raw lookup; no scoring, timing, or action</td></tr>
+      <tr><td><b>State-segment data</b></td><td>5500 prospecting lists by state</td><td class="price">~$35–60/mo per state</td><td>Bare data, 12-mo lock; you do all the work</td></tr>
+      <tr><td><b>ZoomInfo / Apollo</b></td><td>Horizontal sales intelligence</td><td class="price">~$15K+/yr · ~$49–149/seat</td><td>Not benefits-aware; no renewal or filing signal</td></tr>
+      <tr><td><b>Renata</b></td><td>Multi-source In-Play Score + drafted outreach + doc ingest</td><td class="price">$499/mo · $399/mo annual</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="gap"><b>The wedge:</b> incumbents prove demand but are opaque, annual-commitment, enterprise databases. Renata is the <b>AI-native, transparently-priced, low-commitment reimagining</b> — fused predictive signal, the broker's own docs ingested, the outreach written. They make you do the work; Renata does it.</div>
+
+  <h2>Two brokers, current tools vs Renata</h2>
+  <div class="cases">
+    <div class="case">
+      <div class="ch"><b>The solo independent</b><span>1-person shop · hunts 50–150-life groups</span></div>
+      <div class="cb">
+        <div class="lab">Today</div>
+        <div class="now">Priced out of miEdge. Digs through FreeERISA by hand — hours a week — then sends generic cold emails with a low hit rate. Mostly prospects blind.</div>
+        <div class="lab">With Renata</div>
+        <div class="us">A scored Radar for their metro + drafted outreach for $399/mo (billed annually). Surfaces 2–3 truly in-play accounts a quarter, each with the renewal, the cost gap, and the incumbent named.</div>
+        <div class="ben">One extra mid-market close = $60K+/yr vs ~$1–5K/yr in tool cost. ~10 hrs/week back.</div>
+      </div>
+    </div>
+    <div class="case">
+      <div class="ch"><b>The small-agency producer</b><span>3–10 producers · mid-market focus</span></div>
+      <div class="cb">
+        <div class="lab">Today</div>
+        <div class="now">Pays ~$25–41K/yr for the Zywave suite, then still researches manually and writes every email. The data is a search box; timing and outreach are on them.</div>
+        <div class="lab">With Renata</div>
+        <div class="us">Multi-source predictive timing (a carrier rate filing flags the moment), docs ingested, outreach drafted — at a fraction of the seat cost. Producers spend time on relationships, not research.</div>
+        <div class="ben">Better-timed outreach lifts win rate; prospecting spend drops; the team sells instead of searches.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Go-to-market &amp; the customer journey</h2>
+  <p class="soft">Where brokers come from, the path they walk, and the one wall. Connecting is free and fuels the network. The intelligence and the easy button are the subscription.</p>
+  <figure style="margin:8px 0 4px;border:1px solid var(--line);border-radius:15px;background:var(--card);padding:12px 8px;overflow:hidden;">
+  <svg viewBox="0 0 800 350" width="100%" role="img" font-family="Inter, system-ui, sans-serif"
+       aria-label="Renata go-to-market funnel and customer journey: brokers arrive free via NABIP, LinkedIn, media and partners; sign up and connect their network for free; the paywall unlocks the intelligence and the easy button at 399 dollars a month billed annually.">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5A5A6E"/></marker>
+      <marker id="arv" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#574FC7"/></marker>
+    </defs>
+
+    <!-- journey bands -->
+    <rect x="168" y="112" width="304" height="150" rx="12" fill="#F1EFFB"/>
+    <rect x="480" y="112" width="306" height="150" rx="12" fill="#F4ECDA"/>
+    <text x="320" y="130" text-anchor="middle" font-size="10.5" letter-spacing="1" fill="#574FC7">FREE · FUELS THE NETWORK</text>
+    <text x="633" y="130" text-anchor="middle" font-size="10.5" letter-spacing="1" fill="#8A5A0C">PAID · $399/MO (ANNUAL)</text>
+
+    <!-- channels cluster -->
+    <rect x="12" y="150" width="142" height="96" rx="11" fill="#FFFFFF" stroke="#E7E5DD"/>
+    <text x="83" y="169" text-anchor="middle" font-size="10" letter-spacing=".5" fill="#5A5A6E">WHERE THEY FIND HER</text>
+    <text x="83" y="189" text-anchor="middle" font-size="11.5" fill="#16161F">NABIP Austin</text>
+    <text x="83" y="206" text-anchor="middle" font-size="11.5" fill="#16161F">LinkedIn · Renata</text>
+    <text x="83" y="223" text-anchor="middle" font-size="11.5" fill="#16161F">BenefitsPRO / EBN</text>
+    <text x="83" y="240" text-anchor="middle" font-size="11.5" fill="#16161F">FMO / GA partners</text>
+    <path d="M156,198 C172,198 184,224 196,228" fill="none" stroke="#5A5A6E" stroke-width="1.4" marker-end="url(#ar)"/>
+
+    <!-- journey baseline -->
+    <line x1="200" y1="226" x2="782" y2="226" stroke="#C9C6BE" stroke-width="2" marker-end="url(#ar)"/>
+
+    <!-- FREE milestones -->
+    <circle cx="234" cy="226" r="5.5" fill="#574FC7"/>
+    <text x="234" y="206" text-anchor="middle" font-size="12" font-weight="600" fill="#16161F">Free Radar</text>
+    <text x="234" y="248" text-anchor="middle" font-size="10.5" fill="#5A5A6E">names masked</text>
+    <circle cx="330" cy="226" r="5.5" fill="#574FC7"/>
+    <text x="330" y="206" text-anchor="middle" font-size="12" font-weight="600" fill="#16161F">Sign up</text>
+    <text x="330" y="248" text-anchor="middle" font-size="10.5" fill="#5A5A6E">magic link</text>
+    <circle cx="424" cy="226" r="5.5" fill="#574FC7"/>
+    <text x="424" y="206" text-anchor="middle" font-size="12" font-weight="600" fill="#16161F">Connect</text>
+    <text x="424" y="248" text-anchor="middle" font-size="10.5" fill="#5A5A6E">network + preview</text>
+
+    <!-- the paywall gate -->
+    <line x1="476" y1="112" x2="476" y2="262" stroke="#A6342E" stroke-width="1.6" stroke-dasharray="5 4"/>
+    <rect x="470" y="222" width="13" height="10" rx="1.6" fill="#A6342E"/>
+    <path d="M473,222 v-2.6 a3.5,3.5 0 0 1 7,0 v2.6" fill="none" stroke="#A6342E" stroke-width="1.5"/>
+    <text x="476" y="150" text-anchor="middle" font-size="11" font-weight="600" fill="#A6342E">THE PAYWALL</text>
+    <text x="476" y="166" text-anchor="middle" font-size="10.5" fill="#5A5A6E">unlock the intelligence</text>
+
+    <!-- PAID milestones -->
+    <circle cx="548" cy="226" r="5.5" fill="#B5852E"/>
+    <text x="548" y="206" text-anchor="middle" font-size="12" font-weight="600" fill="#16161F">See names</text>
+    <text x="548" y="248" text-anchor="middle" font-size="10.5" fill="#5A5A6E">+ reason codes</text>
+    <circle cx="648" cy="226" r="5.5" fill="#B5852E"/>
+    <text x="648" y="206" text-anchor="middle" font-size="12" font-weight="600" fill="#16161F">Easy button</text>
+    <text x="648" y="248" text-anchor="middle" font-size="10.5" fill="#5A5A6E">draft + follow-ups</text>
+    <circle cx="744" cy="226" r="5.5" fill="#B5852E"/>
+    <text x="744" y="206" text-anchor="middle" font-size="12" font-weight="600" fill="#16161F">Expand</text>
+    <text x="744" y="248" text-anchor="middle" font-size="10.5" fill="#5A5A6E">defensive · CRM</text>
+
+    <!-- network-effect loop -->
+    <path d="M744,242 C744,318 234,318 234,242" fill="none" stroke="#574FC7" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#arv)"/>
+    <text x="489" y="312" text-anchor="middle" font-size="10.5" fill="#332C8A">The loop · a member tracking a competitor pings that incumbent, who joins to defend</text>
+  </svg>
+  </figure>
+  <p class="src" style="margin-bottom:14px;">Free forever, to fuel the loop: the masked Radar, the broker directory, member badges, and connecting your network. The wall is the recommendation reveal — names, reason codes, competitive intelligence, and the drafted outreach. Outreach is always drafted and human-sent, never automated.</p>
+
+  <h2>The model</h2>
+  <p class="soft">One plan, one price, shown honestly: <b style="color:var(--ink);">$499/mo</b> month-to-month, or <b style="color:var(--ink);">$399/mo billed annually</b>, the better rate in plain sight. Near-zero COGS on public data. CRM sync and an optional success-based add-on are roadmap expansions rather than a wall in front of the first yes, with natural growth into agency multi-seat and adjacent verticals.</p>
+  <div class="src">Sources: Allied Market Research (US EB brokerage $34.7B→$70.1B, 7.5% CAGR); NABIP (100K+ members, 200+ chapters); Hotaling / Sima / Nava (broker commission economics, 3–6% of premium, $60–120K on $2M, $25–40 PEPM); Zywave pricing per public user reports ($18–41K+/yr); Rough Notes (state-segment 5500 data $35–60/mo); bottom-up modeling. Figures are estimates for internal planning, not projections of results.</div>
+
+  <footer>Renata · the agent finds the moment and writes the opening; you bring the human touch.</footer>
+</div>
+</body>
+</html>

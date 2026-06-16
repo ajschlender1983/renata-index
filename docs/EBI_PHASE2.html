@@ -1,0 +1,68 @@
+<!doctype html><html lang=en><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>EBI on Phase 2 + brand · Renata</title><style>
+  :root{--paper:#F7F6F2;--ink:#16161F;--soft:#5A5A6E;--violet:#574FC7;--line:#E7E5DD;--card:#fff;--gold:#B5852E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .bar{position:sticky;top:0;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px}
+  .bar a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:500}
+  .doc{max-width:780px;margin:0 auto;padding:34px 24px 80px}
+  h1{font:600 30px/1.25 Georgia,serif;margin:.2em 0 .5em}
+  h2{font:600 21px/1.3 Georgia,serif;margin:1.7em 0 .5em;border-top:1px solid var(--line);padding-top:1.1em}
+  h3{font:600 16px/1.3 Georgia,serif;margin:1.4em 0 .4em}
+  p,li{color:#26263a}
+  code{background:#ECEAE3;border-radius:4px;padding:.1em .4em;font:13.5px "IBM Plex Mono",ui-monospace,monospace}
+  pre{background:#1C1C28;color:#E7E5F4;border-radius:11px;padding:15px 17px;overflow:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  pre code{background:none;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:#EDEBFA;color:#332C8A;font-weight:600}
+  a{color:var(--violet)}
+  blockquote{border-left:3px solid var(--violet);margin:1em 0;padding:.2em 0 .2em 16px;color:var(--soft)}
+  hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+</style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="ebi-on-phase-2-branding-outcome">EBI on Phase 2 + branding — outcome</h1>
+<p>Three EBI rounds (Surface → Structure → Craft) on the Phase 2 serving API and the
+logo/brand/visual system, run 2026-06-15. The analysis agent ran read-only and produced
+diff-level findings; the changes below were applied by hand and re-verified (19/19 tests green).</p>
+<h2 id="applied">Applied</h2>
+<p><strong>API (code)</strong>
+- Radar input hardening: <code>state</code> now validated against <code>^[A-Za-z]{2}$</code> (was length-only, so
+  <code>?state=12</code> reached SQL); <code>min_participants &gt; max_participants</code> now returns 400 instead of a
+  silent empty page. (<code>api/routers/radar.py</code>)
+- Temperature double-checked locking: compute happens under the lock with a re-check, so
+  concurrent cold callers share one compute and one <code>cached_at</code> (no thundering herd on the
+  public 60s-cached endpoint). (<code>api/routers/temperature.py</code>)</p>
+<p><strong>Brand (tokens)</strong>
+- Unified <code>--ink</code> to <code>#16161F</code> in the brand guide (was <code>#1B1B2A</code>, drifted from every other
+  surface) and added the missing <code>--gold</code> / <code>--gold-soft</code> tokens that motion + ceremonial
+  marks reference. (<a href="../renata_brand_guide.html">frontend/renata_brand_guide.html</a>)</p>
+<h2 id="applied-in-the-finalization-pass-2026-06-15">Applied in the finalization pass (2026-06-15)</h2>
+<ul>
+<li><strong>Brand guide mark reconciled to the Aperture.</strong> The stale presence-dot mark (header +
+  the "The mark" section) is replaced with the Aperture; the monogram stays the avatar.</li>
+<li><strong>Aperture favicon added site-wide</strong> (injected across the shared project index site).</li>
+<li><strong>One-pager pricing aligned</strong> to the locked model: $499/mo month-to-month, $399/mo billed
+  annually; CRM/per-win reframed as future expansion, not a launch tier (competition table,
+  case card, and "The model" paragraph all corrected to match the diagram).</li>
+</ul>
+<h2 id="deferred-ready-to-apply-larger-htmlasset-edits">Deferred (ready to apply — larger HTML/asset edits)</h2>
+<p>The agent supplied exact, test-safe diffs for these; they are bigger surface changes and are
+queued rather than rushed:</p>
+<ol>
+<li><strong>Reconcile the stale mark in the brand guide.</strong> Its "The mark" section still shows the
+   old presence-dot + "R" monogram and footer "v1". Replace with the Aperture variants from
+   <code>renata_logo_system.html</code> (the canonical mark), swap the header dot for the inline Aperture
+   SVG, bump footer to v3. <em>(Round 1, 🔴)</em></li>
+<li><strong>One mark, one token source.</strong> Make brand guide / landing / motion reference the identical
+   Aperture path data + token set so the logo system and guide tell one story. <em>(Round 2, 🔴)</em></li>
+<li><strong>The breakthrough — live "scanning → found" hero.</strong> The landing page describes the product
+   arc (scan filings → find an in-play account) and <code>renata_motion.html</code> already animates
+   exactly that. Wire the motion mark into the landing hero so the page performs its own
+   promise the moment the dashboard renders. Highest-leverage screenshot moment. <em>(Round 3, 🔴)</em></li>
+<li>Aperture inline-SVG favicon; real <code>total_in_play</code> count to replace the hardcoded "+N more"
+   (needs a <code>RadarPage</code> field); <code>role="img"</code>/<code>aria-label</code> on standalone mark SVGs; type-scale
+   unification (h2 26 vs 27px). <em>(Rounds 1–3, 🟡/🟢)</em></li>
+</ol>
+<h2 id="transformation-arc">Transformation arc</h2>
+<p>A correct-but-split system (solid API + a brand guide still showing last generation's dot)
+moving toward one coherent identity where the same Aperture, tokens, and motion language run
+from favicon to hero to icon family. The stale mark was the visible seam between two truths;
+closing it unlocks the unify-tokens and animate-the-promise moves above.</p></article></body></html>

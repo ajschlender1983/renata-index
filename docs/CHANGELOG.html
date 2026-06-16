@@ -1,0 +1,78 @@
+<!doctype html><html lang=en><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Changelog · Renata</title><style>
+  :root{--paper:#F7F6F2;--ink:#16161F;--soft:#5A5A6E;--violet:#574FC7;--line:#E7E5DD;--card:#fff;--gold:#B5852E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .bar{position:sticky;top:0;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px}
+  .bar a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:500}
+  .doc{max-width:780px;margin:0 auto;padding:34px 24px 80px}
+  h1{font:600 30px/1.25 Georgia,serif;margin:.2em 0 .5em}
+  h2{font:600 21px/1.3 Georgia,serif;margin:1.7em 0 .5em;border-top:1px solid var(--line);padding-top:1.1em}
+  h3{font:600 16px/1.3 Georgia,serif;margin:1.4em 0 .4em}
+  p,li{color:#26263a}
+  code{background:#ECEAE3;border-radius:4px;padding:.1em .4em;font:13.5px "IBM Plex Mono",ui-monospace,monospace}
+  pre{background:#1C1C28;color:#E7E5F4;border-radius:11px;padding:15px 17px;overflow:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  pre code{background:none;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:#EDEBFA;color:#332C8A;font-weight:600}
+  a{color:var(--violet)}
+  blockquote{border-left:3px solid var(--violet);margin:1em 0;padding:.2em 0 .2em 16px;color:var(--soft)}
+  hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+</style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="changelog">Changelog</h1>
+<p>Notable changes to the Renata platform. Dates are the delivery date of the work.</p>
+<h2 id="2026-06-phases-03-implemented-and-verified">2026-06 — Phases 0–3 implemented and verified</h2>
+<h3 id="phase-0-data-spine">Phase 0 — Data spine</h3>
+<ul>
+<li>DOL Form 5500 ingest (main form + Schedule A), joined on <code>ACK_ID</code>, deriving renewal month
+  and cost-per-head into <code>companies</code> + <code>plans</code>.</li>
+<li>Synthetic fixture (<code>data/2023/</code>) so the full chain runs offline.</li>
+</ul>
+<h3 id="phase-1-scoring-and-agents">Phase 1 — Scoring and agents</h3>
+<ul>
+<li>The transparent In-Play Score (<code>pipeline/score.py</code>): rules-based, every point a reason code.</li>
+<li>One dedicated <code>SourceAgent</code> per source with retry, heartbeat, and freshness SLA; the
+  orchestrator and <code>system_temperature()</code> derive lead volume and feed health from real state.</li>
+<li>The free Renewal Radar generator (<code>pipeline/radar.py</code>).</li>
+</ul>
+<h3 id="hardening">Hardening</h3>
+<ul>
+<li>Postgres-ready <code>get_engine</code> (dual direct/pooled connection roles, <code>pool_pre_ping</code>).</li>
+<li>Column-drift detection fails loud and records <code>source_health.ok=0</code> instead of loading nulls.</li>
+<li>Idempotent signal writes (natural-key unique index + <code>ON CONFLICT DO NOTHING</code>).</li>
+<li>Postgres-safe <code>freshness_hours</code> (datetime-vs-string and naive-timestamp handling).</li>
+<li>Serving indexes for the Radar query.</li>
+</ul>
+<h3 id="phase-2-read-only-serving-api">Phase 2 — Read-only serving API</h3>
+<ul>
+<li>FastAPI layer in <code>api/</code>: <code>GET /v1/radar</code> (masked, ranked, keyset-paginated),
+  <code>GET /v1/accounts/{id}</code> (402 for the locked tier), <code>GET /v1/temperature</code> (public, cached).</li>
+<li>One server-side masking projection (identity hidden, real values shown); one <code>entitlement()</code>
+  dependency as the auth seam; one-plan-per-company CTE to fix the one-to-many join.</li>
+<li>Test suite (<code>tests/api/</code>).</li>
+</ul>
+<h3 id="phase-3-the-easy-button">Phase 3 — The easy button</h3>
+<ul>
+<li>Outreach drafting engine (<code>api/drafting.py</code>): template-first, Claude-optional, in Renata's
+  voice; provenance discipline so numbers trace to data.</li>
+<li>Draft endpoints: generate a 4-touch sequence, list, edit, approve. Gated to the paid tier;
+  <code>RENATA_DEV_UNLOCK=1</code> for local demo. No system send path (human-sent by design).</li>
+<li>The in-app easy-button UI (<code>frontend/renata_app.html</code>).</li>
+</ul>
+<h3 id="design-and-research-later-phases">Design and research (later phases)</h3>
+<ul>
+<li>Product-layer plan and locked decisions (<code>docs/PRODUCT_LAYER_PLAN.md</code>).</li>
+<li>Network layer + paywall design (<code>docs/NETWORK_LAYER_PLAN.md</code>).</li>
+<li>Auto-generated broker proposal assessment (<code>docs/PROPOSAL_GENERATION.md</code>).</li>
+<li>Review record across the API and brand (<code>docs/EBI_PHASE2.md</code>).</li>
+</ul>
+<h3 id="prototypes">Prototypes</h3>
+<ul>
+<li>End-to-end clickable wireframe (<code>frontend/renata_workflow.html</code>): the Radar dashboard,
+  the account view, the drafted outreach, the generated switch-analysis proposal, the
+  connect-CRM / upload step, and the close. Self-contained (no API), six-step navigation.</li>
+</ul>
+<h3 id="packaging">Packaging</h3>
+<ul>
+<li>Professional project scaffolding for handoff: root README, docs index, contributor guide,
+  <code>Makefile</code>, <code>pyproject.toml</code>.</li>
+</ul></article></body></html>

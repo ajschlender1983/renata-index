@@ -1,0 +1,81 @@
+<!doctype html><html lang=en><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Documentation index · Renata</title><style>
+  :root{--paper:#F7F6F2;--ink:#16161F;--soft:#5A5A6E;--violet:#574FC7;--line:#E7E5DD;--card:#fff;--gold:#B5852E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .bar{position:sticky;top:0;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px}
+  .bar a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:500}
+  .doc{max-width:780px;margin:0 auto;padding:34px 24px 80px}
+  h1{font:600 30px/1.25 Georgia,serif;margin:.2em 0 .5em}
+  h2{font:600 21px/1.3 Georgia,serif;margin:1.7em 0 .5em;border-top:1px solid var(--line);padding-top:1.1em}
+  h3{font:600 16px/1.3 Georgia,serif;margin:1.4em 0 .4em}
+  p,li{color:#26263a}
+  code{background:#ECEAE3;border-radius:4px;padding:.1em .4em;font:13.5px "IBM Plex Mono",ui-monospace,monospace}
+  pre{background:#1C1C28;color:#E7E5F4;border-radius:11px;padding:15px 17px;overflow:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  pre code{background:none;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:#EDEBFA;color:#332C8A;font-weight:600}
+  a{color:var(--violet)}
+  blockquote{border-left:3px solid var(--violet);margin:1em 0;padding:.2em 0 .2em 16px;color:var(--soft)}
+  hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+</style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="documentation">Documentation</h1>
+<p>The design, build, and research record for Renata. Suggested reading order for someone
+new to the project, then a full index.</p>
+<h2 id="start-here-in-order">Start here (in order)</h2>
+<ol>
+<li><strong><a href="ARCHITECTURE.html">ARCHITECTURE.md</a></strong> — the infrastructure design: dedicated source
+   agents, isolation and health, honest freshness, and how serving stays read-only over
+   precomputed tables.</li>
+<li><strong><a href="BUILD_PLAN.html">BUILD_PLAN.md</a></strong> — the original operating model: the three lanes
+   (the machine, the manager, the owner), the six human gates, the data spine, the In-Play
+   Score, and the go-to-market.</li>
+<li><strong><a href="PRODUCT_LAYER_PLAN.html">PRODUCT_LAYER_PLAN.md</a></strong> — the six-phase build plan and every
+   locked decision. This is the build order of record.</li>
+<li><strong><a href="PHASE2_API_BLUEPRINT.html">PHASE2_API_BLUEPRINT.md</a></strong> — the read-only serving API:
+   endpoints, the masking projection, pagination, and the test plan. Reflects what shipped.</li>
+<li><strong><a href="NETWORK_LAYER_PLAN.html">NETWORK_LAYER_PLAN.md</a></strong> — the native network layer: the broker
+   directory, the "Competitor's Book," warm-intro paths, the entity-resolution model, and the
+   connect-free / pay-to-unlock paywall.</li>
+<li><strong><a href="PROPOSAL_GENERATION.html">PROPOSAL_GENERATION.md</a></strong> — the assessment of whether Renata can
+   auto-generate a broker proposal, the two-artifact model, and the data-gap map.</li>
+</ol>
+<h2 id="reference-and-context">Reference and context</h2>
+<ul>
+<li><strong><a href="GTM_LINKEDIN_PLAYBOOK.html">GTM_LINKEDIN_PLAYBOOK.md</a></strong> — where benefits brokers gather,
+  the LinkedIn persona, and the compliant lead-gen mechanics.</li>
+<li><strong><a href="EBI_PHASE2.html">EBI_PHASE2.md</a></strong> — the review record (three improvement rounds) on the
+  Phase 2 API and the brand system, with applied and deferred items.</li>
+</ul>
+<h2 id="how-the-docs-relate-to-the-code">How the docs relate to the code</h2>
+<table>
+<thead>
+<tr>
+<th>Doc</th>
+<th>Implemented in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARCHITECTURE.md</td>
+<td><code>agents/</code>, <code>ingest/</code>, <code>pipeline/</code>, <code>schema.sql</code></td>
+</tr>
+<tr>
+<td>PHASE2_API_BLUEPRINT.md</td>
+<td><code>api/</code> (routers, masking, queries, deps) + <code>tests/api/</code></td>
+</tr>
+<tr>
+<td>PRODUCT_LAYER_PLAN.md (Phase 3)</td>
+<td><code>api/drafting.py</code>, <code>api/routers/drafts.py</code>, <code>frontend/renata_app.html</code></td>
+</tr>
+<tr>
+<td>NETWORK_LAYER_PLAN.md</td>
+<td>designed; not yet implemented (Phase 4.5)</td>
+</tr>
+<tr>
+<td>PROPOSAL_GENERATION.md</td>
+<td>designed; not yet implemented (Phase 4.5)</td>
+</tr>
+</tbody>
+</table>
+<p>The repository's working conventions for contributors and tooling are in
+<a href="CLAUDE.html">../CLAUDE.md</a> and <a href="CONTRIBUTING.html">../CONTRIBUTING.md</a>.</p></article></body></html>

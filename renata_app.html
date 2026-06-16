@@ -1,0 +1,180 @@
+<!doctype html>
+<meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Renata — the easy button</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#14141C; --panel:#1C1C28; --line:#2A2A3A; --ink:#ECECF4; --soft:#9A9AB0;
+    --violet:#7C6CF0; --gold:#B5852E; --gold-soft:#EFE2C4; --teal:#39C0B3; --alert:#E0746B;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .top{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--line)}
+  .top b{font-weight:600;letter-spacing:.02em}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 4px rgba(124,108,240,.18)}
+  .tag{color:var(--soft);font-size:13px}
+  .temp{margin-left:auto;color:var(--soft);font-size:13px}
+  .wrap{display:grid;grid-template-columns:320px 1fr;min-height:calc(100vh - 53px)}
+  .list{border-right:1px solid var(--line);overflow:auto}
+  .lead{padding:14px 18px;border-bottom:1px solid var(--line);cursor:pointer}
+  .lead:hover{background:#20202E}
+  .lead.active{background:#23233A}
+  .lead .nm{font-weight:600}
+  .lead .sub{color:var(--soft);font-size:13px;margin-top:2px}
+  .score{float:right;font-weight:700}
+  .s-hot{color:var(--teal)} .s-warm{color:var(--gold-soft)} .s-cold{color:var(--soft)}
+  .detail{padding:26px 30px;max-width:760px}
+  .muted{color:var(--soft)}
+  h1{font:600 24px/1.2 Georgia,serif;margin:0 0 2px}
+  .facts{display:flex;flex-wrap:wrap;gap:10px 26px;margin:16px 0 6px;color:var(--soft);font-size:13px}
+  .facts b{color:var(--ink);font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+  .chip{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line)}
+  .chip.alert{color:var(--alert);border-color:rgba(224,116,107,.4)}
+  .chip.time{color:var(--gold-soft);border-color:rgba(181,133,46,.4)}
+  .rena{border-left:3px solid var(--violet);padding:10px 0 10px 16px;margin:18px 0;font:italic 16px/1.5 Georgia,serif;color:#D7D2F0}
+  button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:#23233A;color:var(--ink);padding:9px 16px}
+  button.primary{background:var(--violet);border-color:var(--violet);color:#fff;font-weight:600}
+  button.ghost{background:transparent}
+  .touch{border:1px solid var(--line);border-radius:12px;padding:16px;margin:14px 0;background:var(--panel)}
+  .touch .meta{display:flex;align-items:center;gap:10px;color:var(--soft);font-size:12px;margin-bottom:8px}
+  .touch .step{background:#23233A;border-radius:6px;padding:2px 8px;color:var(--ink)}
+  .touch .subj{font-weight:600;margin-bottom:6px}
+  .touch textarea{width:100%;min-height:96px;background:#15151F;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;resize:vertical}
+  .touch .body{white-space:pre-wrap}
+  .actions{display:flex;gap:8px;margin-top:10px;align-items:center}
+  .ok{color:var(--teal);font-size:12px}
+  .pill{margin-left:auto;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--soft)}
+  .pill.approved{color:var(--teal)}
+  .empty{color:var(--soft);padding:40px 0}
+</style>
+
+<div class="top">
+  <span class="dot"></span><b>Renata</b>
+  <span class="tag">the oracle, and the easy button</span>
+  <span class="temp" id="temp"></span>
+</div>
+<div class="wrap">
+  <div class="list" id="list"></div>
+  <div class="detail" id="detail"></div>
+</div>
+
+<script>
+const API = new URLSearchParams(location.search).get("api") || "http://127.0.0.1:8077";
+const money = n => n==null?"—":"$"+Number(n).toLocaleString();
+const monthName = m => m? new Date(2000,m-1,1).toLocaleString("en",{month:"long"}) : "—";
+const chipClass = c => /over|raised/i.test(c) ? "alert" : (/renew/i.test(c) ? "time" : "");
+const scoreClass = s => s>=80?"s-hot":s>=40?"s-warm":"s-cold";
+let current = null;
+
+// tiny safe hyperscript: all text goes in via textContent, never innerHTML
+function h(tag, props, ...kids){
+  const e = document.createElement(tag);
+  for(const k in (props||{})){
+    if(k==="class") e.className=props[k];
+    else if(k==="text") e.textContent=props[k];
+    else if(k.startsWith("on")) e.addEventListener(k.slice(2), props[k]);
+    else if(k==="data") for(const d in props.data) e.dataset[d]=props.data[d];
+    else e.setAttribute(k, props[k]);
+  }
+  for(const c of kids){ if(c==null) continue; e.append(c.nodeType?c:document.createTextNode(c)); }
+  return e;
+}
+const clear = el => el.replaceChildren();
+
+async function api(path, opts){ const r=await fetch(API+path,opts); if(!r.ok) throw new Error(r.status); return r.json(); }
+
+async function loadTemp(){
+  try{ const t=await api("/v1/temperature");
+    document.getElementById("temp").textContent =
+      `${t.in_play_leads} in play · ${t.quality} · ${t.sources_healthy}/${t.sources_total} feeds healthy`;
+  }catch(e){ document.getElementById("temp").textContent="feed offline"; }
+}
+
+async function loadList(){
+  const data = await api("/v1/radar?state=TX&limit=50");
+  const el = document.getElementById("list"); clear(el);
+  data.rows.forEach(r=>{
+    const node = h("div",{class:"lead",data:{id:r.company_id}},
+      h("span",{class:"score "+scoreClass(r.in_play_score),text:String(r.in_play_score)}),
+      h("div",{class:"nm",text:r.name}),
+      h("div",{class:"sub",text:`${r.metro||r.state||""} · ${r.participants||"—"} employees · renews ${monthName(r.renewal_month)}`}));
+    node.addEventListener("click",()=>openAccount(r.company_id,node));
+    el.append(node);
+  });
+}
+
+async function openAccount(id, node){
+  document.querySelectorAll(".lead").forEach(n=>n.classList.remove("active"));
+  if(node) node.classList.add("active");
+  current = id;
+  const a = await api(`/v1/accounts/${id}`);
+  const detail = document.getElementById("detail"); clear(detail);
+  const facts = h("div",{class:"facts"},
+    h("span",{},"Renews ",h("b",{text:monthName(a.renewal_month)})),
+    h("span",{},"Carrier ",h("b",{text:a.carrier||"—"})),
+    h("span",{},"Broker of record ",h("b",{text:a.incumbent_broker||"—"})),
+    h("span",{},"Est. spend ",h("b",{text:money(a.est_annual_spend)})),
+    h("span",{},"Cost/head ",h("b",{text:money(a.cost_per_head)})));
+  const chips = h("div",{class:"chips"});
+  if(a.reason_codes.length) a.reason_codes.forEach(c=>chips.append(h("span",{class:"chip "+chipClass(c),text:c})));
+  else chips.append(h("span",{class:"muted",text:"Not yet in play."}));
+  const btn = h("button",{class:"primary",text:"Draft the outreach"});
+  btn.addEventListener("click",()=>draft(btn));
+  detail.append(
+    h("div",{class:"muted",style:"font-size:13px",text:`In-play score ${a.in_play_score}`}),
+    h("h1",{text:a.name}), facts, chips, btn, h("div",{id:"seq"}));
+}
+
+async function draft(btn){
+  btn.disabled=true; btn.textContent="Renata is drafting…";
+  const seqEl = document.getElementById("seq"); clear(seqEl);
+  try{
+    const seq = await api(`/v1/accounts/${current}/draft`,{method:"POST"});
+    seqEl.append(h("div",{class:"rena",
+      text:`I read ${seq.company}'s filing and drafted a four-touch sequence. Review each one, edit anything, then send as you. I never send on my own.`}));
+    seq.touches.sort((a,b)=>a.step-b.step).forEach(t=>seqEl.append(touchCard(t)));
+  }catch(e){
+    seqEl.append(h("p",{class:"muted",text:`Could not draft (${e.message}). Start the API with RENATA_DEV_UNLOCK=1.`}));
+  }
+  btn.disabled=false; btn.textContent="Re-draft";
+}
+
+function touchCard(t){
+  const label = t.step===0 ? "Intro" : `Follow-up ${t.step}`;
+  const when = t.send_after_days ? `send +${t.send_after_days}d` : "send now";
+  const pill = h("span",{class:"pill"+(t.status==="approved"?" approved":""),text:t.status});
+  const body = h("div",{class:"body",text:t.body});
+  const sendBtn = h("button",{class:"primary",text:"Send as me"});
+  const editBtn = h("button",{class:"ghost",text:"Edit"});
+  const actions = h("div",{class:"actions"}, sendBtn, editBtn);
+
+  editBtn.addEventListener("click",async ()=>{
+    if(editBtn.textContent==="Edit"){
+      const ta = h("textarea",{}); ta.value=body.textContent;
+      body.style.display="none"; actions.before(ta); editBtn.textContent="Save";
+    } else {
+      const ta = card.querySelector("textarea");
+      await api(`/v1/drafts/${t.id}`,{method:"PATCH",headers:{"content-type":"application/json"},body:JSON.stringify({body:ta.value})});
+      body.textContent=ta.value; body.style.display=""; ta.remove(); editBtn.textContent="Edit";
+    }
+  });
+  sendBtn.addEventListener("click",async ()=>{
+    await api(`/v1/drafts/${t.id}`,{method:"PATCH",headers:{"content-type":"application/json"},body:JSON.stringify({status:"approved"})});
+    pill.textContent="approved"; pill.classList.add("approved");
+    actions.append(h("span",{class:"ok",text:"approved — opens in your mail client"}));
+    sendBtn.disabled=true;
+  });
+
+  const card = h("div",{class:"touch",data:{id:t.id}},
+    h("div",{class:"meta"}, h("span",{class:"step",text:label}),
+      h("span",{text:`${t.channel} · ${when}`}), pill),
+    h("div",{class:"subj",text:t.subject||""}), body, actions);
+  return card;
+}
+
+document.getElementById("detail").append(h("div",{class:"empty",text:"Select an account to begin."}));
+loadTemp();
+loadList().catch(()=>{ const el=document.getElementById("list"); clear(el);
+  el.append(h("div",{class:"empty",style:"padding:20px",text:"API offline. Start it with RENATA_DEV_UNLOCK=1 and uvicorn api.main:app."})); });
+</script>

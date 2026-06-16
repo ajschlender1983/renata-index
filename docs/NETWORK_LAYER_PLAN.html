@@ -1,0 +1,185 @@
+<!doctype html><html lang=en><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Network layer &amp; paywall · Renata</title><style>
+  :root{--paper:#F7F6F2;--ink:#16161F;--soft:#5A5A6E;--violet:#574FC7;--line:#E7E5DD;--card:#fff;--gold:#B5852E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .bar{position:sticky;top:0;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px}
+  .bar a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:500}
+  .doc{max-width:780px;margin:0 auto;padding:34px 24px 80px}
+  h1{font:600 30px/1.25 Georgia,serif;margin:.2em 0 .5em}
+  h2{font:600 21px/1.3 Georgia,serif;margin:1.7em 0 .5em;border-top:1px solid var(--line);padding-top:1.1em}
+  h3{font:600 16px/1.3 Georgia,serif;margin:1.4em 0 .4em}
+  p,li{color:#26263a}
+  code{background:#ECEAE3;border-radius:4px;padding:.1em .4em;font:13.5px "IBM Plex Mono",ui-monospace,monospace}
+  pre{background:#1C1C28;color:#E7E5F4;border-radius:11px;padding:15px 17px;overflow:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  pre code{background:none;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:#EDEBFA;color:#332C8A;font-weight:600}
+  a{color:var(--violet)}
+  blockquote{border-left:3px solid var(--violet);margin:1em 0;padding:.2em 0 .2em 16px;color:var(--soft)}
+  hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+</style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="renata-network-directory-layer">Renata — Network / Directory Layer</h1>
+<p>The native network layer: a living directory of employers, incumbent brokers, and peer
+brokers (with a "Renata member" badge), plus "Connect my network" as the conversion
+trigger. Produced via a four-expert strategic-resolve session (PM/UX, Growth, CTO, Legal)
+on 2026-06-13. This is the design and build-order of record for the feature.</p>
+<h2 id="the-core-idea">The core idea</h2>
+<p>Renata already knows the map. Every 5500 Schedule A names the employer, the carrier, and
+the <strong>broker of record</strong>. The score already says which accounts are in play. The directory
+turns that latent map into a screen brokers can walk: their market, their competitors'
+books, and their own people, with one button ("Connect my network") that converts.</p>
+<h2 id="decisions-locked">Decisions locked</h2>
+<h3 id="paywall-placement-option-b-connect-free-pay-to-unlock-the-intelligence">Paywall placement: Option B (connect free, pay to unlock the intelligence)</h3>
+<p>Connecting your network is <strong>free</strong> and is the <em>activation</em> event. The paywall is the
+<em>recommendation reveal</em>: scores, reason codes, competitive intelligence, and warm-intro
+drafts. Growth and CTO both landed here decisively, and it matches the founder's own lean.</p>
+<p>Why B over A ("connect triggers paywall"):
+- The graph fills from free users, so paid value compounds. Gating "connect" throttles the
+  network-effect flywheel at its source.
+- The wall lands at peak desire (seeing which of your accounts are in play and what to send),
+  not on a chore (connecting).
+- It reuses the EXISTING <code>entitlement()</code> masking projection from the serving API. Warm-path
+  COUNT is the masked free view; warm-path IDENTITY is the paid unmasked view. Zero new
+  gating machinery, one place in the code that knows what is paid.</p>
+<p>The free / paid line:</p>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Free forever</strong> (fuels the loop + FOMO)</td>
+<td>Masked Radar, directory browse, member badges + "who's in my metro" counts, Connect my network, the incumbent map (who holds what, from 5500)</td>
+</tr>
+<tr>
+<td><strong>Paywall</strong> (the act-on-it value)</td>
+<td>In-play scores + reason codes, competitive incumbent intelligence ("Competitor's Book"), warm-intro drafting + outreach</td>
+</tr>
+<tr>
+<td><strong>Post-paid upsell</strong></td>
+<td>Defensive radar ("who's hunting your book")</td>
+</tr>
+</tbody>
+</table>
+<p>Trigger: the upgrade prompt fires on the <strong>recommendation-reveal click</strong>, never on connect
+or browse. Copy names the specific threat and ties to the annual price.</p>
+<h3 id="the-linkedin-question-no-scraping-three-compliant-doors-instead">The LinkedIn question: no scraping. Three compliant doors instead.</h3>
+<p>Crawling/scraping LinkedIn profiles is <strong>RED — do not build it.</strong> It breaches LinkedIn's
+User Agreement (hiQ v. LinkedIn actually <em>lost</em> on breach of contract; "public to read"
+defeats the CFAA but not the TOS), risks account bans, and the <em>use</em> of scraped data is
+prohibited even when access is public. This is a build-time prohibition: no headless
+browsers against LinkedIn, no "just the public ones," no buying scraped datasets.</p>
+<p>"Connect my network" is sourced from data the user owns or authorizes:
+1. <strong>Sign in with LinkedIn (OIDC)</strong> — identity only (name, email, photo). Returns NO
+   connections (that API is deprecated). Use for frictionless signup + broker-identity
+   verification, not network import.
+2. <strong>User-uploaded LinkedIn export</strong> — the user downloads their own <code>Connections.csv</code> from
+   LinkedIn (their data-portability right) and uploads it. Compliant when the user does the
+   export/upload themselves, attests they have the right to share, and the data is
+   purpose-limited to that user's own view (never merged into the saleable directory).
+3. <strong>Email / CRM contact import</strong> — OAuth or CSV from the broker's own book. Most defensible.
+   Make this the <strong>default</strong> door; LinkedIn export is the power-user add-on.</p>
+<p>The directory of NON-member brokers is built from <strong>public 5500 incumbent-broker data</strong>, not
+scraping. Showing "broker of record per 2023 Form 5500" is a public-business-record
+directory (green). The line: public-record facts are fine; a profile enriched with
+LinkedIn-derived photo/bio/headline is not. Non-member entries get a "claim or remove this
+listing" link.</p>
+<h3 id="the-killer-feature-competitors-book">The killer feature: "Competitor's Book"</h3>
+<p>Show a broker which accounts their named competitor (the incumbent of record) currently
+holds that are now in play. All public 5500 data, legally green. <strong>Framing is the only
+lever:</strong> keep copy account-centric ("compete for this renewal; current broker of record:
+[Name] per 2023 filing"), never predatory ("steal [Name]'s clients") — predatory framing
+manufactures tortious-interference/defamation optics that the neutral facts otherwise avoid.</p>
+<h3 id="the-wow-amplifier-warm-intro-paths">The wow amplifier: warm-intro paths</h3>
+<p>The network's job is to make the existing in-app easy button warmer. When the user has
+connected their network, the account view shows the path ("You -&gt; Dana Reyes -&gt; Marcus Lin,
+CFO") and Renata drafts a warm intro plus a second action, "Ask Dana to intro first" (the
+note to the mutual connection asking for the forward). Same human-sent "Send as me" model.
+On the free tier the warm-intro button shows greyed: "Warm intros unlock when you connect
+your network" — the wow is visible before it is paid for.</p>
+<h3 id="the-growth-engine-the-two-sided-member-badge">The growth engine: the two-sided member badge</h3>
+<p>The badge (a small "member" mark) signals that a competitor uses the same intelligence you
+do, which reframes Renata from "a tool I bought" to "table stakes in my market." The
+K-factor lever: when a connected broker tracks a non-member incumbent's accounts, that
+incumbent gets a defensive FOMO notification ("a broker in your metro is tracking 2 of your
+accounts as in-play") and joins to defend, becoming the next connected broker. Targeted,
+self-sending, compounding.</p>
+<p>Social-proof rule (enforced): <strong>aggregate and ambient, never targeted and behavioral.</strong>
+Allowed: "14 brokers on Renata in Austin metro", "3 brokers in your metro joined in the last
+30 days." Banned: "Capitol Risk viewed Hill Country 4 times", any presence/last-seen/activity
+about a named broker.</p>
+<h2 id="member-on-member-book-visibility-locked-2026-06-13">Member-on-member book visibility (LOCKED 2026-06-13)</h2>
+<p><strong>Decision: mask members' own clients.</strong> A member's current clients are hidden from other
+members' Competitor's Book detail — other members see aggregate counts ("holds 34 accounts,
+5 in play") but not the client list. This protects members from being hunted by peers,
+reduces churn, and is the directory-side twin of the existing "never auto-contact existing
+clients" guardrail. Non-member (public 5500) broker books remain fully visible.</p>
+<h2 id="architecture-summary-full-ddl-in-the-cto-consult">Architecture summary (full DDL in the CTO consult)</h2>
+<p>One canonical identity table is the key decision: <strong>do not split "broker" and "member."</strong> A
+member is a <code>broker_identities</code> row whose <code>user_id</code> is non-null. New tables:</p>
+<ul>
+<li><code>broker_identities</code> — canonical broker (member iff <code>user_id IS NOT NULL</code>), with <code>badge</code>,
+  <code>norm_person</code>/<code>norm_agency</code>/<code>npn</code> keys.</li>
+<li><code>broker_mentions</code> — append-only raw <code>plans.incumbent_broker</code> strings (loader write path
+  untouched), idempotent on <code>(plan_id, raw_name, source_year)</code>.</li>
+<li><code>broker_match</code> — the single source of truth for resolution: <code>confidence</code>, <code>method</code>, and a
+  <code>state</code> machine (<code>auto</code> / <code>pending_review</code> / <code>confirmed</code> / <code>rejected</code>).</li>
+<li><code>broker_account_rel</code> — materialized employer&lt;-&gt;incumbent-broker edge for the directory,
+  carrying <code>source_year</code> so "incumbent as of 2023 filing" is shown honestly.</li>
+<li><code>contacts_upload</code> + <code>contacts</code> — the user's uploaded network, namespaced by
+  <code>owner_user_id</code>, with stored consent text and one-click batch purge.</li>
+<li><code>contact_match</code> + <code>company_contacts</code> + <code>warm_paths</code> — resolved network edges and the
+  precomputed per-user warm paths the Radar badges read.</li>
+</ul>
+<p><strong>Entity resolution</strong> is deterministic (no ML): normalize -&gt; block on shared keys -&gt; additive
+confidence score -&gt; state machine (&gt;=0.85 auto, 0.55-0.85 human-review, &lt;0.55 new provisional
+identity; NPN is the gold auto-confirm key). Member signup runs the same scorer at a higher
+bar with an "Is this you?" self-claim. A <code>merge_identities(keep, drop)</code> primitive makes
+mistakes cheap to fix.</p>
+<p><strong>Warm-intro graph</strong> is two indexed Postgres joins (no graph DB): warm intro is 1st or 2nd
+degree only, routed through Renata members. Precomputed into <code>warm_paths</code> so the Radar can
+badge "you have a way in" instantly.</p>
+<p><strong>Contact ingest</strong> is NOT a <code>SourceAgent</code> (uploads are user-triggered, per-user, PII-bearing,
+never <code>company_id</code>-keyed Signals). Build a parallel <code>ContactIngestor</code> (<code>parse -&gt; normalize -&gt;
+resolve</code>) that heartbeats into <code>source_health</code> under <code>contacts:{upload_id}</code> so observability
+still flows.</p>
+<h2 id="sequencing-new-phase-45-pulled-out-of-phase-6-crm">Sequencing: new Phase 4.5 (pulled out of Phase 6 CRM)</h2>
+<p>The network layer is a <em>conversion driver</em>; CRM sync is a post-sale <em>retention</em> feature.
+Split them. Insert <strong>Phase 4.5 — Network Layer</strong> after Stripe (Phase 4, needs auth+billing
+to be the conversion trigger) and before live DOL ingest (Phase 5) / CRM (Phase 6).</p>
+<p>MVP cut line: <strong>everything buildable from 5500 data already owned, zero new compliance
+surface.</strong></p>
+<p>Ships first (Phase 4.5a):
+1. Brokers tab (incumbent + peer brokers from <code>incumbent_broker</code>).
+2. "Held by {broker}" on every account row.
+3. Competitor's Book view (a broker's accounts filtered + sorted by score).
+4. Member badges + metro member counts.
+5. "Connect my network" as a LOCKED, instrumented teaser with a blurred warm-intro example
+   (validates demand before the hard integration is built; measure tap rate first).</p>
+<p>Comes second (Phase 4.5b, gated on demand + Gate 2 sign-off):
+6. The contact matcher (CSV/email first, LinkedIn export when the flow is ready).
+7. Warm-intro drafts + "Ask Dana to intro first."
+8. The relationship Map view (only once enough edges exist to make it dense).
+9. Member-to-member referral nudges + the book-masking rules.</p>
+<h2 id="top-risks">Top risks</h2>
+<ol>
+<li><strong>Entity-resolution accuracy</strong> (make-or-break): a false warm path kills credibility.
+   Conservative auto-merge (0.85), human-review band, honest degree/source display, cheap
+   merge primitive.</li>
+<li><strong>Uploaded contacts leaking into the saleable directory</strong>: hard data silo by
+   <code>owner_user_id</code>; uploads serve only the uploading user, never merged or sold.</li>
+<li><strong>Enriching non-member entries with scraped/social data</strong>: public-record facts only.</li>
+<li><strong>Predatory competitive-intel framing</strong>: account-centric copy only.</li>
+<li><strong>Empty-network cold start</strong>: the 5500 incumbent map pre-populates every metro, so the
+   graph is never empty; members are a badged overlay on a public base.</li>
+</ol>
+<h2 id="compliance-gate-2-additions">Compliance (Gate 2 additions)</h2>
+<p>Two items need outside counsel before go-live: (a) final TOS / Privacy Policy / upload
+clauses review (the data-silo commitment, third-party deletion, TDPSA/CCPA fit) — this is
+the Gate 2 sign-off, triggered before the first uploaded network or first paying broker; and
+(b) only IF paid third-party data enrichment is later added. The feature ships compliantly on
+public 5500 records + user-owned uploads with zero third-party enrichment, so (b) never
+blocks v1. Member directory listing needs in-flow signup notice + self-serve opt-out.</p></article></body></html>

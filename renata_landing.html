@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renata — see which accounts are in play</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F6F2;--card:#FFFFFF;--ink:#16161F;--ink-soft:#5A5A6E;--line:#E7E5DD;--line-soft:#F0EEE8;
+    --violet:#574FC7;--violet-soft:#EDEBFA;--violet-ink:#332C8A;--teal:#0F7256;--teal-soft:#E2F4ED;
+    --amber:#8A5A0C;--amber-soft:#FAF0DC;--alert:#A6342E;--alert-soft:#FAEAE7;--gold:#B5852E;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;
+    font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+  .voice{font-family:"Newsreader",Georgia,serif;} .mono{font-family:"IBM Plex Mono",monospace;}
+  a{color:var(--violet);text-decoration:none;}
+  .btn{display:inline-block;font-weight:500;font-size:15px;background:var(--violet);color:#fff;border:none;
+    border-radius:11px;padding:13px 22px;cursor:pointer;transition:background .15s;}
+  .btn:hover{background:#473FB0;}
+  .btn.lg{font-size:16px;padding:15px 28px;}
+
+  /* topbar */
+  .top{display:flex;align-items:center;justify-content:space-between;padding:18px 0;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:"Newsreader",serif;font-size:21px;font-weight:500;}
+  .mk{width:30px;height:30px;flex:none;}
+  .pt{animation:breathe 2.8s ease-in-out infinite;transform-box:view-box;transform-origin:73.85px 11.84px;}
+  @keyframes breathe{0%,100%{opacity:.55;}50%{opacity:1;}}
+
+  /* hero */
+  .hero{text-align:center;padding:34px 0 26px;}
+  h1{font-family:"Newsreader",serif;font-weight:500;font-size:38px;line-height:1.12;letter-spacing:-.015em;margin:0 0 14px;}
+  .hero p{font-size:17px;color:var(--ink-soft);max-width:44ch;margin:0 auto 22px;}
+  .free{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--teal);background:var(--teal-soft);
+    padding:5px 12px;border-radius:20px;margin-bottom:18px;}
+
+  /* live dashboard */
+  .dash{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin:8px 0 30px;
+    box-shadow:0 1px 0 rgba(0,0,0,.02);}
+  .status{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:13px 18px;border-bottom:1px solid var(--line-soft);
+    font-size:12.5px;color:var(--ink-soft);}
+  .live{display:inline-flex;align-items:center;gap:6px;color:var(--teal);font-weight:500;}
+  .live .blip{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:blip 1.6s ease-in-out infinite;}
+  @keyframes blip{0%,100%{opacity:1;}50%{opacity:.3;}}
+  .status .sep{color:var(--line);}
+  .status b{color:var(--ink);font-weight:600;}
+  .temp{margin-left:auto;display:inline-flex;align-items:center;gap:8px;}
+  .gauge{width:78px;height:7px;border-radius:4px;background:linear-gradient(90deg,#E2F4ED,#FAF0DC,#FAEAE7);position:relative;}
+  .gauge::after{content:"";position:absolute;top:-2px;width:3px;height:11px;border-radius:2px;background:var(--ink);left:82%;}
+  .hot{color:var(--alert);font-weight:600;}
+
+  table{width:100%;border-collapse:collapse;}
+  thead th{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;
+    text-align:left;padding:10px 18px;background:var(--line-soft);}
+  thead th.r{text-align:right;} thead th.c{text-align:center;}
+  tbody td{padding:13px 18px;border-bottom:1px solid var(--line-soft);font-size:14px;vertical-align:middle;}
+  tbody td.r{text-align:right;} tbody td.c{text-align:center;}
+  .co{font-weight:500;} .sub{font-size:12px;color:var(--ink-soft);}
+  .score{display:inline-block;background:var(--teal-soft);color:var(--teal);border-radius:7px;padding:4px 9px;
+    font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:13px;}
+  .chip{font-size:11px;border-radius:6px;padding:2px 7px;margin-right:4px;white-space:nowrap;}
+  .chip.t{background:var(--amber-soft);color:var(--amber);} .chip.a{background:var(--alert-soft);color:var(--alert);}
+  tr.locked td{position:relative;color:transparent;user-select:none;}
+  tr.locked .co,tr.locked .sub,tr.locked .mono{filter:blur(5px);color:var(--ink);}
+  .lockbar{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px;background:linear-gradient(180deg,rgba(247,246,242,0),var(--paper));
+    margin-top:-46px;position:relative;z-index:2;}
+  .lockbar .txt{font-size:13.5px;color:var(--ink-soft);}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0 34px;}
+  @media(max-width:560px){.steps{grid-template-columns:1fr;}}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px;}
+  .step .n{font-family:"IBM Plex Mono",monospace;color:var(--violet);font-size:12px;}
+  .step b{display:block;margin:6px 0 4px;font-weight:600;}
+  .step span{font-size:13px;color:var(--ink-soft);}
+
+  /* offer + calculator */
+  .section-h{text-align:center;margin:10px 0 6px;}
+  .section-h h2{font-family:"Newsreader",serif;font-weight:500;font-size:27px;margin:0;}
+  .section-h p{color:var(--ink-soft);margin:6px 0 0;}
+  .plans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
+  @media(max-width:560px){.plans{grid-template-columns:1fr;}}
+  .plan{border:1px solid var(--line);border-radius:15px;padding:20px;background:var(--card);}
+  .plan.pick{border-color:var(--violet);box-shadow:0 0 0 3px var(--violet-soft);}
+  .plan .pn{font-size:13px;color:var(--ink-soft);} .plan .pp{font-family:"IBM Plex Mono",monospace;font-size:24px;font-weight:500;margin:4px 0;}
+  .plan .pd{font-size:12.5px;color:var(--ink-soft);}
+  .calc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin:6px 0 14px;}
+  .calc h3{font-family:"Newsreader",serif;font-weight:500;font-size:19px;margin:0 0 14px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:13px;color:var(--ink-soft);margin-bottom:6px;}
+  .field input[type=range]{width:100%;accent-color:var(--violet);}
+  .field .val{font-family:"IBM Plex Mono",monospace;color:var(--ink);font-weight:500;}
+  .result{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft);border-radius:12px;overflow:hidden;margin-top:8px;}
+  .rc{background:var(--card);padding:15px;}
+  .rc .k{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);}
+  .rc .v{font-family:"IBM Plex Mono",monospace;font-size:21px;font-weight:500;margin-top:4px;}
+  .rc .v.good{color:var(--teal);}
+  .verdict{margin-top:12px;background:var(--violet-soft);color:var(--violet-ink);border-radius:11px;padding:13px 15px;font-size:13.5px;}
+  .verdict b{font-weight:600;}
+
+  /* close ticker */
+  .toast{position:fixed;left:18px;bottom:18px;max-width:300px;background:var(--ink);color:#fff;border-radius:13px;
+    padding:13px 15px;display:flex;gap:11px;align-items:center;box-shadow:0 8px 30px rgba(0,0,0,.22);
+    transform:translateY(140%);transition:transform .5s cubic-bezier(.2,.8,.2,1);z-index:50;}
+  .toast.show{transform:translateY(0);}
+  .toast .gv{width:9px;height:9px;border-radius:50%;background:#9CE3CC;flex:none;box-shadow:0 0 0 4px rgba(156,227,204,.18);}
+  .toast .tt{font-size:13px;line-height:1.4;} .toast .tt b{color:#C9C4F2;}
+  .toast .tm{font-size:11px;color:#9C97C7;margin-top:2px;}
+
+  footer{text-align:center;color:var(--ink-soft);font-size:13px;padding:30px 0 50px;}
+  .reduced{display:none;}
+  @media(prefers-reduced-motion:reduce){.pt,.blip{animation:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="brand">
+      <svg class="mk" viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M 70.00 15.36 A 40 40 0 1 1 30.00 15.36" fill="none" stroke="#16161F" stroke-width="4.2" stroke-linecap="round"/>
+        <path d="M 78.56 44.96 A 29 29 0 1 1 59.92 22.75" fill="none" stroke="#16161F" stroke-width="4.8" stroke-linecap="round"/>
+        <path d="M 63.79 61.57 A 18 18 0 1 1 66.91 43.84" fill="none" stroke="#16161F" stroke-width="5.4" stroke-linecap="round"/>
+        <circle cx="73.85" cy="11.84" r="10" fill="#574FC7" fill-opacity="0.16"/>
+        <circle class="pt" cx="73.85" cy="11.84" r="5" fill="#574FC7"/>
+      </svg>
+      Renata
+    </div>
+    <button class="btn" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">Get your Radar</button>
+  </div>
+
+  <div class="hero">
+    <div class="free">● free to look · pay only to unlock</div>
+    <h1>See which companies near you are about to switch benefits brokers.</h1>
+    <p>Renata is the agent that reads every public filing, finds the accounts in play, and writes the outreach. Your job is the one thing she can't do — <span class="voice" style="color:var(--ink);font-style:italic;">the right human touch, at the perfect time.</span></p>
+    <button class="btn lg" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">Show me my Radar →</button>
+  </div>
+
+  <!-- LIVE DASHBOARD -->
+  <div class="dash">
+    <div class="status">
+      <span class="live"><span class="blip"></span>Live</span>
+      <span class="sep">·</span>
+      <span>last refreshed <b id="refreshed">just now</b></span>
+      <span class="sep">·</span>
+      <span><b id="count">1,284</b> accounts in play this week</span>
+      <span class="temp">lead quality <span class="hot">HOT</span><span class="gauge" title="lead temperature"></span></span>
+    </div>
+    <table>
+      <thead><tr><th>Company</th><th>Why it's in play</th><th class="r">Est. spend</th><th class="c">In&nbsp;play</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="co">Hill Country Health</div><div class="sub">Austin · 320 employees</div></td>
+          <td><span class="chip t">renews Jul</span><span class="chip a">22% over peers</span></td>
+          <td class="r mono">$5.1M/yr</td><td class="c"><span class="score">87</span></td>
+        </tr>
+        <tr>
+          <td><div class="co">Lone Star Logistics</div><div class="sub">Round Rock · 140 employees</div></td>
+          <td><span class="chip a">carrier raised rates</span></td>
+          <td class="r mono">$1.7M/yr</td><td class="c"><span class="score">74</span></td>
+        </tr>
+        <tr class="locked">
+          <td><div class="co">Riverside Manufacturing</div><div class="sub">Austin · 210 employees</div></td>
+          <td><span class="chip t">renews Aug</span></td>
+          <td class="r mono">$3.2M/yr</td><td class="c"><span class="score">81</span></td>
+        </tr>
+        <tr class="locked">
+          <td><div class="co">Summit Tech Group</div><div class="sub">Cedar Park · 95 employees</div></td>
+          <td><span class="chip a">just raised funding</span></td>
+          <td class="r mono">$1.1M/yr</td><td class="c"><span class="score">69</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="lockbar">
+      <span class="txt">🔒 <b id="more">38</b> more in-play accounts in your metro</span>
+      <button class="btn" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">Unlock</button>
+    </div>
+  </div>
+
+  <!-- STEPS -->
+  <div class="steps">
+    <div class="step"><div class="n">01</div><b>See the opportunity</b><span>Your metro's in-play accounts, free. Renewal timing, spend, and who the incumbent broker is.</span></div>
+    <div class="step"><div class="n">02</div><b>Unlock the names</b><span>One tap reveals every account and the reasons it's in play — refreshed constantly.</span></div>
+    <div class="step"><div class="n">03</div><b>Renata writes the outreach</b><span>Each account comes with a tailored intro, ready to send.</span></div>
+  </div>
+
+  <!-- THE PROMISE -->
+  <div style="text-align:center;background:var(--ink);color:#fff;border-radius:18px;padding:30px 26px;margin:8px 0 34px;">
+    <div style="font-family:'Newsreader',serif;font-size:24px;line-height:1.4;max-width:30ch;margin:0 auto;">Renata does the finding, the scoring, and the writing. You do the one thing that closes — <span style="color:#C9C4F2;">the human touch, at the perfect time.</span></div>
+  </div>
+
+  <!-- OFFER + CALCULATOR -->
+  <div id="offer">
+    <div class="section-h"><h2>Pick the plan that fits how you sell.</h2><p>One closed account pays for years of either plan. Run your own numbers.</p></div>
+    <div class="plans">
+      <div class="plan" id="planPerf"><div class="pn">Performance</div><div class="pp">$99<span style="font-size:13px;">/mo</span></div><div class="pd">+ $750 per closed win, billed only when you win.</div></div>
+      <div class="plan pick" id="planFlat"><div class="pn">Flat · unlimited wins</div><div class="pp">$399<span style="font-size:13px;">/mo</span></div><div class="pd">For steady closers. No per-win fees, ever.</div></div>
+    </div>
+
+    <div class="calc">
+      <h3>Your break-even, both ways</h3>
+      <div class="field">
+        <label>Average annual commission per account you win — <span class="val" id="vAcct">$30,000</span></label>
+        <input type="range" id="acct" min="10000" max="60000" step="1000" value="30000">
+      </div>
+      <div class="field">
+        <label>Accounts you expect to win per year with Renata — <span class="val" id="vWins">3</span></label>
+        <input type="range" id="wins" min="1" max="12" step="1" value="3">
+      </div>
+      <div class="result">
+        <div class="rc"><div class="k">Performance plan / yr</div><div class="v" id="costPerf">$3,438</div></div>
+        <div class="rc"><div class="k">Flat plan / yr</div><div class="v" id="costFlat">$4,788</div></div>
+        <div class="rc"><div class="k">Value you'd capture</div><div class="v good" id="value">$90,000</div></div>
+        <div class="rc"><div class="k">Return on the tool</div><div class="v good" id="roi">19×</div></div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+      <div style="text-align:center;margin-top:16px;"><button class="btn lg">Start free · unlock my metro</button></div>
+    </div>
+  </div>
+
+  <footer>Renata reads the filings so you don't have to. · Data refreshed continuously from public sources.</footer>
+</div>
+
+<!-- CLOSE TICKER -->
+<div class="toast" id="toast">
+  <span class="gv"></span>
+  <div><div class="tt" id="toastTxt"></div><div class="tm" id="toastTime"></div></div>
+</div>
+
+<script>
+// last-refreshed ticker
+let secs=8;
+setInterval(()=>{secs+=1;const m=Math.floor(secs/60);
+  document.getElementById('refreshed').textContent = m<1?secs+'s ago':(m+' min ago');},1000);
+setInterval(()=>{secs=2;const c=document.getElementById('count');
+  c.textContent=(1280+Math.floor(Math.random()*20)).toLocaleString();},9000);
+
+// break-even calculator
+const acct=document.getElementById('acct'),wins=document.getElementById('wins');
+function money(n){return '$'+Math.round(n).toLocaleString();}
+function calc(){
+  const a=+acct.value,w=+wins.value;
+  document.getElementById('vAcct').textContent=money(a);
+  document.getElementById('vWins').textContent=w;
+  const perf=99*12+750*w, flat=399*12;
+  const value=a*w, cheaper=perf<flat?'Performance':'Flat', best=Math.min(perf,flat);
+  document.getElementById('costPerf').textContent=money(perf);
+  document.getElementById('costFlat').textContent=money(flat);
+  document.getElementById('value').textContent=money(value);
+  document.getElementById('roi').textContent=(value/best).toFixed(0)+'×';
+  document.getElementById('planPerf').classList.toggle('pick',cheaper==='Performance');
+  document.getElementById('planFlat').classList.toggle('pick',cheaper==='Flat');
+  document.getElementById('verdict').innerHTML='At <b>'+w+'</b> win'+(w>1?'s':'')+' a year, the <b>'+cheaper+
+    '</b> plan is cheaper for you — '+money(best)+'/yr against '+money(value)+
+    ' in commission. Renata pays for itself <b>'+(value/best).toFixed(0)+'×</b> over.';
+}
+acct.oninput=calc;wins.oninput=calc;calc();
+
+// close-deal ticker (placeholder data; wire to live closes later)
+const closes=[
+  ['A broker in <b>Dallas</b> just closed a 140-life group','2 min ago'],
+  ['A broker in <b>Austin</b> just unlocked their metro','5 min ago'],
+  ['A broker in <b>Houston</b> just closed an 80-life group','11 min ago'],
+  ['A broker in <b>San Antonio</b> just closed a 220-life group','18 min ago'],
+  ['A broker in <b>Fort Worth</b> just booked 4 renewal meetings','24 min ago']
+];
+let ti=0;const toast=document.getElementById('toast');
+function popToast(){
+  document.getElementById('toastTxt').innerHTML=closes[ti][0];
+  document.getElementById('toastTime').textContent=closes[ti][1];
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),4500);
+  ti=(ti+1)%closes.length;
+}
+setTimeout(popToast,2500);
+setInterval(popToast,11000);
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html><html lang=en><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Contributing · Renata</title><style>
+  :root{--paper:#F7F6F2;--ink:#16161F;--soft:#5A5A6E;--violet:#574FC7;--line:#E7E5DD;--card:#fff;--gold:#B5852E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .bar{position:sticky;top:0;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px}
+  .bar a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:500}
+  .doc{max-width:780px;margin:0 auto;padding:34px 24px 80px}
+  h1{font:600 30px/1.25 Georgia,serif;margin:.2em 0 .5em}
+  h2{font:600 21px/1.3 Georgia,serif;margin:1.7em 0 .5em;border-top:1px solid var(--line);padding-top:1.1em}
+  h3{font:600 16px/1.3 Georgia,serif;margin:1.4em 0 .4em}
+  p,li{color:#26263a}
+  code{background:#ECEAE3;border-radius:4px;padding:.1em .4em;font:13.5px "IBM Plex Mono",ui-monospace,monospace}
+  pre{background:#1C1C28;color:#E7E5F4;border-radius:11px;padding:15px 17px;overflow:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  pre code{background:none;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:#EDEBFA;color:#332C8A;font-weight:600}
+  a{color:var(--violet)}
+  blockquote{border-left:3px solid var(--violet);margin:1em 0;padding:.2em 0 .2em 16px;color:var(--soft)}
+  hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+</style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="contributing">Contributing</h1>
+<p>Working conventions for the Renata codebase. See <code>README.md</code> for the project overview and
+<code>docs/ARCHITECTURE.md</code> for the design.</p>
+<h2 id="development-environment">Development environment</h2>
+<pre><code class="language-bash">make setup            # .venv + requirements
+make demo             # verify the full data chain runs offline
+make test             # run the suite
+</code></pre>
+<p>Python 3.9+ is the target. Note that some modules use PEP 604 union annotations
+(<code>str | None</code>); on 3.9 these require <code>from __future__ import annotations</code> at the top of the
+file. Follow the existing pattern.</p>
+<h2 id="project-layout-and-the-rules-that-matter">Project layout and the rules that matter</h2>
+<ul>
+<li><strong>Scoring is transparent.</strong> Every point in <code>pipeline/score.py</code> maps to a reason code. Do not
+  add a scoring factor without a plain-English reason string.</li>
+<li><strong>One source, one agent.</strong> Adding a data source means a new <code>SourceAgent</code> subclass in
+  <code>agents/sources.py</code> plus one line in <code>REGISTRY</code>. Do not fold source logic into the pipeline.</li>
+<li><strong>Serving is read-only.</strong> Code under <code>api/</code> may only <code>SELECT</code> from the spine tables. The
+  only writes are telemetry to <code>events</code> (and, later, <code>outreach_drafts</code>). New endpoints take
+  the <code>entitlement()</code> dependency for the free/paid gate.</li>
+<li><strong>Numbers come from data, never from the model.</strong> The drafting and (future) proposal
+  generators inject pre-computed, source-tagged values; the LLM writes prose around them.</li>
+<li><strong>Column drift is fixed in one place.</strong> If a 5500 load warns about a missing column, update
+  the mapping in <code>config.py</code> against the DOL File Layout for that year. Required columns fail
+  loud by design; do not relax that.</li>
+</ul>
+<h2 id="database">Database</h2>
+<p>Local development uses SQLite (<code>renata.db</code>, gitignored). Production targets Supabase Postgres
+via <code>DATABASE_URL</code> (direct, for ingest) and <code>DATABASE_URL_POOLED</code> (pooled, for the API). The
+schema in <code>schema.sql</code> is written to apply on both engines.</p>
+<h2 id="tests">Tests</h2>
+<pre><code class="language-bash">make test                       # all API tests
+.venv/bin/python -m pytest tests/api/test_masking.py -q   # a single module
+</code></pre>
+<p>Tests run against a temporary SQLite database seeded from <code>schema.sql</code> (see
+<code>tests/api/conftest.py</code>). Do not weaken a test to make a change pass; fix the change.</p>
+<h2 id="branching-and-commits">Branching and commits</h2>
+<ul>
+<li>Branch off <code>main</code>; do not commit directly to <code>main</code>.</li>
+<li>Keep commits scoped and the message imperative. Run <code>make test</code> before opening a PR.</li>
+<li>The serving layer and the ingest layer are independent; prefer changes that respect that
+  boundary so they can be reviewed and deployed separately.</li>
+</ul>
+<h2 id="secrets">Secrets</h2>
+<p>Never commit secrets. Configuration goes in <code>.env</code> (gitignored); <code>.env.example</code> documents the
+keys. Card data and PHI never touch application logs or the database (see the compliance notes
+in <code>docs/</code>).</p></article></body></html>

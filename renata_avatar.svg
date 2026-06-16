@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Renata avatar">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Newsreader:wght@500&amp;display=swap');
+      .mono { font-family:'Newsreader', Georgia, serif; font-weight:500; }
+    </style>
+    <radialGradient id="g" cx="38%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#6E66D6"/>
+      <stop offset="100%" stop-color="#4B43AE"/>
+    </radialGradient>
+  </defs>
+  <circle cx="80" cy="80" r="80" fill="url(#g)"/>
+  <text class="mono" x="80" y="112" font-size="92" fill="#FFFFFF" text-anchor="middle">R</text>
+</svg>

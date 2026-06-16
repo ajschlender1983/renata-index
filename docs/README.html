@@ -1,0 +1,250 @@
+<!doctype html><html lang=en><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Project overview · Renata</title><style>
+  :root{--paper:#F7F6F2;--ink:#16161F;--soft:#5A5A6E;--violet:#574FC7;--line:#E7E5DD;--card:#fff;--gold:#B5852E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .bar{position:sticky;top:0;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px}
+  .bar a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:500}
+  .doc{max-width:780px;margin:0 auto;padding:34px 24px 80px}
+  h1{font:600 30px/1.25 Georgia,serif;margin:.2em 0 .5em}
+  h2{font:600 21px/1.3 Georgia,serif;margin:1.7em 0 .5em;border-top:1px solid var(--line);padding-top:1.1em}
+  h3{font:600 16px/1.3 Georgia,serif;margin:1.4em 0 .4em}
+  p,li{color:#26263a}
+  code{background:#ECEAE3;border-radius:4px;padding:.1em .4em;font:13.5px "IBM Plex Mono",ui-monospace,monospace}
+  pre{background:#1C1C28;color:#E7E5F4;border-radius:11px;padding:15px 17px;overflow:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  pre code{background:none;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:#EDEBFA;color:#332C8A;font-weight:600}
+  a{color:var(--violet)}
+  blockquote{border-left:3px solid var(--violet);margin:1em 0;padding:.2em 0 .2em 16px;color:var(--soft)}
+  hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+</style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="renata">Renata</h1>
+<p><strong>Renewal intelligence for employee-benefits brokers.</strong> Renata reads public benefits
+filings, fuses them into a per-company <strong>In-Play Score</strong> (which employer groups are about to
+switch brokers), and drafts the outreach. The product persona — the content voice, the
+chatbot, the in-app assistant — is also named Renata. Tagline: <em>the oracle, and the easy
+button.</em></p>
+<blockquote>
+<p><strong>Status:</strong> Phases 0–3 implemented and verified. Python 3.9+. Test suite green (<code>make test</code>).
+<strong>Confidential and proprietary.</strong> Internal handoff document; not for distribution.</p>
+</blockquote>
+<hr />
+<h2 id="what-it-is">What it is</h2>
+<p>The signal that an employer is about to switch benefits brokers already sits in public
+filings, fragmented and ignored. Renata is the agent that fuses it into one transparent score
+and writes the opening, so the broker's only job is the one thing that closes: the right human
+touch at the right time.</p>
+<p>The system is built around a one-directional data flow and a hard rule that <strong>the score
+explains itself</strong> — every point maps to a plain-English reason code.</p>
+<pre><code>dedicated source agents ──▶ signals + source_health ──▶ scoring (In-Play Score)
+        │                                                      │
+   DOL 5500 ingest ──▶ companies + plans ─────────────────────┘
+                                                               ▼
+                                          Renewal Radar generator + serving API
+                                                               ▼
+                                          frontend (landing, dashboard, easy button)
+</code></pre>
+<p>Each external data source has its <strong>own dedicated agent</strong> (<code>agents/</code>) that owns access,
+cadence, retry, normalization, and health. One source failing degrades the score gracefully
+and never takes down the others. System freshness and lead temperature are computed from real
+state (<code>system_temperature()</code>), never faked.</p>
+<hr />
+<h2 id="repository-map">Repository map</h2>
+<pre><code>renata/
+├── api/                  Read-only serving layer (FastAPI) + the drafting engine
+│   ├── main.py           App entry, router registration, dev-unlock seam
+│   ├── deps.py           entitlement() gate (the auth seam) + engine dependency
+│   ├── queries.py        All SQL as parameterized text(); one-plan-per-company CTE
+│   ├── masking.py        The free/paid projection: identity hidden, real values shown
+│   ├── drafting.py       Outreach-sequence generator (template-first, Claude-optional)
+│   ├── models.py         Pydantic response models (+ draft_models.py)
+│   └── routers/          radar · accounts · temperature · drafts
+├── pipeline/             Scoring and orchestration
+│   ├── run_phase0.py     fetch → load → ops report
+│   ├── score.py          The In-Play Score (transparent, rules-based, reason codes)
+│   └── radar.py          The free Renewal Radar generator (the lead magnet)
+├── ingest/               DOL Form 5500 fetch + load (the foundation feed)
+├── agents/               One SourceAgent per source + orchestrator + system_temperature()
+├── frontend/             Prototypes and brand system (HTML/SVG)
+├── docs/                 Architecture, build plans, design and research (see docs/README.md)
+├── tests/                pytest suite (tests/api)
+├── data/                 Synthetic 5500 fixture for the no-download smoke test
+├── schema.sql            All tables (companies, plans, signals, scores, source_health, ...)
+├── config.py             Dataset URLs + the 5500 column mapping (the one thing that drifts)
+├── Makefile              Common tasks (setup, test, api, demo)
+├── pyproject.toml        Project metadata + tooling config
+├── requirements.txt      Pinned runtime dependencies
+└── .env.example          Configuration template (no secrets committed)
+</code></pre>
+<hr />
+<h2 id="quickstart">Quickstart</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Python 3.9 or newer</li>
+<li>No external services required for local development (SQLite + a bundled synthetic fixture)</li>
+</ul>
+<h3 id="setup">Setup</h3>
+<pre><code class="language-bash">make setup            # creates .venv and installs requirements
+# or, manually:
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+</code></pre>
+<h3 id="run-the-data-spine-10-second-smoke-test-no-download">Run the data spine (10-second smoke test, no download)</h3>
+<p>A synthetic 5500 fixture ships in <code>data/2023/</code> so the whole chain runs offline.</p>
+<pre><code class="language-bash">make demo             # schema → ingest → score → agents → radar
+</code></pre>
+<p>This builds <code>renata.db</code>, loads the TX fixture, computes In-Play Scores, runs the source
+agents and the temperature readout, and writes <code>radar.html</code>. Expect 2 TX health plans with
+100% renewal-month and cost-per-head coverage, and a scored account with reason codes.</p>
+<p>Individual steps are also available: <code>make schema</code>, <code>make spine</code>, <code>make score</code>, <code>make agents</code>,
+<code>make radar</code>.</p>
+<h3 id="run-the-serving-api">Run the serving API</h3>
+<pre><code class="language-bash">make api              # uvicorn api.main:app on :8000
+</code></pre>
+<p>The API is read-only over the precomputed tables. Endpoints:
+- <code>GET /v1/radar</code> — ranked, masked Renewal Radar (free preview hides company name + broker)
+- <code>GET /v1/accounts/{id}</code> — full account brief (402 for the locked tier)
+- <code>GET /v1/temperature</code> — public freshness/quality snapshot
+- <code>POST /v1/accounts/{id}/draft</code>, <code>GET /v1/drafts</code>, <code>PATCH /v1/drafts/{id}</code> — the easy button</p>
+<p>For a local demo of the paid features without auth, set <code>RENATA_DEV_UNLOCK=1</code>:</p>
+<pre><code class="language-bash">RENATA_DEV_UNLOCK=1 make api
+</code></pre>
+<h3 id="run-the-tests">Run the tests</h3>
+<pre><code class="language-bash">make test             # pytest tests/api
+</code></pre>
+<hr />
+<h2 id="configuration">Configuration</h2>
+<p>Copy <code>.env.example</code> to <code>.env</code>. No secrets are committed.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DATABASE_URL</code></td>
+<td>Postgres (Supabase) <strong>direct</strong> connection for the batch loader. Blank ⇒ local SQLite.</td>
+</tr>
+<tr>
+<td><code>DATABASE_URL_POOLED</code></td>
+<td>Postgres <strong>pooled</strong> (PgBouncer) connection for the serving API. Falls back to <code>DATABASE_URL</code>.</td>
+</tr>
+<tr>
+<td><code>RENATA_DATA_DIR</code></td>
+<td>Where downloaded DOL datasets are extracted.</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_API_KEY</code></td>
+<td>Optional. Enables the Claude drafting path; the template path runs without it.</td>
+</tr>
+<tr>
+<td><code>RENATA_DRAFT_MODEL</code></td>
+<td>Drafting model id (default <code>claude-opus-4-8</code>).</td>
+</tr>
+<tr>
+<td><code>SUPABASE_JWT_SECRET</code></td>
+<td>Auth seam (planned).</td>
+</tr>
+<tr>
+<td><code>STRIPE_SECRET_KEY</code>, <code>STRIPE_WEBHOOK_SECRET</code></td>
+<td>Billing (planned).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="project-status-and-roadmap">Project status and roadmap</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Scope</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Data spine: DOL 5500 ingest, <code>companies</code> + <code>plans</code>, derived renewal month + cost/head</td>
+<td><strong>Done</strong></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Scoring: the transparent In-Play Score with reason codes; dedicated agents + health/temperature</td>
+<td><strong>Done</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Read-only serving API: masked Radar, account brief, public temperature</td>
+<td><strong>Done, verified</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>The easy button: drafted intro + multi-touch follow-up sequence, approve/edit</td>
+<td><strong>Done, verified</strong></td>
+</tr>
+<tr>
+<td>1-remainder</td>
+<td>SQLite → Supabase Postgres cutover</td>
+<td>Pending <code>DATABASE_URL</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Auth (magic link) + Stripe billing</td>
+<td>Planned</td>
+</tr>
+<tr>
+<td>4.5</td>
+<td>Native network layer (directory, Competitor's Book, warm intros) + auto-generated broker proposal</td>
+<td>Designed (see <code>docs/</code>)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Live DOL ingest in production (hot-swapped under the serving API)</td>
+<td>Planned</td>
+</tr>
+<tr>
+<td>6</td>
+<td>CRM integration</td>
+<td>Planned</td>
+</tr>
+</tbody>
+</table>
+<p>The full plan, every locked decision, and the design work for the later phases live in <code>docs/</code>.</p>
+<hr />
+<h2 id="architecture-and-conventions">Architecture and conventions</h2>
+<ul>
+<li><strong>Scoring is transparent on purpose.</strong> Every point maps to a plain-English reason code
+  (<code>pipeline/score.py</code>). Renata has to explain herself; keep it that way.</li>
+<li><strong>Each data source is a dedicated <code>SourceAgent</code></strong> (<code>agents/sources.py</code>) with its own access,
+  cadence, retry, and health. Adding a source is a new subclass plus one line in <code>REGISTRY</code>,
+  never source logic folded into the pipeline.</li>
+<li><strong>Serving stays read-only over precomputed tables.</strong> The API only <code>SELECT</code>s; the only writes
+  are telemetry to <code>events</code>. This is what lets live ingest hot-swap under a stable API later.</li>
+<li><strong>Column drift lives in one place</strong> (<code>config.py</code>). The 5500 column names are the one thing
+  that shifts between filing years; the loader fails loud on a missing required column rather
+  than silently loading nulls.</li>
+<li><strong>The masking mechanic</strong> (<code>api/masking.py</code>) hides identity (company name, incumbent broker)
+  and always returns the real value (score, spend, reason codes). It is one server-side code
+  path; the free row cap and the mask are never enforced on the client.</li>
+</ul>
+<p>See <code>docs/ARCHITECTURE.md</code> for the infrastructure design and <code>CLAUDE.md</code> for working
+conventions.</p>
+<hr />
+<h2 id="compliance-guardrails-regulated-domain-do-not-cross">Compliance guardrails (regulated domain — do not cross)</h2>
+<ul>
+<li>DOL 5500, WARN, and SEC Form D are public; SERFF rate-filing access varies by state (start
+  with the open states, do not overpromise nationwide).</li>
+<li>Outreach is <strong>drafted and human-sent, never bulk-automated.</strong> There is no system send path.</li>
+<li>Renata runs transparently as an AI analyst paired with a real human face, never a fabricated
+  person. See <code>docs/GTM_LINKEDIN_PLAYBOOK.md</code> and <code>docs/PROPOSAL_GENERATION.md</code> for the full
+  posture and the items flagged for outside counsel.</li>
+</ul>
+<hr />
+<h2 id="documentation">Documentation</h2>
+<p>Start with <code>docs/README.md</code> for the full index and a suggested reading order. Highlights:
+<code>docs/ARCHITECTURE.md</code>, <code>docs/PRODUCT_LAYER_PLAN.md</code>, <code>docs/PHASE2_API_BLUEPRINT.md</code>,
+<code>docs/NETWORK_LAYER_PLAN.md</code>, <code>docs/PROPOSAL_GENERATION.md</code>.</p>
+<h2 id="license">License</h2>
+<p>Proprietary and confidential. All rights reserved. Internal use only.</p></article></body></html>

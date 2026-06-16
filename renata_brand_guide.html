@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renata — Identity System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F6F2;--card:#FFFFFF;--ink:#16161F;--ink-soft:#5A5A6E;
+    --gold:#B5852E;--gold-soft:#EFE2C4;
+    --line:#E7E5DD;--line-soft:#F0EEE8;
+    --violet:#574FC7;--violet-soft:#EDEBFA;--violet-ink:#332C8A;
+    --teal:#0F7256;--teal-soft:#E2F4ED;
+    --amber:#8A5A0C;--amber-soft:#FAF0DC;--alert:#A6342E;--alert-soft:#FAEAE7;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:780px;margin:0 auto;padding:40px 22px 72px;}
+  .voice{font-family:"Newsreader",Georgia,serif;}
+  .mono{font-family:"IBM Plex Mono",monospace;}
+  .dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--violet);
+    box-shadow:0 0 0 5px var(--violet-soft);vertical-align:middle;}
+
+  /* hero */
+  header{border-bottom:1px solid var(--line);padding-bottom:34px;margin-bottom:8px;}
+  .wm{font-family:"Newsreader",serif;font-weight:500;font-size:46px;letter-spacing:.01em;
+    display:flex;align-items:center;gap:16px;}
+  .meaning{font-family:"Newsreader",serif;font-style:italic;font-size:20px;color:var(--violet-ink);margin-top:14px;}
+  .essence{font-size:16px;color:var(--ink-soft);margin-top:10px;max-width:48ch;}
+
+  section{padding:36px 0;border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--violet);margin-bottom:14px;}
+  h2{font-family:"Newsreader",serif;font-weight:500;font-size:26px;letter-spacing:-.01em;margin:0 0 6px;}
+  h2 + p{color:var(--ink-soft);margin-top:0;max-width:54ch;}
+  p{margin:0 0 14px;}
+
+  /* signature callout */
+  .sig{background:var(--ink);color:#fff;border-radius:18px;padding:30px 28px;margin-top:8px;}
+  .sig .a{font-family:"Newsreader",serif;font-size:23px;line-height:1.4;}
+  .sig .a b{color:#C9C4F2;font-weight:500;}
+  .sig .demo{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+  .sig .pill{font-size:13px;padding:8px 13px;border-radius:9px;}
+  .sig .pill.s{background:#2A2A40;color:#fff;font-family:"Newsreader",serif;font-style:italic;}
+  .sig .pill.d{background:#2A2A40;color:#9CE3CC;font-family:"IBM Plex Mono",monospace;}
+
+  /* palette */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:18px;}
+  .sw{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);}
+  .sw .chip{height:62px;}
+  .sw .meta{padding:10px 12px;}
+  .sw .nm{font-size:13px;font-weight:500;}
+  .sw .hx{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);}
+  .sw .role{font-size:11px;color:var(--ink-soft);margin-top:3px;}
+
+  /* type */
+  .face{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:18px 20px;margin-top:12px;}
+  .face .lab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);}
+  .face .spec{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+  .face .samp{margin-top:12px;}
+
+  /* mark */
+  .marks{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:16px;}
+  .markbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;text-align:center;}
+  .av{width:84px;height:84px;border-radius:50%;background:radial-gradient(120% 120% at 38% 30%,#6E66D6,#4B43AE);
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:"Newsreader",serif;font-size:48px;margin:0 auto;}
+  .note{background:var(--amber-soft);border-radius:12px;padding:14px 16px;margin-top:18px;
+    font-size:13.5px;color:#5A3C08;}
+  .note b{color:#3F2B06;}
+
+  /* voice principles */
+  .princ{display:grid;gap:10px;margin-top:16px;}
+  .princ .pr{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:14px 16px;}
+  .princ .pr b{font-weight:600;}
+  .princ .pr span{color:var(--ink-soft);}
+
+  .dd{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+  @media(max-width:560px){.dd{grid-template-columns:1fr;}}
+  .col{border-radius:12px;padding:16px;}
+  .col.do{background:var(--teal-soft);}
+  .col.dont{background:var(--alert-soft);}
+  .col h4{margin:0 0 10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;}
+  .col.do h4{color:var(--teal);}.col.dont h4{color:var(--alert);}
+  .col ul{margin:0;padding-left:0;list-style:none;}
+  .col li{font-size:13.5px;line-height:1.5;margin-bottom:9px;padding-left:18px;position:relative;}
+  .col li::before{position:absolute;left:0;top:0;}
+  .col.do li::before{content:"✓";color:var(--teal);}
+  .col.dont li::before{content:"✕";color:var(--alert);}
+
+  /* linkedin posts */
+  .post{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:14px;}
+  .post .ph{display:flex;align-items:center;gap:11px;margin-bottom:13px;}
+  .post .pav{width:38px;height:38px;border-radius:50%;background:radial-gradient(120% 120% at 38% 30%,#6E66D6,#4B43AE);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Newsreader",serif;font-size:20px;}
+  .post .pn{font-size:14px;font-weight:600;}
+  .post .pm{font-size:11.5px;color:var(--ink-soft);}
+  .post .pt{font-family:"Newsreader",serif;font-size:16px;line-height:1.6;color:var(--ink);}
+  .post .kind{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--violet);margin-bottom:6px;}
+
+  footer{padding-top:30px;font-size:13px;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="wm"><svg width="26" height="26" viewBox="0 0 100 100" style="margin-right:9px;vertical-align:-5px" aria-hidden="true"><path d="M 70 15.36 A 40 40 0 1 1 30 15.36" fill="none" stroke="#16161F" stroke-width="4.2" stroke-linecap="round"/><path d="M 78.56 44.96 A 29 29 0 1 1 59.92 22.75" fill="none" stroke="#16161F" stroke-width="4.8" stroke-linecap="round"/><path d="M 63.79 61.57 A 18 18 0 1 1 66.91 43.84" fill="none" stroke="#16161F" stroke-width="5.4" stroke-linecap="round"/><circle cx="73.85" cy="11.84" r="10" fill="#574FC7" fill-opacity="0.16"/><circle cx="73.85" cy="11.84" r="5" fill="#574FC7"/></svg>Renata</div>
+    <div class="meaning">renata · Latin · "reborn, renewed"</div>
+    <div class="essence">The analyst who reads every public filing in the country, so a broker doesn't have to — and tells them which accounts are about to be in play.</div>
+  </header>
+
+  <section>
+    <div class="eyebrow">The signature</div>
+    <h2>Renata speaks in serif. The system speaks in sans.</h2>
+    <p>One typographic move carries the whole identity. Renata's words — her insights, her drafts, her nudges — are set in a warm editorial serif. The data she works with — scores, dollars, dates — stays in clean mono and sans. It makes her read as a <em>presence with a voice</em>, never a chatbot bolted onto a dashboard.</p>
+    <div class="sig">
+      <div class="a">"They're <b>overpaying about 22%</b>, and their carrier just filed an increase. Good time to call."</div>
+      <div class="demo">
+        <span class="pill s">Renata's voice — serif</span>
+        <span class="pill d">$16,000 / head · renews JUL</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Color</div>
+    <h2>Violet is Renata. Spend it on her presence.</h2>
+    <p>Paper, not cold white. Violet means Renata is here or acting — used sparingly, it stays meaningful. Teal is opportunity, amber is timing, red is urgency. The signal colors are the language of the In-Play Score.</p>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#574FC7;"></div><div class="meta"><div class="nm">Renata Violet</div><div class="hx">#574FC7</div><div class="role">her presence, primary</div></div></div>
+      <div class="sw"><div class="chip" style="background:#EDEBFA;"></div><div class="meta"><div class="nm">Violet Soft</div><div class="hx">#EDEBFA</div><div class="role">her wash, panels</div></div></div>
+      <div class="sw"><div class="chip" style="background:#0F7256;"></div><div class="meta"><div class="nm">In-Play Teal</div><div class="hx">#0F7256</div><div class="role">opportunity, score</div></div></div>
+      <div class="sw"><div class="chip" style="background:#8A5A0C;"></div><div class="meta"><div class="nm">Signal Amber</div><div class="hx">#8A5A0C</div><div class="role">timing triggers</div></div></div>
+      <div class="sw"><div class="chip" style="background:#A6342E;"></div><div class="meta"><div class="nm">Alert</div><div class="hx">#A6342E</div><div class="role">urgency, overpaying</div></div></div>
+      <div class="sw"><div class="chip" style="background:#1B1B2A;"></div><div class="meta"><div class="nm">Ink</div><div class="hx">#1B1B2A</div><div class="role">text</div></div></div>
+      <div class="sw"><div class="chip" style="background:#F7F6F2;border-bottom:1px solid #E7E5DD;"></div><div class="meta"><div class="nm">Paper</div><div class="hx">#F7F6F2</div><div class="role">background</div></div></div>
+      <div class="sw"><div class="chip" style="background:#5A5A6E;"></div><div class="meta"><div class="nm">Ink Soft</div><div class="hx">#5A5A6E</div><div class="role">secondary text</div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Typography</div>
+    <h2>Three faces, three jobs.</h2>
+    <div class="face">
+      <div class="lab">Newsreader · Renata's voice</div>
+      <div class="spec">Serif. Her messages, drafts, headlines. Warm, editorial, human.</div>
+      <div class="samp voice" style="font-size:24px;">Good time to call — they renew in July.</div>
+    </div>
+    <div class="face">
+      <div class="lab">Inter · the system</div>
+      <div class="spec">Sans. Interface, labels, controls. Quiet and legible.</div>
+      <div class="samp" style="font-size:18px;font-weight:500;">Send as me · Edit · Pause all</div>
+    </div>
+    <div class="face">
+      <div class="lab">IBM Plex Mono · the data</div>
+      <div class="spec">Mono. Scores, money, dates — the analyst signal.</div>
+      <div class="samp mono" style="font-size:18px;">87 · $16,000/head · renews JUL</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">The mark</div>
+    <h2>The Aperture: a lens finding the moment.</h2>
+    <p>The mark is the Aperture. Three concentric sweeps close toward a single lit point, the renewal cycle resolving into the one account that just came into play. The lit violet point means Renata found it. It scales to an app icon and a favicon; the full variant family and the motion states live in the logo system. The monogram stays her avatar.</p>
+    <div class="marks">
+      <div class="markbox"><svg width="64" height="64" viewBox="0 0 100 100" role="img" aria-label="Renata Aperture mark"><path d="M 70 15.36 A 40 40 0 1 1 30 15.36" fill="none" stroke="#16161F" stroke-width="4.2" stroke-linecap="round"/><path d="M 78.56 44.96 A 29 29 0 1 1 59.92 22.75" fill="none" stroke="#16161F" stroke-width="4.8" stroke-linecap="round"/><path d="M 63.79 61.57 A 18 18 0 1 1 66.91 43.84" fill="none" stroke="#16161F" stroke-width="5.4" stroke-linecap="round"/><circle cx="73.85" cy="11.84" r="10" fill="#574FC7" fill-opacity="0.16"/><circle cx="73.85" cy="11.84" r="5" fill="#574FC7"/></svg><div style="font-size:12px;color:var(--ink-soft);margin-top:14px;">the Aperture</div></div>
+      <div class="markbox"><div class="av">R</div><div style="font-size:12px;color:var(--ink-soft);margin-top:12px;">avatar monogram</div></div>
+    </div>
+    <div class="note"><b>On giving Renata a face:</b> she's an AI, and a designed monogram or illustrated character is the honest, durable choice — a fabricated human headshot passed off as a real person invites a trust problem the moment anyone looks closely, especially on LinkedIn. If you want a warmer illustrated portrait later, that's an image-generation pass on top of this system, not a stock photo.</div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Voice & tone</div>
+    <h2>Specific, generous, calm.</h2>
+    <div class="princ">
+      <div class="pr"><b>Speak in specifics.</b> <span>Months, dollars, carriers — never an adjective where a number will do.</span></div>
+      <div class="pr"><b>Generous first, sells last.</b> <span>The insight is the headline. The product is the P.S.</span></div>
+      <div class="pr"><b>Calm authority.</b> <span>No hype, no urgency theater, no emoji clutter. She knows things.</span></div>
+      <div class="pr"><b>Show the work.</b> <span>Always say why an account is in play. Legibility is how she earns trust.</span></div>
+    </div>
+    <div class="dd">
+      <div class="col do">
+        <h4>Sounds like Renata</h4>
+        <ul>
+          <li>"Renews in July, paying 22% over comparable Austin employers."</li>
+          <li>"I drafted the intro. Send as you, or edit first."</li>
+          <li>"You closed three last quarter — switch to flat and save $1,350."</li>
+        </ul>
+      </div>
+      <div class="col dont">
+        <h4>Never Renata</h4>
+        <ul>
+          <li>"🔥 HOT LEAD you can't afford to miss!!"</li>
+          <li>"Leverage our AI-powered synergistic platform."</li>
+          <li>Data in serif, or her voice in mono. Keep the lanes.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-bottom:none;">
+    <div class="eyebrow">Renata on LinkedIn</div>
+    <h2>Value in the open, the ask in the P.S.</h2>
+    <p>Her feed teaches brokers something true every week — a win story, a market alert, a seasonal play. She never leads with the product; the specificity is the proof, and the product is the quiet next step.</p>
+
+    <div class="post">
+      <div class="ph"><div class="pav">R</div><div><div class="pn">Renata</div><div class="pm">Benefits intelligence · reads the filings so you don't</div></div></div>
+      <div class="kind">use-case story</div>
+      <div class="pt">A broker asked me to look at a 140-life group she'd circled for a year. The filing told it in 30 seconds: renewing in July, 22% above comparable Austin employers, carrier just filed a double-digit increase. One email, all three facts. Meeting booked the next day. The data was public the whole time — it just took reading 800,000 filings to find the one that mattered.</div>
+    </div>
+
+    <div class="post">
+      <div class="ph"><div class="pav">R</div><div><div class="pn">Renata</div><div class="pm">Benefits intelligence · reads the filings so you don't</div></div></div>
+      <div class="kind">market alert</div>
+      <div class="pt">Three carriers filed double-digit increases in Texas this quarter. If your mid-market clients are on one of them, they'll feel it at renewal. The brokers who open that conversation early keep the account. The ones who wait get shopped. Here are the renewal months most exposed →</div>
+    </div>
+
+    <div class="post">
+      <div class="ph"><div class="pav">R</div><div><div class="pn">Renata</div><div class="pm">Benefits intelligence · reads the filings so you don't</div></div></div>
+      <div class="kind">seasonal intel</div>
+      <div class="pt">18% of Texas mid-market groups renew in Q3. That's a prospecting calendar hiding in public filings. A short playbook for working a renewal window before your competition knows it's open →</div>
+    </div>
+  </section>
+
+  <footer>Renata identity system · v1 · violet is hers, spend it on her presence.</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!doctype html><html lang=en><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Product-layer build plan · Renata</title><style>
+  :root{--paper:#F7F6F2;--ink:#16161F;--soft:#5A5A6E;--violet:#574FC7;--line:#E7E5DD;--card:#fff;--gold:#B5852E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .bar{position:sticky;top:0;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px}
+  .bar a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:500}
+  .doc{max-width:780px;margin:0 auto;padding:34px 24px 80px}
+  h1{font:600 30px/1.25 Georgia,serif;margin:.2em 0 .5em}
+  h2{font:600 21px/1.3 Georgia,serif;margin:1.7em 0 .5em;border-top:1px solid var(--line);padding-top:1.1em}
+  h3{font:600 16px/1.3 Georgia,serif;margin:1.4em 0 .4em}
+  p,li{color:#26263a}
+  code{background:#ECEAE3;border-radius:4px;padding:.1em .4em;font:13.5px "IBM Plex Mono",ui-monospace,monospace}
+  pre{background:#1C1C28;color:#E7E5F4;border-radius:11px;padding:15px 17px;overflow:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  pre code{background:none;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:#EDEBFA;color:#332C8A;font-weight:600}
+  a{color:var(--violet)}
+  blockquote{border-left:3px solid var(--violet);margin:1em 0;padding:.2em 0 .2em 16px;color:var(--soft)}
+  hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+</style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="renata-product-layer-plan">Renata — Product Layer Plan</h1>
+<p>Sequencing the product layer onto the finished data spine. Produced via a four-expert
+strategic-resolve session (CTO, PM, COO, Legal) on 2026-06-13. This is the build order
+of record; the operating model and gates live in BUILD_PLAN.md, the infra design in
+ARCHITECTURE.md.</p>
+<h2 id="the-core-insight">The core insight</h2>
+<p>The SQLite -&gt; Postgres port is not part of "live DOL ingest." It is the substrate every
+other track sits on, so it is pulled out as <strong>Phase 1 (Track 0)</strong>. Once it lands, the
+read path (serving API) and the write path (ingest) are independent and build in parallel,
+because serving is read-only over precomputed tables. That rule also means <strong>live data
+hot-swaps under a stable API</strong> — so live DOL ingest never blocks launch.</p>
+<h2 id="decisions-locked-owner-sign-off">Decisions locked (owner sign-off)</h2>
+<ul>
+<li><strong>Pricing (Gate 3):</strong> one Stripe product, two prices shown side by side — a higher
+  month-to-month rate and <strong>$399/mo when billed annually</strong> (the transparent "good deal").
+  No per-win billing at launch; no win-detection infra required.</li>
+<li><strong>CRM integration:</strong> ships as a product <em>feature</em> (sync accounts/scores/drafts into the
+  broker's CRM, read back stage changes), sequenced post-launch (Phase 6). The sync is what
+  later enables an <em>optional, opt-in</em> success/performance add-on. CRM/win-detection is
+  never a gate to paying.</li>
+<li><strong>Live DOL ingest:</strong> runs as a parallel feature, never a launch gate.</li>
+<li><strong>The in-app easy button is the headline wow:</strong> leads surface, a drafted message and a
+  full multi-touch follow-up sequence wait for approve/edit. Elevated ahead of billing in
+  the sequence so it can be demoed and hand-sold while Stripe is wired around it.</li>
+<li><strong>Build context:</strong> solo founder, Cursor, Austin/TX beachhead.</li>
+</ul>
+<h2 id="phases">Phases</h2>
+<ol>
+<li><strong>Postgres substrate + hardening</strong> — port <code>get_engine</code> to Supabase, run schema, fix the
+   four latent bugs, full chain green. <em>(Code-level hardening DONE 2026-06-13; the live
+   Supabase port is pending the owner's DATABASE_URL.)</em></li>
+<li><strong>Serving API</strong> — FastAPI, read-only: <code>GET /v1/radar</code> (ranked, metro/band filtered),
+   <code>GET /v1/accounts/{id}</code> (reason codes; 402 for free tier), <code>GET /v1/temperature</code>
+   (public, the honest "live" proof). Masking is a server-side projection: real
+   score/spend/reasons always returned, only the company name + incumbent broker hidden.
+   One <code>entitlement()</code> dependency gates everything; returns <code>unlocked=False</code> until auth exists.
+   Build blueprint (file tree, endpoints, SQL, tests) in PHASE2_API_BLUEPRINT.md.</li>
+<li><strong>Easy button + magic-link auth</strong> (the wow) — lead list -&gt; account view -&gt; reason chips
+   -&gt; Claude-drafted intro + drafted follow-up sequence -&gt; approve/edit. "Send as me" opens
+   the mail client and logs a human action; no system send path exists.
+   <em>Easy-button BUILT 2026-06-15:</em> drafting engine (<code>api/drafting.py</code>, template-first +
+   Claude-optional via <code>RENATA_DRAFT_MODEL</code>, default claude-opus-4-8), draft endpoints
+   (<code>POST /v1/accounts/{id}/draft</code>, <code>GET /v1/drafts</code>, <code>PATCH /v1/drafts/{id}</code>), the
+   <code>frontend/renata_app.html</code> UI, and <code>outreach_drafts</code> persistence. Gated to the unlocked
+   tier; <code>RENATA_DEV_UNLOCK=1</code> demoes it before auth. 19/19 tests green; verified live.
+   Remaining: real magic-link auth (needs Supabase) wires into the same <code>entitlement()</code> seam.</li>
+<li><strong>Stripe billing</strong> — Checkout + Customer Portal, webhook flips <code>users.plan_tier</code>. Smart
+   Retries dunning, card-required trial. Gated by Gate 3 + the Gate 2 compliance checklist.
+4.5. <strong>Network layer</strong> (the directory + "Connect my network") — pulled out of the old
+   Phase 6 because it is a <em>conversion driver</em>, not a post-sale feature. Needs auth+billing
+   to be the conversion trigger. Full design in NETWORK_LAYER_PLAN.md. Paywall = Option B
+   (connect free, pay to unlock the intelligence; reuses the existing entitlement() mask).
+   MVP = everything from 5500 data already owned (Brokers tab, "Held by {broker}",
+   Competitor's Book, member badges, Connect-my-network as a locked instrumented teaser);
+   the contact matcher + warm intros come second. LinkedIn: NO scraping — OIDC for identity,
+   user-uploaded own Connections.csv + email/CRM import for the network.</li>
+<li><strong>Live DOL ingest</strong> (parallel from day one) — manifest/ETag skip, staging-then-promote
+   with null-rate validation, per-source cron worker; hot-swapped under the running API.</li>
+<li><strong>CRM integration</strong> — post-sale sync (accounts/scores/drafts into the broker's CRM, read
+   back stages); the sync later enables an optional success add-on. Separate decision.</li>
+</ol>
+<p>Running alongside: the <strong>compliance checklist</strong> (Gate 2, gates Phase 4 go-live; two items
+need outside counsel — SERFF open-states resale TOS, and a TX insurance-data check) and
+<strong><code>pipeline/dossier.py</code></strong> (the Monday-noon dossier + Gate 6 one-tap approve).</p>
+<h2 id="phase-1-hardening-done-2026-06-13">Phase 1 hardening — done 2026-06-13</h2>
+<p>All verified on SQLite (the local-dev fallback); the live Supabase port awaits DATABASE_URL.</p>
+<ul>
+<li><strong>Postgres-ready engine</strong> (<code>ingest/load_5500.py</code> <code>get_engine</code>): detects Postgres, sets
+  <code>pool_pre_ping=True</code>; <code>role="serving"</code> prefers <code>DATABASE_URL_POOLED</code> (PgBouncer pooled
+  port) and <code>role="ingest"</code> uses <code>DATABASE_URL</code> (direct port), each falling back to the other.</li>
+<li><strong>Column-drift fail-loud</strong> (<code>config.py</code> <code>MAIN_REQUIRED</code>/<code>SCH_A_REQUIRED</code> + <code>_require</code>):
+  a missing <em>required</em> column raises <code>ColumnDriftError</code>, aborts the load, and records
+  <code>source_health.ok=0</code> (verified) instead of silently loading null premiums.</li>
+<li><strong>Idempotent signal writes</strong> (<code>agents/base_agent.py</code> <code>_write</code> + <code>uq_signals_natural</code>
+  unique index): <code>ON CONFLICT DO NOTHING</code> on <code>(company_id, type, source, observed_at)</code>.
+  Verified: 3 identical writes -&gt; 1 row.</li>
+<li><strong>Postgres-safe <code>freshness_hours</code></strong>: handles datetime-vs-string and naive timestamps.</li>
+<li><strong>Serving indexes</strong>: <code>idx_scores_score</code>, <code>idx_companies_state_band</code>.</li>
+</ul>
+<h2 id="remaining-phase-1-needs-owners-supabase-database_url">Remaining Phase 1 (needs owner's Supabase DATABASE_URL)</h2>
+<ul>
+<li>Run <code>schema.sql</code> on Supabase; migrate <code>scores.reason_codes</code> TEXT -&gt; JSONB and timestamps
+  -&gt; TIMESTAMPTZ during the port.</li>
+<li>Grant the API role SELECT-only on <code>companies</code>/<code>plans</code>/<code>signals</code>/<code>scores</code> (write only to
+  <code>events</code>/<code>outreach_drafts</code>) so the read/write wall is enforced by the database.</li>
+<li>Re-run the full chain against Postgres; load-test the API against the <em>pooled</em> endpoint.</li>
+</ul>
+<h2 id="known-scaling-cliff-post-beachhead">Known scaling cliff (post-beachhead)</h2>
+<p><code>load_schedule_a</code> loads all of Schedule A into one DataFrame and <code>load()</code> uses
+<code>.iterrows()</code> — fine for TX, fails nationwide. Push the main&lt;-&gt;Schedule-A join into the
+database before going national.</p></article></body></html>

@@ -1,0 +1,138 @@
+<!doctype html><html lang=en><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Auto-generated proposal · Renata</title><style>
+  :root{--paper:#F7F6F2;--ink:#16161F;--soft:#5A5A6E;--violet:#574FC7;--line:#E7E5DD;--card:#fff;--gold:#B5852E}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .bar{position:sticky;top:0;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px}
+  .bar a{color:var(--violet);text-decoration:none;font-size:13px;font-weight:500}
+  .doc{max-width:780px;margin:0 auto;padding:34px 24px 80px}
+  h1{font:600 30px/1.25 Georgia,serif;margin:.2em 0 .5em}
+  h2{font:600 21px/1.3 Georgia,serif;margin:1.7em 0 .5em;border-top:1px solid var(--line);padding-top:1.1em}
+  h3{font:600 16px/1.3 Georgia,serif;margin:1.4em 0 .4em}
+  p,li{color:#26263a}
+  code{background:#ECEAE3;border-radius:4px;padding:.1em .4em;font:13.5px "IBM Plex Mono",ui-monospace,monospace}
+  pre{background:#1C1C28;color:#E7E5F4;border-radius:11px;padding:15px 17px;overflow:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  pre code{background:none;color:inherit;padding:0}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  th{background:#EDEBFA;color:#332C8A;font-weight:600}
+  a{color:var(--violet)}
+  blockquote{border-left:3px solid var(--violet);margin:1em 0;padding:.2em 0 .2em 16px;color:var(--soft)}
+  hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+</style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="renata-auto-generated-broker-proposal-assessment-design">Renata — Auto-Generated Broker Proposal (assessment + design)</h1>
+<p>Strategic-resolve session (benefits-broker SME, B2B proposal strategist, CTO/data, E&amp;O
+counsel) on 2026-06-15, grounded in web research on industry-standard broker proposals.
+Question: can Renata auto-generate a professional-equivalent broker proposal from the data
+it already captures?</p>
+<h2 id="what-an-industry-standard-broker-proposal-contains">What an industry-standard broker proposal contains</h2>
+<p>A complete benefits-broker proposal runs ~10 sections: (1) client background &amp; pain points,
+(2) broker firm overview, (3) account team, (4) services (renewal strategy, carrier
+negotiation, enrollment, ACA/ERISA/COBRA compliance, benchmarking), (5) technology/ben-admin,
+(6) compliance &amp; fiduciary, (7) communication/education, (8) <strong>data analytics &amp; cost control</strong>
+(the dimension where brokers differ most), (9) fees/compensation disclosure, (10) references/
+case studies. Employers evaluate on ~8 areas and reward measurable differentiation and a
+side-by-side vs the incumbent, not generic service lists.
+Sources: Taylor Benefits RFP template; SHRM "Ultimate Guide to Hiring a Benefits Broker";
+Griffin/HUB RFP-process guides.</p>
+<h2 id="the-core-reframe-two-artifacts-not-one">The core reframe: two artifacts, not one</h2>
+<p>The SME and the CTO independently landed on the same split:</p>
+<ul>
+<li><strong>Artifact A — the prospecting "Switch Analysis"</strong> (pre-engagement). Its job is to win the
+  meeting and the Agent-of-Record (AOR/BOR) letter, not to close on paper. Built from public
+  5500 + a one-time broker profile. No prospect-private data. This is the artifact that pries
+  an account loose from an incumbent at renewal.</li>
+<li><strong>Artifact B — the marketed proposal</strong> (post-engagement). Firm carrier quotes, plan-design
+  side-by-side, net-cost delta. Closes the account. Requires the broker to upload the
+  prospect's plan summary/SBC, census, and the carrier quotes they get back.</li>
+</ul>
+<p>A earns the meeting; the upload happens in/after it; B closes. Two stages of one funnel.</p>
+<h2 id="efficacy-verdict-strong-yes-conditional">Efficacy verdict (strong yes, conditional)</h2>
+<p>A named, data-driven current-state diagnosis (their actual carrier, spend, cost-per-head,
+overpayment vs peers, renewal clock) materially out-converts a generic capabilities proposal.
+The mechanism is defeating <strong>status-quo bias</strong> (inertia, not the incumbent, is the real
+enemy), via a pattern interrupt ("how do they know this?") plus loss-aversion with a deadline.
+This is a <strong>diagnostic prospecting artifact</strong> (a personalized Challenger commercial insight),
+not an RFP-style proposal.</p>
+<p>Structure for the win (invert the standard order): lead with the <strong>Diagnosis</strong> (the money
+page: carrier, spend, cost/head, peer benchmark, renewal clock, source footer), then the
+cost-and-window page, then the approach (a hypothesis, not a service menu), then compressed
+proof (firm + 2-3 relevant references), then one ask. Cut compliance/tech/comms detail to an
+appendix. <strong>Never put a fee schedule on a prospecting artifact</strong> (invites price comparison
+before there is a problem to solve).</p>
+<h2 id="can-renatas-data-auto-generate-a-professional-equivalent-yes-for-artifact-a">Can Renata's data auto-generate a professional equivalent? YES, for Artifact A.</h2>
+<p>Field-level map of the 10 sections:
+- <strong>Sections 2,3,4,5,7,9,10</strong> (firm, team, services, tech, comms, fees, references) = 100%
+  <strong>broker profile</strong>, captured once at onboarding, reused on every proposal.
+- <strong>Section 1</strong> (client background + pain) + the <strong>spend/benchmark half of Section 8</strong> = 100%
+  <strong>Renata data</strong>: <code>companies.name/state/metro/naics/employee_band</code>, <code>plans.carrier/
+  incumbent_broker/total_premium/participants/cost_per_head/renewal_month</code>,
+  <code>scores.reason_codes</code>, <code>peer_medians()</code>, <code>signals.type='rate_filing'</code>.
+- <strong>Section 6</strong> = profile + Renata's factual garnish (it read the prospect's own filing).
+- <strong>The only true gap</strong> is the back half of Section 8: plan design (deductibles/copays/
+  network/formulary), employee census (age/sex/dependents/zip), claims/loss-ratio, and live
+  carrier quotes. None of these are in the 5500. And that gap is exactly what a <em>prospecting</em>
+  proposal omits, so Artifact A populates ~9.5 of 10 sections.</p>
+<h3 id="the-one-make-or-break-caveat">The one make-or-break caveat</h3>
+<p>Renata's cost/head is a <strong>premium-per-head from public filings, not a risk-adjusted actuarial
+cost.</strong> A high number can be a deliberately richer plan, not waste. So Artifact A must say
+"you appear above the peer median on a premium basis; the plan-design comparison comes after
+we see your SBC," never "you overpay." That humility is what makes it read as a sharp analyst
+rather than a mail-merge, and it is the funnel hook that drives the upload unlocking Artifact B.</p>
+<h2 id="guardrails-the-discipline-that-is-the-whole-ballgame">Guardrails (the discipline that is the whole ballgame)</h2>
+<ol>
+<li><strong>The savings-claim trap (efficacy + legal both rank #1).</strong> Never promise a number
+   pre-quote. Size the opportunity, source it, attach it to a process, refuse to promise a
+   figure. The refusal builds credibility. Banned phrases in auto-copy: "will save",
+   "guarantee", "we can reduce", "you are overpaying", any bare $/% savings. Mandatory
+   estimate-only disclaimer on every pre-quote proposal.</li>
+<li><strong>Number provenance (no hallucinated figures).</strong> The LLM never emits a number: it gets a
+   pre-computed <code>facts</code> dict and writes prose around injected, source-tagged values
+   (<code>{value, source}</code>); a post-generation validator regexes every numeral and rejects any not
+   in the allowed-facts set; each figure footnotes its origin ("Form 5500, 2023 filing").
+   Reuse the <code>api/drafting.py</code> template-first, Claude-optional pattern.</li>
+<li><strong>Date every figure</strong> ("as of the 2023 filing"). 5500 lags 12-24 months; frame as "what
+   the public record shows," never as current truth. Verify-before-send.</li>
+<li><strong>Human checkpoint is the moat, not friction.</strong> Never auto-send. Renata generates the
+   insight + scaffold; the broker confirms it is not stale and not politically radioactive
+   (the incumbent might be the owner's brother-in-law), adds one line of relationship context,
+   and signs. A pre-send verification checklist with a logged producer attestation is the
+   broker's E&amp;O defense. The broker owns 100% of the risk; "the software wrote it" is not a
+   defense.</li>
+<li><strong>Competitive framing stays account-centric and factual.</strong> Name the incumbent only as a
+   neutral public fact if at all; never characterize their competence/ethics. Route the
+   switch through a voluntary AOR letter at renewal.</li>
+</ol>
+<h2 id="the-cta-offer-ladder">The CTA / offer ladder</h2>
+<p>Win the next step, not the sale on paper: (1) read it (the artifact, zero ask) → (2) a 20-min
+diagnostic call tied to the renewal clock (primary CTA) → (3) <strong>permission to market the case</strong>
+(the genius middle rung: low commitment, high value, and it structurally backfills the census/
+quotes data Renata lacks, flowing the Artifact-B inputs in) → (4) the AOR letter, after market
+results prove the gap.</p>
+<h2 id="build-verdict-sequence">Build verdict &amp; sequence</h2>
+<ul>
+<li><strong>Artifact A → Phase 4.5a</strong> (the network layer). Same animal as the Competitor's Book:
+  public-5500 + profile, a conversion driver, zero new compliance surface, riding the existing
+  auth/entitlement seam and <code>drafting.py</code>. The proposal is the easy button escalated from a
+  message to a document. <strong>Needs:</strong> a <code>broker_profiles</code> table (static sections, onboarding),
+  a <code>benchmarks</code> table (cohort_key, n, p25/p50/p75, source_year), the <strong>medical-only Schedule
+  A filter</strong> (cost/head currently may blend medical+dental+vision+life; filter to health lines
+  before benchmarking or like does not compare to like), and a document template + provenance
+  validator over <code>drafting.py</code>. No new data sources.</li>
+<li><strong>Artifact B → Phase 4.5b</strong>, behind <strong>Gate 2</strong> (census = PII/PHI). Doc-ingest path is a
+  sibling of <code>contacts_upload</code> (owner-scoped, <code>parse → normalize → store</code>): new owner-scoped
+  tables <code>proposal_uploads</code>, <code>plan_designs</code>, <code>census_members</code>, <code>quotes</code>. SBC parse (fixed
+  federal layout + Claude-vision fallback), census column-map, carrier-quote extract with
+  human-verify every number.</li>
+</ul>
+<h2 id="legal-shippable-now-two-counsel-items">Legal: shippable now, two counsel items</h2>
+<p>The pre-quote public-data proposal is shippable with the estimate-only disclaimer + the
+mandatory pre-send verification gate. Two items need outside counsel before Artifact B
+(uploaded data) launches: (1) state insurance-marketing / AOR / replacement rules per operating
+state; (2) HIPAA business-associate posture and BAA architecture once census/claims (PHI) is
+uploaded (Renata becomes a subcontractor business associate; BAAs + Security Rule controls
+required before launch).</p>
+<h2 id="benchmark-engine-notes">Benchmark engine notes</h2>
+<p>Minimum credible today: median cost/head by <code>employee_band</code> (already in <code>peer_medians()</code>),
+quoted as a p25-p75 range with the cohort N shown, framed as premium-per-head. Stronger, in
+order: metro segmentation (<code>companies.metro</code> exists), NAICS (<code>companies.naics</code> exists; watch
+thin cells with a fallback ladder metro+naics+band → metro+band → state+band → band → global,
+suppress below a minimum N), then plan-type (needs the medical-only split + funding type).</p></article></body></html>
