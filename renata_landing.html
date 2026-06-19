@@ -136,7 +136,7 @@
   <div class="hero">
     <div class="free">● free to look · pay only to unlock</div>
     <h1>See which companies near you are about to switch benefits brokers.</h1>
-    <p>Renata is the agent that reads every public filing, finds the accounts in play, and writes the outreach. Your job is the one thing she can't do — <span class="voice" style="color:var(--ink);font-style:italic;">the right human touch, at the perfect time.</span></p>
+    <p>Renata is the agent that reads every public filing, finds the accounts in play, and writes the outreach. Your job is the one thing she can't do: <span class="voice" style="color:var(--ink);font-style:italic;">the right human touch, at the perfect time.</span></p>
     <button class="btn lg" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">Show me my Radar →</button>
   </div>
 
@@ -184,13 +184,13 @@
   <!-- STEPS -->
   <div class="steps">
     <div class="step"><div class="n">01</div><b>See the opportunity</b><span>Your metro's in-play accounts, free. Renewal timing, spend, and who the incumbent broker is.</span></div>
-    <div class="step"><div class="n">02</div><b>Unlock the names</b><span>One tap reveals every account and the reasons it's in play — refreshed constantly.</span></div>
+    <div class="step"><div class="n">02</div><b>Unlock the names</b><span>One tap reveals every account and the reasons it's in play, refreshed constantly.</span></div>
     <div class="step"><div class="n">03</div><b>Renata writes the outreach</b><span>Each account comes with a tailored intro, ready to send.</span></div>
   </div>
 
   <!-- THE PROMISE -->
   <div style="text-align:center;background:var(--ink);color:#fff;border-radius:18px;padding:30px 26px;margin:8px 0 34px;">
-    <div style="font-family:'Newsreader',serif;font-size:24px;line-height:1.4;max-width:30ch;margin:0 auto;">Renata does the finding, the scoring, and the writing. You do the one thing that closes — <span style="color:#C9C4F2;">the human touch, at the perfect time.</span></div>
+    <div style="font-family:'Newsreader',serif;font-size:24px;line-height:1.4;max-width:30ch;margin:0 auto;">Renata does the finding, the scoring, and the writing. You do the one thing that closes: <span style="color:#C9C4F2;">the human touch, at the perfect time.</span></div>
   </div>
 
   <!-- OFFER + CALCULATOR -->
@@ -204,11 +204,11 @@
     <div class="calc">
       <h3>Your break-even, both ways</h3>
       <div class="field">
-        <label>Average annual commission per account you win — <span class="val" id="vAcct">$30,000</span></label>
+        <label>Average annual commission per account you win: <span class="val" id="vAcct">$30,000</span></label>
         <input type="range" id="acct" min="10000" max="60000" step="1000" value="30000">
       </div>
       <div class="field">
-        <label>Accounts you expect to win per year with Renata — <span class="val" id="vWins">3</span></label>
+        <label>Accounts you expect to win per year with Renata: <span class="val" id="vWins">3</span></label>
         <input type="range" id="wins" min="1" max="12" step="1" value="3">
       </div>
       <div class="result">
@@ -255,7 +255,7 @@ function calc(){
   document.getElementById('planPerf').classList.toggle('pick',cheaper==='Performance');
   document.getElementById('planFlat').classList.toggle('pick',cheaper==='Flat');
   document.getElementById('verdict').innerHTML='At <b>'+w+'</b> win'+(w>1?'s':'')+' a year, the <b>'+cheaper+
-    '</b> plan is cheaper for you — '+money(best)+'/yr against '+money(value)+
+    '</b> plan is cheaper for you, '+money(best)+'/yr against '+money(value)+
     ' in commission. Renata pays for itself <b>'+(value/best).toFixed(0)+'×</b> over.';
 }
 acct.oninput=calc;wins.oninput=calc;calc();

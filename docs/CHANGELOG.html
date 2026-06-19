@@ -20,6 +20,18 @@
   hr{border:none;border-top:1px solid var(--line);margin:2em 0}
 </style></head><body><div class=bar><a href='/'>‹ Renata project index</a></div><article class=doc><h1 id="changelog">Changelog</h1>
 <p>Notable changes to the Renata platform. Dates are the delivery date of the work.</p>
+<h2 id="2026-06-19-demo-voice-broker-profile-and-ux-polish">2026-06-19 — Demo voice, broker profile, and UX polish</h2>
+<ul>
+<li><strong>Warmer, personalized voice</strong> across the prototypes: the outreach drafts now open with a
+  greeting to the prospect by name and a signed close from the producer. The production
+  template (<code>api/drafting.py</code>) gained a graceful <code>Hi {first}</code> / sign-off (falls back cleanly).</li>
+<li><strong>Broker profile headshot</strong> added to the workflow demo app bar (an illustrated avatar +
+  "Maya Ellison, Lone Star Benefits"; Renata stays a monogram per the brand guide).</li>
+<li><strong>Five EBI passes</strong> on the workflow demo: clearer hierarchy, the Radar lead row as a "Top
+  match", an animated In-Play Score ring, a celebratory $570K close (scale-in + glow), a
+  staggered warm-path reveal, and a "Won ✓" pop. All CSS-only and <code>prefers-reduced-motion</code> safe.</li>
+<li>Humanizer pass (em dashes removed) on the app mockup and the landing copy.</li>
+</ul>
 <h2 id="2026-06-phases-03-implemented-and-verified">2026-06 — Phases 0–3 implemented and verified</h2>
 <h3 id="phase-0-data-spine">Phase 0 — Data spine</h3>
 <ul>

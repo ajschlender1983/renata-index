@@ -161,6 +161,53 @@
   .pstage{flex:1;min-width:88px;text-align:center;font-size:11px;color:var(--soft);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 6px}
   .pstage.done{background:var(--teal-soft);color:var(--teal);border-color:#bfe0d3}
   .pstage.won{background:var(--teal);color:#fff;border-color:var(--teal);font-weight:600}
+
+  /* --- broker profile (the human; Renata stays the monogram) --- */
+  .me{display:flex;align-items:center;gap:9px}
+  .me-name{display:flex;flex-direction:column;align-items:flex-end;line-height:1.18;font-size:12px;color:var(--ink)}
+  .me-name b{font-weight:600}
+  .me-name small{color:var(--soft);font-size:10.5px}
+  .me-av{width:36px;height:36px;border-radius:50%;box-shadow:0 0 0 1.5px #fff,0 0 0 2.5px var(--line);flex:none}
+  @media(max-width:720px){.me-name{display:none}}
+
+  /* --- EBI: clarity, hierarchy, micro-interactions --- */
+  .row{transition:background .14s ease, transform .14s ease}
+  .row:hover{transform:translateX(2px)}
+  .row.lead{background:linear-gradient(90deg,var(--violet-soft) 0%,#F2F0FB 42%,transparent 78%);box-shadow:inset 3px 0 0 var(--violet)}
+  .chip.top{color:var(--violet-ink);border-color:#cfc9f3;background:var(--violet-soft);font-weight:600}
+  .door{transition:transform .14s ease, box-shadow .14s ease, border-color .14s ease}
+  .door:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(87,79,199,.10)}
+  .drop{transition:border-color .3s ease, background .3s ease, color .3s ease}
+  button{transition:filter .12s ease, transform .08s ease, box-shadow .12s ease}
+  button.primary:hover{box-shadow:0 4px 14px rgba(87,79,199,.28)}
+  button:active{transform:translateY(1px)}
+  .save .sv{font-size:30px;display:inline-block}
+
+  /* --- EBI: hero + celebration beats (CSS-only, reduced-motion guarded) --- */
+  @keyframes ringfill{from{stroke-dashoffset:264}to{stroke-dashoffset:34}}
+  .screen[data-screen="1"].active .ring .prog{animation:ringfill 1.1s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes savepop{0%{transform:scale(.94);opacity:0}60%{transform:scale(1.015)}100%{transform:scale(1);opacity:1}}
+  @keyframes saveglow{0%,100%{box-shadow:0 8px 26px rgba(22,22,31,.14)}45%{box-shadow:0 10px 40px rgba(181,133,46,.42)}}
+  .screen[data-screen="5"].active .save{animation:savepop .55s ease both, saveglow 2.2s ease .55s 1}
+  @keyframes svshine{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+  .screen[data-screen="5"].active .save .sv{animation:svshine .9s ease .5s 1}
+  @keyframes doorin{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+  .unlocked.show .doors .door{animation:doorin .45s ease both}
+  .unlocked.show .doors .door:nth-child(2){animation-delay:.13s}
+  .unlocked.show .doors .door:nth-child(3){animation-delay:.26s}
+  @keyframes donefill{from{opacity:.35}to{opacity:1}}
+  .screen[data-screen="5"].active .pstage.done{animation:donefill .4s ease both}
+  .screen[data-screen="5"].active .pstage.done:nth-child(2){animation-delay:.1s}
+  .screen[data-screen="5"].active .pstage.done:nth-child(3){animation-delay:.2s}
+  .screen[data-screen="5"].active .pstage.done:nth-child(4){animation-delay:.3s}
+  .screen[data-screen="5"].active .pstage.done:nth-child(5){animation-delay:.4s}
+  @keyframes wonpop{0%{transform:scale(.9)}55%{transform:scale(1.09)}100%{transform:scale(1)}}
+  .screen[data-screen="5"].active .pstage.won{animation:wonpop .5s ease .55s both}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important}
+    .screen{animation:none !important}
+  }
 </style>
 </head>
 <body>
@@ -175,6 +222,17 @@
   <b>Renata</b>
   <span class="voice" style="color:var(--soft);font-size:13px;font-style:italic">radar to close</span>
   <span class="temp"><span class="tdot"></span>Austin metro · 312 in play · WARM · 5/5 feeds healthy</span>
+  <span class="me">
+    <span class="me-name"><b>Maya Ellison</b><small>Lone Star Benefits</small></span>
+    <svg class="me-av" viewBox="0 0 100 100" role="img" aria-label="Maya Ellison, your profile">
+      <circle cx="50" cy="50" r="50" fill="#EDEBFA"/>
+      <path d="M22 100 V90 a28 28 0 0 1 56 0 V100 Z" fill="#574FC7"/>
+      <circle cx="50" cy="41" r="18" fill="#EBC9A6"/>
+      <path d="M31 42 a19 19 0 0 1 38 0 q1 -17 -19 -17 q-20 0 -19 17 Z" fill="#2E2547"/>
+      <rect x="28.5" y="39" width="6" height="15" rx="3" fill="#2E2547"/>
+      <rect x="65.5" y="39" width="6" height="15" rx="3" fill="#2E2547"/>
+    </svg>
+  </span>
 </div>
 <div class="steps" id="steps">
   <div class="step" data-step="0"><span class="n">1</span>Radar</div>
@@ -208,7 +266,7 @@
       <div class="rows">
         <div class="row lead" data-go="1">
           <div class="rk">01</div>
-          <div><div class="nm">Hill Country Health</div><div class="meta">Austin · 320 employees · NAICS 621</div>
+          <div><div class="nm">Hill Country Health <span class="chip top">Top match</span></div><div class="meta">Austin · 320 employees · NAICS 621</div>
             <div class="chips"><span class="chip time">Renews July</span><span class="chip alert">Paying 22% over peers</span><span class="chip alert">Aetna filed an increase</span></div></div>
           <div class="right"><div class="score s-hot">87</div><div class="spend">$5.1M/yr est.</div><div class="held">held by Capitol Risk</div></div>
         </div>
@@ -263,7 +321,7 @@
       <div>
         <div class="ring">
           <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#E7E5DD" stroke-width="9"/>
-            <circle cx="50" cy="50" r="42" fill="none" stroke="#0F7256" stroke-width="9" stroke-linecap="round"
+            <circle class="prog" cx="50" cy="50" r="42" fill="none" stroke="#0F7256" stroke-width="9" stroke-linecap="round"
               stroke-dasharray="264" stroke-dashoffset="34" transform="rotate(-90 50 50)"/>
             <text x="50" y="49" text-anchor="middle" font-family="IBM Plex Mono" font-size="26" font-weight="500" fill="#16161F">87</text>
             <text x="50" y="65" text-anchor="middle" font-family="Inter" font-size="9" fill="#5A5A6E">IN PLAY</text></svg>
@@ -304,27 +362,42 @@
   <section class="screen" data-screen="2">
     <div class="eyebrow">Step 3 · The easy button</div>
     <h1>The outreach, drafted and waiting.</h1>
-    <p class="sub">A four-touch sequence in Renata's voice, grounded in the real numbers. Review each one, edit anything, send as you. Renata never sends on her own.</p>
-    <div class="rena">I read Hill Country Health's filing and drafted a four-touch sequence. The intro leads with the renewal and the cost gap. Send as you, or edit first.</div>
+    <p class="sub">A short, three-touch sequence in Renata's voice, grounded in the real numbers and addressed to Marcus by name. Review each one, edit anything, send as you. Renata drafts; you always send.</p>
+    <div class="rena">I read Hill Country Health's filing and drafted three touches for you, each one opening to Marcus by name and signed from you. The intro leads with the July renewal and the cost gap. Send them as you, or edit first.</div>
 
     <div class="touch approved" data-touch>
       <div class="meta"><span class="st">Intro</span><span>email · send now</span><span class="pill">approved</span></div>
       <div class="subj">Hill Country Health: renews July</div>
-      <div class="body">I read Hill Country Health's latest benefits filing. The short version is that their plan renews in July, and they are running about 22% over comparable Austin employers, with Aetna having just filed an increase. Groups this size usually start the conversation a few months before renewal, so July is the moment to look. Worth fifteen minutes to walk the numbers? Happy to send the full benchmark first.</div>
+      <div class="body">Hi Marcus,
+
+I came across Hill Country Health's latest benefits filing and wanted to reach out directly. The short version is that your plan renews in July, you are running about 22% over comparable Austin employers, and Aetna just filed an increase. Groups your size usually start the conversation a few months ahead, so July is the moment to look. Worth fifteen minutes to walk the numbers together? I am glad to send the full benchmark first so you can see exactly where it comes from.
+
+Warmly,
+Maya Ellison, Lone Star Benefits Advisors</div>
       <textarea></textarea>
       <div class="act"><button class="primary" data-action="send">Send as me</button><button class="ghost" data-action="edit">Edit</button><span class="ok">approved · opens in your mail client</span></div>
     </div>
     <div class="touch" data-touch>
       <div class="meta"><span class="st">Follow-up 1</span><span>email · send +4 days</span><span class="pill">draft</span></div>
       <div class="subj">The benchmark for Hill Country Health</div>
-      <div class="body">Following up on Hill Country Health. Their renewal window opens in February for a July renewal, which is when a broker can actually move the rate. I can pull the peer benchmark and the cost-per-head comparison so you walk in with the numbers. Want me to put that together?</div>
+      <div class="body">Hi Marcus,
+
+Following up on Hill Country Health. Your renewal window opens in February for a July renewal, which is when a broker can actually move the rate. I can pull the peer benchmark and the cost-per-head comparison so you walk in with the numbers in hand. Want me to put that together for you?
+
+Warmly,
+Maya</div>
       <textarea></textarea>
       <div class="act"><button class="primary" data-action="send">Send as me</button><button class="ghost" data-action="edit">Edit</button></div>
     </div>
     <div class="touch" data-touch>
       <div class="meta"><span class="st">Follow-up 2</span><span>email · send +7 days</span><span class="pill">draft</span></div>
       <div class="subj">Texas rate filings</div>
-      <div class="body">A market note you can use: Aetna filed higher rates in Texas this quarter, and Hill Country Health renews in July. That timing is the opening. I am seeing the same pattern across mid-market groups in the metro, so this is a good week to reach out.</div>
+      <div class="body">Hi Marcus,
+
+A quick market note you can use: Aetna filed higher rates in Texas this quarter, and Hill Country Health renews in July. That timing is the opening. I am seeing the same pattern across mid-market groups in the metro, so this is a good week to start the conversation.
+
+Warmly,
+Maya</div>
       <textarea></textarea>
       <div class="act"><button class="primary" data-action="send">Send as me</button><button class="ghost" data-action="edit">Edit</button></div>
     </div>
@@ -337,7 +410,7 @@
     <h1>A professional switch analysis, generated.</h1>
     <p class="sub">Built from the public filing and your firm profile. It earns the meeting. It never promises a number a carrier has not put in writing.</p>
     <div class="doc">
-      <div class="dh"><div class="t">Switch Analysis · Hill Country Health</div><div class="m">Prepared by Lone Star Benefits Advisors · for discussion · June 2026</div></div>
+      <div class="dh"><div class="t">Switch Analysis · Hill Country Health</div><div class="m">Prepared by Maya Ellison, Lone Star Benefits Advisors · for Marcus Lin · for discussion · June 2026</div></div>
       <div class="db">
         <h4>What the public record shows</h4>
         <div class="cs">
@@ -351,7 +424,7 @@
         <h4>Where you stand vs comparable employers</h4>
         <div class="benchbar"><div class="bl"><span>You · $16,000/head</span><span>Austin peer median (100–499) · $13,100</span></div>
           <div class="track"><span class="you" style="width:100%"></span><span class="peer" style="left:82%"></span></div></div>
-        <p style="font-size:13px;margin:9px 0 0">On a premium basis you appear to run about <b>22% above</b> comparable Austin employers your size. A gap like this usually comes from plan design that has drifted, a renewal that has not been marketed in a few years, or a carrier you have outgrown. We confirm which in the first meeting.</p>
+        <p style="font-size:13px;margin:9px 0 0">On a premium basis you appear to run about <b style="color:var(--alert)">22% above</b> comparable Austin employers your size. A gap like this usually comes from plan design that has drifted, a renewal that has not been marketed in a few years, or a carrier you have outgrown. We confirm which in the first meeting.</p>
 
         <h4>The opportunity, and how we would pursue it</h4>
         <p style="font-size:13px;margin:0">The size of that gap is the size of the opportunity we would go after. Our first 90 days: market your plan to the major Texas carriers, pressure-test the gap with firm quotes, and bring you real numbers before we make a single claim. You renew in July, so the window to act is February through April.</p>
