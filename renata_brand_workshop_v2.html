@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Renata — Brand Workshop II · The Aligned Mark</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M32 16 L32 84' stroke='%2316161F' stroke-width='9' stroke-linecap='round'/%3E%3Cpath d='M32 16 L54 16 A18 18 0 0 1 54 52 L32 52' fill='none' stroke='%2316161F' stroke-width='9' stroke-linejoin='round'/%3E%3Cpath d='M44 52 L66 84' stroke='%2316161F' stroke-width='9' stroke-linecap='round'/%3E%3Cpath d='M45 26 L53 34 L45 42 L37 34 Z' fill='%23574FC7'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F2EC; --paper-2:#F7F6F2; --card:#FFFFFF;
+    --ink:#16161F; --ink-soft:#5A5A6A; --line:#E4E1D8; --line-soft:#EFEDE6;
+    --violet:#574FC7; --violet-lt:#8B83F0; --violet-soft:#EEECFB; --violet-ink:#332C8A;
+    --teal:#0F7256; --teal-soft:#E2F4ED;
+    --amber:#8A5A0C; --amber-soft:#FAF0DC;
+    --alert:#A6342E; --alert-soft:#FAEAE7;
+    --r:16px; --r-sm:10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+  .mono{font-family:"IBM Plex Mono",monospace;}
+  .serif{font-family:"Newsreader",Georgia,serif;}
+  h1,h2,h3{font-family:"Newsreader",serif;font-weight:500;letter-spacing:-.01em;margin:0;}
+
+  header{padding:64px 0 48px;border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--violet);margin-bottom:18px;}
+  h1{font-size:46px;line-height:1.05;max-width:17ch;}
+  .lede{font-family:"Newsreader",serif;font-size:20px;color:var(--ink-soft);max-width:56ch;margin-top:18px;line-height:1.5;}
+  .lede em{font-style:italic;color:var(--violet-ink);}
+
+  /* hero aligned mark */
+  .hero-stage{margin-top:40px;display:flex;gap:40px;align-items:center;flex-wrap:wrap;}
+  .hero-mk{width:150px;height:150px;flex:none;}
+  .hero-cap .k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);}
+  .hero-cap .t{font-family:"Newsreader",serif;font-size:25px;margin-top:8px;max-width:30ch;line-height:1.35;}
+  .hero-cap .t em{font-style:italic;color:var(--violet-ink);}
+
+  section{padding:56px 0;border-bottom:1px solid var(--line);}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .sec-num{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--violet);letter-spacing:.1em;}
+  h2{font-size:30px;}
+  .sec-sub{font-family:"Newsreader",serif;font-size:18px;color:var(--ink-soft);max-width:62ch;margin-top:12px;line-height:1.5;}
+
+  /* the symbol */
+  .sym{display:grid;grid-template-columns:1fr;gap:26px;margin-top:30px;align-items:center;}
+  @media(min-width:760px){.sym{grid-template-columns:300px 1fr;}}
+  .sym-show{background:var(--ink);border-radius:var(--r);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;}
+  .sym-show svg{width:62%;height:62%;}
+  .sym-txt p{margin:0 0 14px;}
+  .sym-txt .lead{font-family:"Newsreader",serif;font-size:21px;line-height:1.45;color:var(--ink);}
+  .sym-txt .lead b{color:var(--violet-ink);font-weight:600;}
+  .alts{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;}
+  .alt{flex:1;min-width:120px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px;text-align:center;}
+  .alt svg{width:42px;height:42px;}
+  .alt .nm{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:var(--ink-soft);margin-top:8px;text-transform:uppercase;}
+  .alt .ds{font-size:11.5px;color:var(--ink-soft);margin-top:5px;line-height:1.4;}
+
+  /* variations grid */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px;}
+  @media(min-width:760px){.grid{grid-template-columns:repeat(4,1fr);}}
+  .swatch{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+  .swatch:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(22,22,31,.09);border-color:#D8D4C8;}
+  .stage{background:var(--paper-2);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line-soft);position:relative;}
+  .stage svg{width:74%;height:74%;}
+  .mini{position:absolute;right:10px;bottom:9px;display:flex;align-items:center;gap:5px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px 7px 3px 4px;}
+  .mini svg{width:15px;height:15px;}
+  .mini span{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--ink-soft);}
+  .ship{position:absolute;left:10px;top:9px;background:var(--violet);color:#fff;font-size:9px;letter-spacing:.07em;text-transform:uppercase;padding:3px 7px;border-radius:20px;font-weight:600;}
+  .meta{padding:13px 15px 16px;display:flex;flex-direction:column;gap:6px;flex:1;}
+  .meta .id{display:flex;align-items:baseline;gap:8px;}
+  .meta .n{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--violet);}
+  .meta .nm{font-family:"Newsreader",serif;font-size:17px;font-weight:500;}
+  .meta .desc{font-size:12px;color:var(--ink-soft);line-height:1.45;}
+  .meta .rr{font-size:11px;color:var(--ink);margin-top:auto;padding-top:8px;border-top:1px solid var(--line-soft);}
+  .meta .rr b{color:var(--violet-ink);font-weight:600;}
+
+  /* alignment states */
+  .primary-band{background:var(--ink);border-radius:var(--r);padding:34px;margin-top:30px;display:flex;gap:34px;align-items:center;flex-wrap:wrap;}
+  .primary-band .pm{width:120px;height:120px;flex:none;}
+  .primary-band .tx{flex:1;min-width:260px;}
+  .primary-band .k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet-lt);}
+  .primary-band .big{font-family:"Newsreader",serif;font-size:23px;color:var(--paper-2);margin-top:8px;line-height:1.4;}
+  .primary-band .big em{font-style:italic;color:#B7B2EC;}
+  .primary-band .sm{font-size:13px;color:#A6A5B4;margin-top:12px;line-height:1.55;}
+
+  .states{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px;}
+  @media(min-width:680px){.states{grid-template-columns:repeat(3,1fr);}}
+  .st{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;}
+  .st.is-primary{border-color:var(--violet);box-shadow:0 0 0 3px var(--violet-soft);}
+  .st svg{width:64px;height:64px;margin-bottom:6px;}
+  .st .lab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);}
+  .st .nm{font-family:"Newsreader",serif;font-size:18px;}
+  .st .ds{font-size:12.5px;color:var(--ink-soft);line-height:1.45;}
+  .st .sig{font-family:"IBM Plex Mono",monospace;font-size:10.5px;margin-top:6px;padding:2px 9px;border-radius:20px;}
+  .sig.violet{background:var(--violet-soft);color:var(--violet-ink);}
+  .sig.teal{background:var(--teal-soft);color:var(--teal);}
+  .sig.amber{background:var(--amber-soft);color:var(--amber);}
+  .sig.alert{background:var(--alert-soft);color:var(--alert);}
+
+  .law{margin-top:24px;background:var(--violet-soft);border:1px solid #DAD6F4;border-radius:var(--r);padding:22px 26px;}
+  .law .h{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin-bottom:6px;}
+  .law .b{font-size:14px;color:var(--ink);line-height:1.55;}
+  .law .b b{color:var(--violet-ink);}
+
+  .reco{background:var(--ink);color:var(--paper-2);border-radius:var(--r);padding:38px 40px;margin-top:30px;}
+  .reco .rk{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#B7B2EC;}
+  .reco h3{color:var(--paper-2);font-size:25px;margin:14px 0 22px;max-width:30ch;}
+  .reco .trio{display:flex;gap:14px;flex-wrap:wrap;}
+  .reco .tc{flex:1;min-width:190px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-sm);padding:18px 20px;display:flex;gap:14px;align-items:center;}
+  .reco .tc svg{width:46px;height:46px;flex:none;}
+  .reco .tc .role{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8C8AA8;}
+  .reco .tc .nm{font-family:"Newsreader",serif;font-size:18px;margin-top:2px;}
+  .reco .tc .why{font-size:12px;color:#A6A5B4;margin-top:4px;line-height:1.4;}
+
+  footer{padding:40px 0 70px;text-align:center;color:var(--ink-soft);font-size:13px;}
+  footer .mono{font-size:11.5px;letter-spacing:.04em;}
+
+  @keyframes hunt{0%{transform:rotate(0deg);}50%{transform:rotate(45deg) scale(.92);}100%{transform:rotate(0deg);}}
+  @keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
+  @keyframes drift{0%,100%{transform:translate(0,0);}50%{transform:translate(4px,-3px);}}
+  @keyframes ringpulse{0%{opacity:.5;transform:scale(.6);}70%{opacity:.18;transform:scale(1.5);}100%{opacity:0;transform:scale(1.7);}}
+  .ap{transform-box:fill-box;transform-origin:center;}
+  .anim-hunt{animation:hunt 2.4s ease-in-out infinite;}
+  .anim-breathe{animation:breathe 2.6s ease-in-out infinite;}
+  .anim-drift{animation:drift 3.4s ease-in-out infinite;}
+  .anim-ring{transform-box:fill-box;transform-origin:center;animation:ringpulse 2.2s ease-out infinite;}
+  @media(prefers-reduced-motion:reduce){.anim-hunt,.anim-breathe,.anim-drift,.anim-ring{animation:none!important;}*{transition:none!important;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Brand Workshop II · The Aligned Mark</div>
+    <h1>When everything lines up, that is the logo.</h1>
+    <p class="lede">The point is no longer a dot. It becomes <em>the Aperture</em>: a faceted iris that is also the counter of the R. The primary mark is the moment of alignment, when the iris seats perfectly square inside the letter. Everything Renata does is shown as the field coming into true.</p>
+    <div class="hero-stage">
+      <!-- PRIMARY: Aperture-R, aligned -->
+      <svg class="hero-mk" viewBox="0 0 100 100" aria-label="Renata aligned mark">
+        <path d="M32 16 L32 84" fill="none" stroke="#16161F" stroke-width="9" stroke-linecap="round"/>
+        <path d="M32 16 L54 16 A18 18 0 0 1 54 52 L32 52" fill="none" stroke="#16161F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M44 52 L66 84" fill="none" stroke="#16161F" stroke-width="9" stroke-linecap="round"/>
+        <path d="M45 24 L55 34 L45 44 L35 34 Z" fill="#574FC7"/>
+        <path d="M45 30 L49 34 L45 38 L41 34 Z" fill="#16161F"/>
+      </svg>
+      <div class="hero-cap">
+        <div class="k">The primary mark · aligned</div>
+        <div class="t">The R holds the structure. The iris is Renata, seated <em>perfectly true</em> inside it.</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 THE SYMBOL -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>The symbol is the Aperture</h2></div>
+    <p class="sec-sub">A renewal analyst reads the whole field and narrows it to one thing worth your attention. So the symbol is a lens stopping down: a faceted iris that doubles as the counter of the R. It is a designed object, not a bullet.</p>
+    <div class="sym">
+      <div class="sym-show">
+        <svg viewBox="0 0 100 100" aria-label="The Aperture symbol">
+          <path d="M50 14 L86 50 L50 86 L14 50 Z" fill="#574FC7"/>
+          <path d="M50 14 L50 86 M14 50 L86 50" stroke="#8B83F0" stroke-width="1.4" opacity=".55"/>
+          <path d="M50 33 L67 50 L50 67 L33 50 Z" fill="#16161F"/>
+          <path d="M50 41 L59 50 L50 59 L41 50 Z" fill="#574FC7"/>
+        </svg>
+      </div>
+      <div class="sym-txt">
+        <p class="lead">An <b>iris</b>: four facets that close to one focus. When the facets sit square, the field is in focus and Renata has found the one account that matters.</p>
+        <p>It reads as a lens, an eye, and a cut gem at once: the instrument, the attention, and the value. It nests exactly inside the bowl of the R, so the letter and the symbol are one form. And it gives us the whole behaviour system: the iris seats square when resolved, and rotates open while it hunts.</p>
+        <div class="alts">
+          <div class="alt">
+            <svg viewBox="0 0 100 100"><path d="M50 20 L84 50 L50 80 L16 50 Z" fill="#574FC7"/><path d="M50 38 L62 50 L50 62 L38 50 Z" fill="#16161F"/></svg>
+            <div class="nm">Aperture ✓</div>
+            <div class="ds">Faceted iris. The chosen symbol.</div>
+          </div>
+          <div class="alt">
+            <svg viewBox="0 0 100 100"><path d="M34 24 L66 24 L58 56 L42 56 Z" fill="#574FC7"/></svg>
+            <div class="nm">Keystone</div>
+            <div class="ds">The wedge that locks the arch.</div>
+          </div>
+          <div class="alt">
+            <svg viewBox="0 0 100 100"><path d="M50 14 L58 46 L86 50 L58 54 L50 86 L42 54 L14 50 L42 46 Z" fill="#574FC7"/></svg>
+            <div class="nm">North-point</div>
+            <div class="ds">The one move, now.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 VARIATIONS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Eight ways the R holds the iris</h2></div>
+    <p class="sec-sub">Each fuses the letter R, the Aperture, and the alignment idea, shown here in the resolved (aligned) state. Different answers to how explicitly the R appears and where the iris is seated.</p>
+    <div class="grid">
+
+      <!-- 01 Bowl & Aperture -->
+      <div class="swatch">
+        <div class="stage">
+          <svg viewBox="0 0 100 100">
+            <path d="M84 46 A34 34 0 1 0 50 80" fill="none" stroke="#16161F" stroke-width="7" stroke-linecap="round"/>
+            <path d="M52 76 L68 94" fill="none" stroke="#16161F" stroke-width="7" stroke-linecap="round"/>
+            <path d="M72 58 L82 68 L72 78 L62 68 Z" fill="#574FC7"/>
+            <path d="M72 63 L77 68 L72 73 L67 68 Z" fill="#16161F"/>
+          </svg>
+          <div class="mini"><svg viewBox="0 0 100 100"><path d="M84 46 A34 34 0 1 0 50 80" fill="none" stroke="#16161F" stroke-width="9" stroke-linecap="round"/><path d="M72 58 L82 68 L72 78 L62 68 Z" fill="#574FC7"/></svg><span>16px</span></div>
+        </div>
+        <div class="meta">
+          <div class="id"><span class="n">01</span><span class="nm">Bowl &amp; Aperture</span></div>
+          <div class="desc">An open analyst's arc whose terminal resolves into the iris, where an R's bowl closes onto the stem.</div>
+          <div class="rr"><b>R:</b> abstracted bowl + leg · <b>iris</b> at the junction</div>
+        </div>
+      </div>
+
+      <!-- 02 Aperture-R PRIMARY -->
+      <div class="swatch">
+        <div class="stage">
+          <span class="ship">Recommended</span>
+          <svg viewBox="0 0 100 100">
+            <path d="M32 16 L32 84" fill="none" stroke="#16161F" stroke-width="9" stroke-linecap="round"/>
+            <path d="M32 16 L54 16 A18 18 0 0 1 54 52 L32 52" fill="none" stroke="#16161F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+            <path d="M44 52 L66 84" fill="none" stroke="#16161F" stroke-width="9" stroke-linecap="round"/>
+            <path d="M45 25 L55 34 L45 43 L35 34 Z" fill="#574FC7"/>
+            <path d="M45 30 L49 34 L45 38 L41 34 Z" fill="#16161F"/>
+          </svg>
+          <div class="mini"><svg viewBox="0 0 100 100"><path d="M32 16 L32 84" fill="none" stroke="#16161F" stroke-width="11" stroke-linecap="round"/><path d="M32 16 L54 16 A18 18 0 0 1 54 52 L32 52" fill="none" stroke="#16161F" stroke-width="11" stroke-linejoin="round"/><path d="M45 24 L55 34 L45 44 L35 34 Z" fill="#574FC7"/></svg><span>16px</span></div>
+        </div>
+        <div class="meta">
+          <div class="id"><span class="n">02</span><span class="nm">Aperture-R</span></div>
+          <div class="desc">The whole R is built around the iris: the counter of the letter is the symbol. The letter and the mark are one.</div>
+          <div class="rr"><b>R:</b> explicit letterform · <b>iris</b> = the counter</div>
+        </div>
+      </div>
+
+      <!-- 03 Keystone Arc -->
+      <div class="swatch">
+        <div class="stage">
+          <svg viewBox="0 0 100 100">
+            <path d="M58 16 A36 36 0 1 1 42 16" fill="none" stroke="#16161F" stroke-width="6" stroke-linecap="round"/>
+            <path d="M43 8 L57 8 L54 19 L46 19 Z" fill="#574FC7"/>
+            <path d="M50 50 L68 74" fill="none" stroke="#16161F" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+          <div class="mini"><svg viewBox="0 0 100 100"><path d="M58 16 A36 36 0 1 1 42 16" fill="none" stroke="#16161F" stroke-width="8" stroke-linecap="round"/><path d="M42 8 L58 8 L55 20 L45 20 Z" fill="#574FC7"/></svg><span>16px</span></div>
+        </div>
+        <div class="meta">
+          <div class="id"><span class="n">03</span><span class="nm">Keystone Arc</span></div>
+          <div class="desc">A held ring locked at the top by a single keystone. Activity lifts it out; aligned, it seats flush.</div>
+          <div class="rr"><b>R:</b> bowl ring + leg · <b>keystone</b> symbol</div>
+        </div>
+      </div>
+
+      <!-- 04 Converging Sightlines -->
+      <div class="swatch">
+        <div class="stage">
+          <svg viewBox="0 0 100 100">
+            <path d="M84 48 A35 35 0 1 0 49 83" fill="none" stroke="#16161F" stroke-width="6" stroke-linecap="round"/>
+            <path d="M18 28 L60 60" fill="none" stroke="#16161F" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M88 36 L60 60" fill="none" stroke="#16161F" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M49 83 L60 60" fill="none" stroke="#16161F" stroke-width="6" stroke-linecap="round"/>
+            <path d="M60 51 L69 60 L60 69 L51 60 Z" fill="#574FC7"/>
+            <path d="M60 56 L64 60 L60 64 L56 60 Z" fill="#16161F"/>
+          </svg>
+          <div class="mini"><svg viewBox="0 0 100 100"><path d="M84 48 A35 35 0 1 0 49 83" fill="none" stroke="#16161F" stroke-width="8" stroke-linecap="round"/><path d="M60 50 L70 60 L60 70 L50 60 Z" fill="#574FC7"/></svg><span>16px</span></div>
+        </div>
+        <div class="meta">
+          <div class="id"><span class="n">04</span><span class="nm">Converging Lines</span></div>
+          <div class="desc">Many data streams resolve to one node inside the bowl. Aligned, all three hit dead-center.</div>
+          <div class="rr"><b>R:</b> bowl + leg · <b>iris</b> as the node</div>
+        </div>
+      </div>
+
+      <!-- 05 North-Point Crown -->
+      <div class="swatch">
+        <div class="stage">
+          <svg viewBox="0 0 100 100">
+            <path d="M36 26 A34 34 0 1 0 64 26" fill="none" stroke="#16161F" stroke-width="6.5" stroke-linecap="round"/>
+            <path d="M50 6 L55 20 L50 30 L45 20 Z" fill="#574FC7"/>
+            <path d="M72 80 L57 60" fill="none" stroke="#16161F" stroke-width="6.5" stroke-linecap="round"/>
+          </svg>
+          <div class="mini"><svg viewBox="0 0 100 100"><path d="M36 26 A34 34 0 1 0 64 26" fill="none" stroke="#16161F" stroke-width="8" stroke-linecap="round"/><path d="M50 6 L56 22 L50 32 L44 22 Z" fill="#574FC7"/></svg><span>16px</span></div>
+        </div>
+        <div class="meta">
+          <div class="id"><span class="n">05</span><span class="nm">North-Point</span></div>
+          <div class="desc">The arc opens at the top and a compass point rises from the gap: the one move, now.</div>
+          <div class="rr"><b>R:</b> bowl + leg · <b>north-point</b> symbol</div>
+        </div>
+      </div>
+
+      <!-- 06 Plumb-Line -->
+      <div class="swatch">
+        <div class="stage">
+          <svg viewBox="0 0 100 100">
+            <path d="M28 14 L28 86" fill="none" stroke="#16161F" stroke-width="7" stroke-linecap="round"/>
+            <path d="M28 14 L50 14 A22 22 0 0 1 50 58 L28 58" fill="none" stroke="#16161F" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+            <path d="M45 22 L45 50 M31 36 L59 36" stroke="#16161F" stroke-width="1.5" opacity=".5"/>
+            <path d="M44 52 L64 84" fill="none" stroke="#16161F" stroke-width="7" stroke-linecap="round"/>
+            <path d="M45 27 L54 36 L45 45 L36 36 Z" fill="#574FC7"/>
+            <path d="M45 32 L49 36 L45 40 L41 36 Z" fill="#16161F"/>
+          </svg>
+          <div class="mini"><svg viewBox="0 0 100 100"><path d="M28 14 L28 86" fill="none" stroke="#16161F" stroke-width="9" stroke-linecap="round"/><path d="M28 14 L50 14 A22 22 0 0 1 50 58 L28 58" fill="none" stroke="#16161F" stroke-width="9" stroke-linejoin="round"/><path d="M45 26 L55 36 L45 46 L35 36 Z" fill="#574FC7"/></svg><span>16px</span></div>
+        </div>
+        <div class="meta">
+          <div class="id"><span class="n">06</span><span class="nm">Plumb-Line</span></div>
+          <div class="desc">A crosshair coming true. The iris vertices seat exactly on the four arms. Alignment, made literal.</div>
+          <div class="rr"><b>R:</b> stem + bowl + leg · <b>iris</b> on crosshair</div>
+        </div>
+      </div>
+
+      <!-- 07 Gem-in-Bezel -->
+      <div class="swatch">
+        <div class="stage">
+          <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="44" r="31" fill="none" stroke="#16161F" stroke-width="5"/>
+            <path d="M50 74 L68 92" fill="none" stroke="#16161F" stroke-width="5" stroke-linecap="round"/>
+            <path d="M50 30 L64 44 L50 58 L36 44 Z" fill="#574FC7"/>
+            <path d="M50 30 L50 58 M36 44 L64 44" stroke="#8B83F0" stroke-width="1.1" opacity=".55"/>
+            <path d="M50 38 L56 44 L50 50 L44 44 Z" fill="#16161F"/>
+          </svg>
+          <div class="mini"><svg viewBox="0 0 100 100"><circle cx="50" cy="46" r="33" fill="none" stroke="#16161F" stroke-width="7"/><path d="M50 30 L66 46 L50 62 L34 46 Z" fill="#574FC7"/></svg><span>16px</span></div>
+        </div>
+        <div class="meta">
+          <div class="id"><span class="n">07</span><span class="nm">Gem-in-Bezel</span></div>
+          <div class="desc">The iris set as a stone in a bezel ring. The most overtly jewelry-grade reading.</div>
+          <div class="rr"><b>R:</b> bowl ring + leg · <b>faceted gem</b></div>
+        </div>
+      </div>
+
+      <!-- 08 Iris Stack -->
+      <div class="swatch">
+        <div class="stage">
+          <svg viewBox="0 0 100 100">
+            <path d="M84 46 A34 34 0 1 0 50 80" fill="none" stroke="#16161F" stroke-width="5" stroke-linecap="round"/>
+            <path d="M70 46 A20 20 0 1 0 50 66" fill="none" stroke="#16161F" stroke-width="4" stroke-linecap="round"/>
+            <path d="M38 82 L64 38" fill="none" stroke="#16161F" stroke-width="5" stroke-linecap="round"/>
+            <path d="M50 38 L59 47 L50 56 L41 47 Z" fill="#574FC7"/>
+            <path d="M50 43 L54 47 L50 51 L46 47 Z" fill="#16161F"/>
+          </svg>
+          <div class="mini"><svg viewBox="0 0 100 100"><path d="M84 46 A34 34 0 1 0 50 80" fill="none" stroke="#16161F" stroke-width="7" stroke-linecap="round"/><path d="M50 37 L60 47 L50 57 L40 47 Z" fill="#574FC7"/></svg><span>16px</span></div>
+        </div>
+        <div class="meta">
+          <div class="id"><span class="n">08</span><span class="nm">Iris Stack</span></div>
+          <div class="desc">Two nested rings stopping down to the iris, a literal lens closing to one focus.</div>
+          <div class="rr"><b>R:</b> bowl + crossing leg · <b>nested iris</b></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 03 ALIGNMENT STATES -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Alignment is the system</h2></div>
+    <p class="sec-sub">The R never moves. Only the iris changes: its rotation, its drift from home, and its color. Aligned is the resting truth the mark always returns to. Every state is a deviation from it, resolving back.</p>
+
+    <div class="primary-band">
+      <svg class="pm" viewBox="0 0 100 100" aria-label="Aligned, primary">
+        <path d="M32 16 L32 84" fill="none" stroke="#F4F2EC" stroke-width="9" stroke-linecap="round"/>
+        <path d="M32 16 L54 16 A18 18 0 0 1 54 52 L32 52" fill="none" stroke="#F4F2EC" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M44 52 L66 84" fill="none" stroke="#F4F2EC" stroke-width="9" stroke-linecap="round"/>
+        <path d="M45 25 L55 34 L45 43 L35 34 Z" fill="#574FC7"/>
+        <path d="M45 30 L49 34 L45 38 L41 34 Z" fill="#16161F"/>
+      </svg>
+      <div class="tx">
+        <div class="k">The primary state · Aligned</div>
+        <div class="big">The iris sits <em>perfectly square</em> in the counter. Nothing drifts, nothing rotates.</div>
+        <div class="sm">This is the logo you put on the door, the deck, the invoice. Calm, resolved, load-bearing. Everything else in the system is the field briefly out of true, on its way back to this.</div>
+      </div>
+    </div>
+
+    <div class="states">
+
+      <!-- Aligned (primary) -->
+      <div class="st is-primary">
+        <svg viewBox="0 0 100 100">
+          <path d="M32 16 L32 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <path d="M32 16 L54 16 A18 18 0 0 1 54 52 L32 52" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linejoin="round"/>
+          <path d="M44 52 L66 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <g class="ap"><path d="M45 25 L55 34 L45 43 L35 34 Z" fill="#574FC7"/><path d="M45 30 L49 34 L45 38 L41 34 Z" fill="#16161F"/></g>
+        </svg>
+        <div class="lab">Aligned · primary</div>
+        <div class="nm">In true</div>
+        <div class="ds">Resolved. The iris is square and home. This is the resting mark.</div>
+        <div class="sig violet">iris · square, home</div>
+      </div>
+
+      <!-- Listening -->
+      <div class="st">
+        <svg viewBox="0 0 100 100">
+          <path d="M32 16 L32 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <path d="M32 16 L54 16 A18 18 0 0 1 54 52 L32 52" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linejoin="round"/>
+          <path d="M44 52 L66 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <g class="ap anim-breathe"><path d="M45 25 L55 34 L45 43 L35 34 Z" fill="#574FC7"/><path d="M45 30 L49 34 L45 38 L41 34 Z" fill="#16161F"/></g>
+        </svg>
+        <div class="lab">Listening</div>
+        <div class="nm">Attending</div>
+        <div class="ds">Square and home, breathing softly. Present, taking something in.</div>
+        <div class="sig violet">iris · gentle breath</div>
+      </div>
+
+      <!-- Working -->
+      <div class="st">
+        <svg viewBox="0 0 100 100">
+          <path d="M32 16 L32 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <path d="M32 16 L54 16 A18 18 0 0 1 54 52 L32 52" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linejoin="round"/>
+          <path d="M44 52 L66 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <g class="ap anim-hunt"><path d="M45 25 L55 34 L45 43 L35 34 Z" fill="#574FC7"/><path d="M45 30 L49 34 L45 38 L41 34 Z" fill="#16161F"/></g>
+        </svg>
+        <div class="lab">Working</div>
+        <div class="nm">Scanning</div>
+        <div class="ds">The iris rotates open, hunting the field. The only large motion in the system.</div>
+        <div class="sig violet">iris · rotating</div>
+      </div>
+
+      <!-- Found -->
+      <div class="st">
+        <svg viewBox="0 0 100 100">
+          <path d="M32 16 L32 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <path d="M32 16 L54 16 A18 18 0 0 1 54 52 L32 52" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linejoin="round"/>
+          <path d="M44 52 L66 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <path class="anim-ring" d="M45 23 L57 34 L45 45 L33 34 Z" fill="none" stroke="#0F7256" stroke-width="2"/>
+          <g class="ap"><path d="M45 25 L55 34 L45 43 L35 34 Z" fill="#0F7256"/><path d="M45 30 L49 34 L45 38 L41 34 Z" fill="#16161F"/></g>
+        </svg>
+        <div class="lab">Found</div>
+        <div class="nm">Snap to true</div>
+        <div class="ds">It locks home and turns teal, with a single ring. The signature moment.</div>
+        <div class="sig teal">iris · teal snap</div>
+      </div>
+
+      <!-- Timing -->
+      <div class="st">
+        <svg viewBox="0 0 100 100">
+          <path d="M32 16 L32 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <path d="M32 16 L54 16 A18 18 0 0 1 54 52 L32 52" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linejoin="round"/>
+          <path d="M44 52 L66 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <path d="M45 25 L55 34 L45 43 L35 34 Z" fill="none" stroke="#8A5A0C" stroke-width="1" opacity=".5"/>
+          <g class="ap anim-drift"><path d="M45 25 L55 34 L45 43 L35 34 Z" fill="#8A5A0C"/><path d="M45 30 L49 34 L45 38 L41 34 Z" fill="#16161F"/></g>
+        </svg>
+        <div class="lab">Timing</div>
+        <div class="nm">Drifting</div>
+        <div class="ds">Square but sliding slowly off home, amber, with a tick at where it should sit.</div>
+        <div class="sig amber">iris · slow drift</div>
+      </div>
+
+      <!-- Alert -->
+      <div class="st">
+        <svg viewBox="0 0 100 100">
+          <path d="M32 16 L32 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <path d="M32 16 L54 16 A18 18 0 0 1 54 52 L32 52" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linejoin="round"/>
+          <path d="M44 52 L66 84" fill="none" stroke="#16161F" stroke-width="8.5" stroke-linecap="round"/>
+          <path d="M45 25 L55 34 L45 43 L35 34 Z" fill="none" stroke="#A6342E" stroke-width="1" opacity=".55"/>
+          <g class="ap" style="transform:rotate(45deg) translate(3px,-2px);"><path d="M45 25 L55 34 L45 43 L35 34 Z" fill="#A6342E"/><path d="M45 30 L49 34 L45 38 L41 34 Z" fill="#16161F"/></g>
+        </svg>
+        <div class="lab">Alert</div>
+        <div class="nm">Out of true</div>
+        <div class="ds">Held off-axis and red, with a ghost of home. The one state that will not resolve on its own.</div>
+        <div class="sig alert">iris · locked off-home</div>
+      </div>
+
+    </div>
+
+    <div class="law">
+      <div class="h">The one rule</div>
+      <div class="b">The R-structure is immovable. <b>Only the iris speaks</b>, through three variables: rotation (square vs open), drift (home vs off), and color (violet present, teal found, amber timing, red risk). One variable leads each state, motion is slow and eased, and every state has a static end-frame so the mark tells the truth with animation off.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 RECOMMENDATION -->
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>What to ship</h2></div>
+    <p class="sec-sub">One iris, one letter, one alignment gesture across every surface.</p>
+    <div class="reco">
+      <div class="rk">The recommendation</div>
+      <h3>Aperture-R is the face, Bowl &amp; Aperture is the voice, Plumb-Line is the heartbeat.</h3>
+      <div class="trio">
+        <div class="tc">
+          <svg viewBox="0 0 100 100"><path d="M32 16 L32 84" fill="none" stroke="#F4F2EC" stroke-width="9" stroke-linecap="round"/><path d="M32 16 L54 16 A18 18 0 0 1 54 52 L32 52" fill="none" stroke="#F4F2EC" stroke-width="9" stroke-linejoin="round"/><path d="M44 52 L66 84" fill="none" stroke="#F4F2EC" stroke-width="9" stroke-linecap="round"/><path d="M45 25 L55 34 L45 43 L35 34 Z" fill="#8B83F0"/></svg>
+          <div><div class="role">Primary · favicon</div><div class="nm">Aperture-R</div><div class="why">Letter and symbol fused. Reads as R with a violet iris, even at 16px.</div></div>
+        </div>
+        <div class="tc">
+          <svg viewBox="0 0 100 100"><path d="M84 46 A34 34 0 1 0 50 80" fill="none" stroke="#F4F2EC" stroke-width="7" stroke-linecap="round"/><path d="M72 58 L82 68 L72 78 L62 68 Z" fill="#8B83F0"/></svg>
+          <div><div class="role">Lockup glyph</div><div class="nm">Bowl &amp; Aperture</div><div class="why">The calmer, breathing mark to sit beside the Renata wordmark.</div></div>
+        </div>
+        <div class="tc">
+          <svg viewBox="0 0 100 100"><path d="M28 14 L28 86" fill="none" stroke="#F4F2EC" stroke-width="7" stroke-linecap="round"/><path d="M28 14 L50 14 A22 22 0 0 1 50 58 L28 58" fill="none" stroke="#F4F2EC" stroke-width="7" stroke-linejoin="round"/><path d="M45 27 L54 36 L45 45 L36 36 Z" fill="#8B83F0"/></svg>
+          <div><div class="role">Motion</div><div class="nm">Plumb-Line</div><div class="why">The iris seating onto the crosshair makes "everything lines up" visible.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="serif" style="font-size:17px;color:var(--ink);">Renata — the mark that comes into true.</div>
+    <div class="mono" style="margin-top:8px;">brand workshop · iteration 02 · react and we refine</div>
+  </div>
+</footer>
+
+</body>
+</html>
