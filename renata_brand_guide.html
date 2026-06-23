@@ -1,236 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Renata — Identity System</title>
+<meta name="robots" content="noindex, nofollow">
+<title>Renata — Brand Guide</title>
+<link rel="icon" type="image/svg+xml" href="brand/renata-favicon.svg">
+<link rel="apple-touch-icon" href="brand/icons/apple-touch-icon.png">
+<link rel="manifest" href="brand/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F7F6F2;--card:#FFFFFF;--ink:#16161F;--ink-soft:#5A5A6E;
-    --gold:#B5852E;--gold-soft:#EFE2C4;
-    --line:#E7E5DD;--line-soft:#F0EEE8;
-    --violet:#574FC7;--violet-soft:#EDEBFA;--violet-ink:#332C8A;
-    --teal:#0F7256;--teal-soft:#E2F4ED;
-    --amber:#8A5A0C;--amber-soft:#FAF0DC;--alert:#A6342E;--alert-soft:#FAEAE7;
+    --paper:#F4F2EC; --paper-2:#F7F6F2; --card:#FFFFFF;
+    --ink:#16161F; --ink-soft:#5A5A6A; --line:#E4E1D8; --line-soft:#EFEDE6;
+    --violet:#574FC7; --violet-lt:#8B83F0; --violet-soft:#EEECFB; --violet-ink:#332C8A;
+    --teal:#0F7256; --amber:#8A5A0C; --alert:#A6342E;
+    --r:16px; --r-sm:10px;
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--paper);color:var(--ink);
-    font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.55;
-    -webkit-font-smoothing:antialiased;}
-  .wrap{max-width:780px;margin:0 auto;padding:40px 22px 72px;}
-  .voice{font-family:"Newsreader",Georgia,serif;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
   .mono{font-family:"IBM Plex Mono",monospace;}
-  .dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--violet);
-    box-shadow:0 0 0 5px var(--violet-soft);vertical-align:middle;}
+  .serif{font-family:"Newsreader",Georgia,serif;}
+  h1,h2,h3{font-family:"Newsreader",serif;font-weight:500;letter-spacing:-.015em;margin:0;}
 
-  /* hero */
-  header{border-bottom:1px solid var(--line);padding-bottom:34px;margin-bottom:8px;}
-  .wm{font-family:"Newsreader",serif;font-weight:500;font-size:46px;letter-spacing:.01em;
-    display:flex;align-items:center;gap:16px;}
-  .meaning{font-family:"Newsreader",serif;font-style:italic;font-size:20px;color:var(--violet-ink);margin-top:14px;}
-  .essence{font-size:16px;color:var(--ink-soft);margin-top:10px;max-width:48ch;}
+  header{padding:64px 0 50px;border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);margin-bottom:18px;}
+  h1{font-size:46px;line-height:1.04;max-width:16ch;}
+  .lede{font-family:"Newsreader",serif;font-size:20px;color:var(--ink-soft);max-width:56ch;margin-top:18px;line-height:1.5;}
+  .lede em{font-style:italic;color:var(--violet-ink);}
+  .hero-stage{margin-top:42px;display:flex;gap:28px;align-items:center;flex-wrap:wrap;}
+  .hero-mk{width:130px;height:130px;flex:none;}
 
-  section{padding:36px 0;border-bottom:1px solid var(--line);}
-  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--violet);margin-bottom:14px;}
-  h2{font-family:"Newsreader",serif;font-weight:500;font-size:26px;letter-spacing:-.01em;margin:0 0 6px;}
-  h2 + p{color:var(--ink-soft);margin-top:0;max-width:54ch;}
-  p{margin:0 0 14px;}
+  section{padding:54px 0;border-bottom:1px solid var(--line);}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .sec-num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--violet);letter-spacing:.12em;}
+  h2{font-size:28px;}
+  .sec-sub{font-family:"Newsreader",serif;font-size:18px;color:var(--ink-soft);max-width:62ch;margin-top:12px;line-height:1.5;}
 
-  /* signature callout */
-  .sig{background:var(--ink);color:#fff;border-radius:18px;padding:30px 28px;margin-top:8px;}
-  .sig .a{font-family:"Newsreader",serif;font-size:23px;line-height:1.4;}
-  .sig .a b{color:#C9C4F2;font-weight:500;}
-  .sig .demo{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
-  .sig .pill{font-size:13px;padding:8px 13px;border-radius:9px;}
-  .sig .pill.s{background:#2A2A40;color:#fff;font-family:"Newsreader",serif;font-style:italic;}
-  .sig .pill.d{background:#2A2A40;color:#9CE3CC;font-family:"IBM Plex Mono",monospace;}
+  .row{display:grid;grid-template-columns:1fr;gap:18px;margin-top:28px;}
+  @media(min-width:760px){.row.two{grid-template-columns:1fr 1fr;}.row.three{grid-template-columns:repeat(3,1fr);}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;}
+  .card h3{font-size:17px;margin-bottom:4px;}
+  .card .cap{font-size:12.5px;color:var(--ink-soft);margin-bottom:14px;}
+  .stage{background:var(--paper-2);border:1px solid var(--line-soft);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;padding:24px;}
+  .stage.ink{background:var(--ink);}
 
-  /* palette */
-  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:18px;}
-  .sw{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card);}
-  .sw .chip{height:62px;}
-  .sw .meta{padding:10px 12px;}
-  .sw .nm{font-size:13px;font-weight:500;}
-  .sw .hx{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);}
-  .sw .role{font-size:11px;color:var(--ink-soft);margin-top:3px;}
+  .clear{position:relative;width:150px;height:150px;}
+  .clear .box{position:absolute;inset:25px;border:1px dashed #C9C3F0;border-radius:4px;}
+  .clear svg{position:absolute;inset:50px;width:50px;height:50px;}
+  .sizes{display:flex;align-items:flex-end;gap:20px;}
+  .sizes .s{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .sizes .s .lbl{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-soft);}
 
-  /* type */
-  .face{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:18px 20px;margin-top:12px;}
-  .face .lab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);}
-  .face .spec{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
-  .face .samp{margin-top:12px;}
+  .tokens{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:28px;}
+  @media(min-width:680px){.tokens{grid-template-columns:repeat(4,1fr);}}
+  .tok{border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;background:var(--card);}
+  .tok .sw{height:60px;}
+  .tok .meta{padding:9px 11px;}
+  .tok .nm{font-size:12px;font-weight:500;}
+  .tok .hex{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);}
+  .tok .role{font-size:10.5px;color:var(--ink-soft);margin-top:2px;}
 
-  /* mark */
-  .marks{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:16px;}
-  .markbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;text-align:center;}
-  .av{width:84px;height:84px;border-radius:50%;background:radial-gradient(120% 120% at 38% 30%,#6E66D6,#4B43AE);
-    color:#fff;display:flex;align-items:center;justify-content:center;
-    font-family:"Newsreader",serif;font-size:48px;margin:0 auto;}
-  .note{background:var(--amber-soft);border-radius:12px;padding:14px 16px;margin-top:18px;
-    font-size:13.5px;color:#5A3C08;}
-  .note b{color:#3F2B06;}
+  .glance{margin-top:28px;background:var(--ink);border-radius:var(--r);padding:24px;}
+  .glance .gh{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8C8AA8;margin-bottom:18px;}
+  .grow{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;}
+  .gcell{flex:1;min-width:110px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .gcell .rw{display:flex;align-items:flex-end;gap:12px;height:40px;}
+  .gcell .rw svg.big{width:38px;height:38px;} .gcell .rw svg.sm{width:22px;height:22px;} .gcell .rw svg.xs{width:16px;height:16px;}
+  .gcell .gl{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#C9C8D6;text-align:center;}
+  .gcell .gl b{display:block;margin-top:3px;}
+  .gl.v b{color:#8B83F0;} .gl.t b{color:#5FBBA0;} .gl.a b{color:#C99A3A;} .gl.r b{color:#D77;}
 
-  /* voice principles */
-  .princ{display:grid;gap:10px;margin-top:16px;}
-  .princ .pr{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:14px 16px;}
-  .princ .pr b{font-weight:600;}
-  .princ .pr span{color:var(--ink-soft);}
+  .dd{display:grid;grid-template-columns:1fr;gap:16px;margin-top:28px;}
+  @media(min-width:680px){.dd{grid-template-columns:1fr 1fr;}}
+  .ddc{border-radius:var(--r);padding:18px 22px;border:1px solid var(--line);}
+  .ddc.do{background:#E2F4ED;border-color:#C9E7DC;}
+  .ddc.dont{background:#FAEAE7;border-color:#F0D6D2;}
+  .ddc h4{margin:0 0 12px;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;}
+  .ddc.do h4{color:var(--teal);} .ddc.dont h4{color:var(--alert);}
+  .ddc ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .ddc li{font-size:13px;line-height:1.45;padding-left:22px;position:relative;}
+  .ddc li::before{position:absolute;left:0;top:0;font-weight:600;}
+  .ddc.do li::before{content:"✓";color:var(--teal);} .ddc.dont li::before{content:"✕";color:var(--alert);}
 
-  .dd{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
-  @media(max-width:560px){.dd{grid-template-columns:1fr;}}
-  .col{border-radius:12px;padding:16px;}
-  .col.do{background:var(--teal-soft);}
-  .col.dont{background:var(--alert-soft);}
-  .col h4{margin:0 0 10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;}
-  .col.do h4{color:var(--teal);}.col.dont h4{color:var(--alert);}
-  .col ul{margin:0;padding-left:0;list-style:none;}
-  .col li{font-size:13.5px;line-height:1.5;margin-bottom:9px;padding-left:18px;position:relative;}
-  .col li::before{position:absolute;left:0;top:0;}
-  .col.do li::before{content:"✓";color:var(--teal);}
-  .col.dont li::before{content:"✕";color:var(--alert);}
+  .dl{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+  .dl a{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--violet-ink);background:var(--violet-soft);border:1px solid #DAD6F4;border-radius:20px;padding:7px 13px;text-decoration:none;transition:background .15s;}
+  .dl a:hover{background:#E3E0F8;}
 
-  /* linkedin posts */
-  .post{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:14px;}
-  .post .ph{display:flex;align-items:center;gap:11px;margin-bottom:13px;}
-  .post .pav{width:38px;height:38px;border-radius:50%;background:radial-gradient(120% 120% at 38% 30%,#6E66D6,#4B43AE);
-    color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Newsreader",serif;font-size:20px;}
-  .post .pn{font-size:14px;font-weight:600;}
-  .post .pm{font-size:11.5px;color:var(--ink-soft);}
-  .post .pt{font-family:"Newsreader",serif;font-size:16px;line-height:1.6;color:var(--ink);}
-  .post .kind{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--violet);margin-bottom:6px;}
+  .lock{display:flex;align-items:center;gap:14px;}
+  .lock svg{height:44px;width:44px;flex:none;}
+  .lock .w{font-family:"Newsreader",serif;font-size:34px;font-weight:500;letter-spacing:-.02em;transform:translateY(1px);}
+  .lock.rev .w{color:var(--paper-2);}
+  .acc{margin-top:24px;background:var(--violet-soft);border:1px solid #DAD6F4;border-radius:var(--r);padding:20px 24px;font-size:13.5px;line-height:1.55;}
+  .acc b{color:var(--violet-ink);}
 
-  footer{padding-top:30px;font-size:13px;color:var(--ink-soft);}
+  footer{padding:40px 0 70px;text-align:center;color:var(--ink-soft);font-size:13px;}
+  footer .mono{font-size:11.5px;letter-spacing:.04em;margin-top:8px;}
+
+  .mk{transform-box:fill-box;transform-origin:50% 50%;}
+  @keyframes breath{0%,100%{transform:scale(1);}50%{transform:scale(1.09);}}
+  @keyframes breath-slow{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+  @keyframes throb{0%,100%{opacity:1;}50%{opacity:.32;}}
+  @keyframes poploop{0%,72%,100%{transform:scale(1);}80%{transform:scale(1.16);}88%{transform:scale(.98);}}
+  @keyframes alertpulse{0%,55%,100%{transform:scale(1);}12%{transform:scale(1.17);}24%{transform:scale(1);}36%{transform:scale(1.17);}48%{transform:scale(1);}}
+  .a-breath{animation:breath 2.6s ease-in-out infinite;}
+  .a-breath-slow{animation:breath-slow 3.4s ease-in-out infinite;}
+  .a-throb{animation:throb 1.1s ease-in-out infinite;}
+  .a-pop{animation:poploop 3s ease-in-out infinite;}
+  .a-alert{animation:alertpulse 2s ease-in-out infinite;}
+  @media(prefers-reduced-motion:reduce){.a-breath,.a-breath-slow,.a-throb,.a-pop,.a-alert{animation:none!important;}*{transition:none!important;}}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <div class="wm"><svg width="26" height="26" viewBox="0 0 100 100" style="margin-right:9px;vertical-align:-5px" aria-hidden="true"><path d="M 70 15.36 A 40 40 0 1 1 30 15.36" fill="none" stroke="#16161F" stroke-width="4.2" stroke-linecap="round"/><path d="M 78.56 44.96 A 29 29 0 1 1 59.92 22.75" fill="none" stroke="#16161F" stroke-width="4.8" stroke-linecap="round"/><path d="M 63.79 61.57 A 18 18 0 1 1 66.91 43.84" fill="none" stroke="#16161F" stroke-width="5.4" stroke-linecap="round"/><circle cx="73.85" cy="11.84" r="10" fill="#574FC7" fill-opacity="0.16"/><circle cx="73.85" cy="11.84" r="5" fill="#574FC7"/></svg>Renata</div>
-    <div class="meaning">renata · Latin · "reborn, renewed"</div>
-    <div class="essence">The analyst who reads every public filing in the country, so a broker doesn't have to — and tells them which accounts are about to be in play.</div>
-  </header>
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Renata · Brand Guide</div>
+    <h1>The mark, and how to use it.</h1>
+    <p class="lede">A solid R, drawn as a letter. In the app it doubles as Renata's status light: <em>the whole mark takes the state colour</em>, so what she is doing reads at a glance, down to a 16-pixel tab. This page is the source of truth; the files live in <span class="mono" style="font-size:13px">/brand</span>.</p>
+    <div class="hero-stage">
+      <svg class="hero-mk" viewBox="0 0 100 100" aria-label="Renata"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#16161F"/><circle cx="50" cy="36" r="22" fill="#16161F"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#16161F"/><path d="M50 27 L50 47 L40 37 Z" fill="#8B83F0"/><path d="M50 27 L60 37 L50 47 Z" fill="#574FC7"/><path d="M50 32 L55 37 L50 42 L45 37 Z" fill="#16161F"/></svg>
+      <div class="lock"><span class="w" style="font-size:40px;">Renata</span></div>
+    </div>
+  </div>
+</header>
 
-  <section>
-    <div class="eyebrow">The signature</div>
-    <h2>Renata speaks in serif. The system speaks in sans.</h2>
-    <p>One typographic move carries the whole identity. Renata's words — her insights, her drafts, her nudges — are set in a warm editorial serif. The data she works with — scores, dollars, dates — stays in clean mono and sans. It makes her read as a <em>presence with a voice</em>, never a chatbot bolted onto a dashboard.</p>
-    <div class="sig">
-      <div class="a">"They're <b>overpaying about 22%</b>, and their carrier just filed an increase. Good time to call."</div>
-      <div class="demo">
-        <span class="pill s">Renata's voice — serif</span>
-        <span class="pill d">$16,000 / head · renews JUL</span>
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Construction &amp; clear space</h2></div>
+    <p class="sec-sub">Keep clear space equal to half the mark's height on every side. Never render the mark below 16px, and never redraw it: pull from <span class="mono" style="font-size:13px">/brand</span>.</p>
+    <div class="row two">
+      <div class="card">
+        <h3>Clear space</h3>
+        <div class="cap">Half the mark height, all sides. Nothing intrudes.</div>
+        <div class="stage">
+          <div class="clear">
+            <div class="box"></div>
+            <svg viewBox="0 0 100 100"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#16161F"/><circle cx="50" cy="36" r="22" fill="#16161F"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#16161F"/><path d="M50 27 L50 47 L40 37 Z" fill="#8B83F0"/><path d="M50 27 L60 37 L50 47 Z" fill="#574FC7"/><path d="M50 32 L55 37 L50 42 L45 37 Z" fill="#16161F"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Minimum size</h3>
+        <div class="cap">It holds from a hero down to a favicon. 16px is the floor.</div>
+        <div class="stage">
+          <div class="sizes">
+            <div class="s"><svg width="64" height="64" viewBox="0 0 100 100"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#16161F"/><circle cx="50" cy="36" r="22" fill="#16161F"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#16161F"/><path d="M50 27 L50 47 L40 37 Z" fill="#8B83F0"/><path d="M50 27 L60 37 L50 47 Z" fill="#574FC7"/></svg><span class="lbl">64</span></div>
+            <div class="s"><svg width="32" height="32" viewBox="0 0 100 100"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#16161F"/><circle cx="50" cy="36" r="22" fill="#16161F"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#16161F"/><path d="M50 27 L60 37 L50 47 L40 37 Z" fill="#574FC7"/></svg><span class="lbl">32</span></div>
+            <div class="s"><svg width="16" height="16" viewBox="0 0 100 100"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#16161F"/><circle cx="50" cy="36" r="22" fill="#16161F"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#16161F"/></svg><span class="lbl">16</span></div>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section>
-    <div class="eyebrow">Color</div>
-    <h2>Violet is Renata. Spend it on her presence.</h2>
-    <p>Paper, not cold white. Violet means Renata is here or acting — used sparingly, it stays meaningful. Teal is opportunity, amber is timing, red is urgency. The signal colors are the language of the In-Play Score.</p>
-    <div class="swatches">
-      <div class="sw"><div class="chip" style="background:#574FC7;"></div><div class="meta"><div class="nm">Renata Violet</div><div class="hx">#574FC7</div><div class="role">her presence, primary</div></div></div>
-      <div class="sw"><div class="chip" style="background:#EDEBFA;"></div><div class="meta"><div class="nm">Violet Soft</div><div class="hx">#EDEBFA</div><div class="role">her wash, panels</div></div></div>
-      <div class="sw"><div class="chip" style="background:#0F7256;"></div><div class="meta"><div class="nm">In-Play Teal</div><div class="hx">#0F7256</div><div class="role">opportunity, score</div></div></div>
-      <div class="sw"><div class="chip" style="background:#8A5A0C;"></div><div class="meta"><div class="nm">Signal Amber</div><div class="hx">#8A5A0C</div><div class="role">timing triggers</div></div></div>
-      <div class="sw"><div class="chip" style="background:#A6342E;"></div><div class="meta"><div class="nm">Alert</div><div class="hx">#A6342E</div><div class="role">urgency, overpaying</div></div></div>
-      <div class="sw"><div class="chip" style="background:#1B1B2A;"></div><div class="meta"><div class="nm">Ink</div><div class="hx">#1B1B2A</div><div class="role">text</div></div></div>
-      <div class="sw"><div class="chip" style="background:#F7F6F2;border-bottom:1px solid #E7E5DD;"></div><div class="meta"><div class="nm">Paper</div><div class="hx">#F7F6F2</div><div class="role">background</div></div></div>
-      <div class="sw"><div class="chip" style="background:#5A5A6E;"></div><div class="meta"><div class="nm">Ink Soft</div><div class="hx">#5A5A6E</div><div class="role">secondary text</div></div></div>
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Colour</h2></div>
+    <p class="sec-sub">Ink and paper carry the brand. Violet is presence; teal, amber, and red are the live states. Values are tokens in <span class="mono" style="font-size:13px">/brand/tokens.css</span>.</p>
+    <div class="tokens">
+      <div class="tok"><div class="sw" style="background:#16161F"></div><div class="meta"><div class="nm">Ink</div><div class="hex">#16161F</div><div class="role">mark mass, text</div></div></div>
+      <div class="tok"><div class="sw" style="background:#F4F2EC;border-bottom:1px solid var(--line)"></div><div class="meta"><div class="nm">Paper</div><div class="hex">#F4F2EC</div><div class="role">ground</div></div></div>
+      <div class="tok"><div class="sw" style="background:#574FC7"></div><div class="meta"><div class="nm">Violet</div><div class="hex">#574FC7</div><div class="role">present / working</div></div></div>
+      <div class="tok"><div class="sw" style="background:#8B83F0"></div><div class="meta"><div class="nm">Violet light</div><div class="hex">#8B83F0</div><div class="role">lit facet</div></div></div>
+      <div class="tok"><div class="sw" style="background:#0F7256"></div><div class="meta"><div class="nm">Teal</div><div class="hex">#0F7256</div><div class="role">state · found</div></div></div>
+      <div class="tok"><div class="sw" style="background:#8A5A0C"></div><div class="meta"><div class="nm">Amber</div><div class="hex">#8A5A0C</div><div class="role">state · timing</div></div></div>
+      <div class="tok"><div class="sw" style="background:#A6342E"></div><div class="meta"><div class="nm">Alert</div><div class="hex">#A6342E</div><div class="role">state · at risk</div></div></div>
+      <div class="tok"><div class="sw" style="background:#5A5A6A"></div><div class="meta"><div class="nm">Ink soft</div><div class="hex">#5A5A6A</div><div class="role">secondary text</div></div></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section>
-    <div class="eyebrow">Typography</div>
-    <h2>Three faces, three jobs.</h2>
-    <div class="face">
-      <div class="lab">Newsreader · Renata's voice</div>
-      <div class="spec">Serif. Her messages, drafts, headlines. Warm, editorial, human.</div>
-      <div class="samp voice" style="font-size:24px;">Good time to call — they renew in July.</div>
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>The six states</h2></div>
+    <p class="sec-sub">The whole mark carries the state through colour, legible down to a 16px tab. The three violet states are one calm family, told apart by motion. See the live demo on <a href="renata_brand_mark.html" style="color:var(--violet-ink)">the mark page</a>.</p>
+    <div class="glance">
+      <div class="gh">At app and favicon size</div>
+      <div class="grow">
+        <div class="gcell"><div class="rw">
+          <svg class="big" viewBox="0 0 100 100"><g class="mk"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#16161F"/></g></svg>
+          <svg class="sm" viewBox="0 0 100 100"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#16161F"/></svg>
+          <svg class="xs" viewBox="0 0 100 100"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/></svg>
+        </div><div class="gl v">present<b>violet</b></div></div>
+        <div class="gcell"><div class="rw">
+          <svg class="big" viewBox="0 0 100 100"><g class="mk a-throb"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#16161F"/></g></svg>
+          <svg class="sm" viewBox="0 0 100 100"><g class="mk a-throb"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#16161F"/></g></svg>
+          <svg class="xs" viewBox="0 0 100 100"><g class="mk a-throb"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/></g></svg>
+        </div><div class="gl v">working<b>violet · throb</b></div></div>
+        <div class="gcell"><div class="rw">
+          <svg class="big" viewBox="0 0 100 100"><g class="mk a-pop"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#0F7256"/><circle cx="50" cy="36" r="22" fill="#0F7256"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#0F7256"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#16161F"/></g></svg>
+          <svg class="sm" viewBox="0 0 100 100"><g class="mk a-pop"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#0F7256"/><circle cx="50" cy="36" r="22" fill="#0F7256"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#0F7256"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#16161F"/></g></svg>
+          <svg class="xs" viewBox="0 0 100 100"><g class="mk a-pop"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#0F7256"/><circle cx="50" cy="36" r="22" fill="#0F7256"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#0F7256"/></g></svg>
+        </div><div class="gl t">found<b>teal</b></div></div>
+        <div class="gcell"><div class="rw">
+          <svg class="big" viewBox="0 0 100 100"><g class="mk a-breath-slow"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#8A5A0C"/><circle cx="50" cy="36" r="22" fill="#8A5A0C"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#8A5A0C"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#16161F"/></g></svg>
+          <svg class="sm" viewBox="0 0 100 100"><g class="mk a-breath-slow"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#8A5A0C"/><circle cx="50" cy="36" r="22" fill="#8A5A0C"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#8A5A0C"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#16161F"/></g></svg>
+          <svg class="xs" viewBox="0 0 100 100"><g class="mk a-breath-slow"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#8A5A0C"/><circle cx="50" cy="36" r="22" fill="#8A5A0C"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#8A5A0C"/></g></svg>
+        </div><div class="gl a">timing<b>amber</b></div></div>
+        <div class="gcell"><div class="rw">
+          <svg class="big" viewBox="0 0 100 100"><g class="mk a-alert"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#A6342E"/><circle cx="50" cy="36" r="22" fill="#A6342E"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#A6342E"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#16161F"/></g></svg>
+          <svg class="sm" viewBox="0 0 100 100"><g class="mk a-alert"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#A6342E"/><circle cx="50" cy="36" r="22" fill="#A6342E"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#A6342E"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#16161F"/></g></svg>
+          <svg class="xs" viewBox="0 0 100 100"><g class="mk a-alert"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#A6342E"/><circle cx="50" cy="36" r="22" fill="#A6342E"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#A6342E"/></g></svg>
+        </div><div class="gl r">alert<b>red</b></div></div>
+      </div>
     </div>
-    <div class="face">
-      <div class="lab">Inter · the system</div>
-      <div class="spec">Sans. Interface, labels, controls. Quiet and legible.</div>
-      <div class="samp" style="font-size:18px;font-weight:500;">Send as me · Edit · Pause all</div>
-    </div>
-    <div class="face">
-      <div class="lab">IBM Plex Mono · the data</div>
-      <div class="spec">Mono. Scores, money, dates — the analyst signal.</div>
-      <div class="samp mono" style="font-size:18px;">87 · $16,000/head · renews JUL</div>
-    </div>
-  </section>
+    <div class="acc"><b>Accessibility.</b> Never signal a state by colour alone. Pair it with the motion and an adjacent text label, e.g. "1 account found". Reduced-motion users get the still end-frame.</div>
+  </div>
+</section>
 
-  <section>
-    <div class="eyebrow">The mark</div>
-    <h2>The Aperture: a lens finding the moment.</h2>
-    <p>The mark is the Aperture. Three concentric sweeps close toward a single lit point, the renewal cycle resolving into the one account that just came into play. The lit violet point means Renata found it. It scales to an app icon and a favicon; the full variant family and the motion states live in the logo system. The monogram stays her avatar.</p>
-    <div class="marks">
-      <div class="markbox"><svg width="64" height="64" viewBox="0 0 100 100" role="img" aria-label="Renata Aperture mark"><path d="M 70 15.36 A 40 40 0 1 1 30 15.36" fill="none" stroke="#16161F" stroke-width="4.2" stroke-linecap="round"/><path d="M 78.56 44.96 A 29 29 0 1 1 59.92 22.75" fill="none" stroke="#16161F" stroke-width="4.8" stroke-linecap="round"/><path d="M 63.79 61.57 A 18 18 0 1 1 66.91 43.84" fill="none" stroke="#16161F" stroke-width="5.4" stroke-linecap="round"/><circle cx="73.85" cy="11.84" r="10" fill="#574FC7" fill-opacity="0.16"/><circle cx="73.85" cy="11.84" r="5" fill="#574FC7"/></svg><div style="font-size:12px;color:var(--ink-soft);margin-top:14px;">the Aperture</div></div>
-      <div class="markbox"><div class="av">R</div><div style="font-size:12px;color:var(--ink-soft);margin-top:12px;">avatar monogram</div></div>
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Lockup &amp; icons</h2></div>
+    <p class="sec-sub">The lockup rests in ink or violet only; the live state colour belongs to the app, never the logo.</p>
+    <div class="row three">
+      <div class="card">
+        <h3>Lockup</h3>
+        <div class="cap">Mark + Newsreader wordmark.</div>
+        <div class="stage"><div class="lock"><svg viewBox="0 0 100 100"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#16161F"/><circle cx="50" cy="36" r="22" fill="#16161F"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#16161F"/><path d="M50 27 L50 47 L40 37 Z" fill="#8B83F0"/><path d="M50 27 L60 37 L50 47 Z" fill="#574FC7"/><path d="M50 32 L55 37 L50 42 L45 37 Z" fill="#16161F"/></svg><span class="w">Renata</span></div></div>
+      </div>
+      <div class="card">
+        <h3>Reversed</h3>
+        <div class="cap">For dark surfaces.</div>
+        <div class="stage ink"><div class="lock rev"><svg viewBox="0 0 100 100"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#F4F2EC"/><circle cx="50" cy="36" r="22" fill="#F4F2EC"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#F4F2EC"/><path d="M50 27 L50 47 L40 37 Z" fill="#574FC7"/><path d="M50 27 L60 37 L50 47 Z" fill="#332C8A"/><path d="M50 32 L55 37 L50 42 L45 37 Z" fill="#F4F2EC"/></svg><span class="w">Renata</span></div></div>
+      </div>
+      <div class="card">
+        <h3>App icon</h3>
+        <div class="cap">Mark on paper, safe-zone padded.</div>
+        <div class="stage"><img src="brand/icons/icon-512.png" alt="Renata app icon" width="96" height="96" style="border-radius:18px;border:1px solid var(--line)"></div>
+      </div>
     </div>
-    <div class="note"><b>On giving Renata a face:</b> she's an AI, and a designed monogram or illustrated character is the honest, durable choice — a fabricated human headshot passed off as a real person invites a trust problem the moment anyone looks closely, especially on LinkedIn. If you want a warmer illustrated portrait later, that's an image-generation pass on top of this system, not a stock photo.</div>
-  </section>
+  </div>
+</section>
 
-  <section>
-    <div class="eyebrow">Voice & tone</div>
-    <h2>Specific, generous, calm.</h2>
-    <div class="princ">
-      <div class="pr"><b>Speak in specifics.</b> <span>Months, dollars, carriers — never an adjective where a number will do.</span></div>
-      <div class="pr"><b>Generous first, sells last.</b> <span>The insight is the headline. The product is the P.S.</span></div>
-      <div class="pr"><b>Calm authority.</b> <span>No hype, no urgency theater, no emoji clutter. She knows things.</span></div>
-      <div class="pr"><b>Show the work.</b> <span>Always say why an account is in play. Legibility is how she earns trust.</span></div>
-    </div>
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Do &amp; don't</h2></div>
     <div class="dd">
-      <div class="col do">
-        <h4>Sounds like Renata</h4>
+      <div class="ddc do">
+        <h4>Do</h4>
         <ul>
-          <li>"Renews in July, paying 22% over comparable Austin employers."</li>
-          <li>"I drafted the intro. Send as you, or edit first."</li>
-          <li>"You closed three last quarter — switch to flat and save $1,350."</li>
+          <li>Pull the mark from <span class="mono">/brand</span>; never redraw it.</li>
+          <li>Let the whole mark carry the live state colour in the app.</li>
+          <li>Keep the lockup in ink or violet on every surface.</li>
+          <li>Pair every state with motion and a text label.</li>
         </ul>
       </div>
-      <div class="col dont">
-        <h4>Never Renata</h4>
+      <div class="ddc dont">
+        <h4>Don't</h4>
         <ul>
-          <li>"🔥 HOT LEAD you can't afford to miss!!"</li>
-          <li>"Leverage our AI-powered synergistic platform."</li>
-          <li>Data in serif, or her voice in mono. Keep the lanes.</li>
+          <li>Recolour the aperture on its own, or add a glow.</li>
+          <li>Stretch, rotate, or re-proportion the R.</li>
+          <li>Tint the logo lockup with a state colour.</li>
+          <li>Render below 16px or crowd the clear space.</li>
         </ul>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section style="border-bottom:none;">
-    <div class="eyebrow">Renata on LinkedIn</div>
-    <h2>Value in the open, the ask in the P.S.</h2>
-    <p>Her feed teaches brokers something true every week — a win story, a market alert, a seasonal play. She never leads with the product; the specificity is the proof, and the product is the quiet next step.</p>
-
-    <div class="post">
-      <div class="ph"><div class="pav">R</div><div><div class="pn">Renata</div><div class="pm">Benefits intelligence · reads the filings so you don't</div></div></div>
-      <div class="kind">use-case story</div>
-      <div class="pt">A broker asked me to look at a 140-life group she'd circled for a year. The filing told it in 30 seconds: renewing in July, 22% above comparable Austin employers, carrier just filed a double-digit increase. One email, all three facts. Meeting booked the next day. The data was public the whole time — it just took reading 800,000 filings to find the one that mattered.</div>
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Files</h2></div>
+    <p class="sec-sub">The source of truth. Tokens, SVGs, the icon set, and the dynamic-favicon helper.</p>
+    <div class="dl">
+      <a href="brand/renata-mark.svg">renata-mark.svg</a>
+      <a href="brand/renata-mark-reversed.svg">reversed.svg</a>
+      <a href="brand/renata-mark-mono.svg">mono.svg</a>
+      <a href="brand/renata-state-found.svg">state-found.svg</a>
+      <a href="brand/renata-state-timing.svg">state-timing.svg</a>
+      <a href="brand/renata-state-alert.svg">state-alert.svg</a>
+      <a href="brand/renata-favicon.svg">favicon.svg</a>
+      <a href="brand/renata-lockup.svg">lockup.svg</a>
+      <a href="brand/tokens.css">tokens.css</a>
+      <a href="brand/tokens.json">tokens.json</a>
+      <a href="brand/favicon-state.js">favicon-state.js</a>
+      <a href="brand/README.md">README.md</a>
     </div>
+  </div>
+</section>
 
-    <div class="post">
-      <div class="ph"><div class="pav">R</div><div><div class="pn">Renata</div><div class="pm">Benefits intelligence · reads the filings so you don't</div></div></div>
-      <div class="kind">market alert</div>
-      <div class="pt">Three carriers filed double-digit increases in Texas this quarter. If your mid-market clients are on one of them, they'll feel it at renewal. The brokers who open that conversation early keep the account. The ones who wait get shopped. Here are the renewal months most exposed →</div>
-    </div>
+<footer>
+  <div class="wrap">
+    <div class="serif" style="font-size:17px;color:var(--ink);">Renata. Drawn, not assembled.</div>
+    <div class="mono">brand guide · the source of truth lives in /brand</div>
+  </div>
+</footer>
 
-    <div class="post">
-      <div class="ph"><div class="pav">R</div><div><div class="pn">Renata</div><div class="pm">Benefits intelligence · reads the filings so you don't</div></div></div>
-      <div class="kind">seasonal intel</div>
-      <div class="pt">18% of Texas mid-market groups renew in Q3. That's a prospecting calendar hiding in public filings. A short playbook for working a renewal window before your competition knows it's open →</div>
-    </div>
-  </section>
-
-  <footer>Renata identity system · v1 · violet is hers, spend it on her presence.</footer>
-
-</div>
 </body>
 </html>

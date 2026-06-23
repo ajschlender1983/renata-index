@@ -1,112 +1,14 @@
-<!DOCTYPE html><html lang="en"><head><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"><title>Renata — Motion</title>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{--paper:#F7F6F2;--card:#FFFFFF;--ink:#16161F;--ink-soft:#5A5A6E;--line:#E7E5DD;--violet:#574FC7;--violet-soft:#EDEBFA;--violet-ink:#332C8A;--gold:#B5852E;--gold-soft:#EFE2C4;}
-*{box-sizing:border-box;} body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;}
-.wrap{max-width:680px;margin:0 auto;padding:44px 22px 70px;}
-.brand{display:flex;align-items:center;gap:9px;font-family:"Newsreader",serif;font-size:20px;font-weight:500;}
-.brand .d{width:9px;height:9px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 5px var(--violet-soft);}
-h1{font-family:"Newsreader",serif;font-weight:500;font-size:30px;margin:8px 0 4px;} .sub{color:var(--ink-soft);max-width:54ch;}
-.stage{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:40px;display:flex;flex-direction:column;align-items:center;gap:10px;margin:24px 0 14px;}
-.sl{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);}
-.controls{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;}
-.controls button{font:500 13.5px "Inter";padding:9px 16px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);cursor:pointer;}
-.controls button.active{background:var(--violet);color:#fff;border-color:var(--violet);}
-.controls button.gold.active{background:var(--gold);border-color:var(--gold);}
-.cards{display:grid;gap:11px;margin-top:28px;}
-.c{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 17px;display:flex;gap:14px;align-items:flex-start;}
-.c b{font-weight:600;} .c span{color:var(--ink-soft);font-size:13.5px;}
-.note{background:var(--gold-soft);color:#5A4212;border-radius:12px;padding:13px 15px;margin-top:14px;font-size:13.5px;}
-
-.mark .ring,.mark .rays{transform-box:view-box;transform-origin:50px 50px;}
-.mark .halo,.mark .point,.mark .ripple{transform-box:view-box;transform-origin:73.8px 11.8px;}
-.mark .rays{opacity:0;transform:scale(.6) rotate(0);}
-.mark .ripple{opacity:0;}
-/* idle */
-.mark.idle .halo{animation:halo 2.8s ease-in-out infinite;}
-@keyframes halo{0%,100%{transform:scale(1);opacity:.16;}50%{transform:scale(1.4);opacity:.05;}}
-/* scanning */
-.mark.scanning .o{animation:spin 13s linear infinite;}
-.mark.scanning .m{animation:spin 9s linear infinite reverse;}
-.mark.scanning .i{animation:spin 6s linear infinite;}
-.mark.scanning .point,.mark.scanning .halo{opacity:0;transition:opacity .3s;}
-@keyframes spin{to{transform:rotate(360deg);}}
-/* found: gaps snap-align onto the point + gold ray burst + lock-in */
-.mark.found .o{animation:alignO .7s cubic-bezier(.2,.8,.25,1) forwards;}
-.mark.found .m{animation:alignM .7s cubic-bezier(.2,.8,.25,1) forwards;}
-.mark.found .i{animation:alignI .7s cubic-bezier(.2,.8,.25,1) forwards;}
-.mark.found .point{animation:lockin .6s cubic-bezier(.2,.8,.2,1.2) .25s both;}
-.mark.found .halo{animation:halo 2.8s ease-in-out infinite .85s;}
-.mark.found .ripple{animation:ping .8s ease-out .35s both;}
-.mark.found .rays{animation:burst 1s ease-out .3s both;}
-@keyframes alignO{to{transform:rotate(32deg);}}
-@keyframes alignM{to{transform:rotate(-18deg);}}
-@keyframes alignI{to{transform:rotate(-68deg);}}
-@keyframes lockin{0%{transform:scale(.2);opacity:0;}100%{transform:scale(1);opacity:1;}}
-@keyframes ping{0%{transform:scale(.6);opacity:.5;}100%{transform:scale(3.2);opacity:0;}}
-@keyframes burst{0%{opacity:0;transform:scale(.6) rotate(-8deg);}40%{opacity:.9;transform:scale(1) rotate(0);}100%{opacity:0;transform:scale(1.05) rotate(4deg);}}
-@media(prefers-reduced-motion:reduce){
-  .mark *{animation:none!important;}
-  .mark .o{transform:rotate(32deg);}.mark .m{transform:rotate(-18deg);}.mark .i{transform:rotate(-68deg);}
-  .mark .point,.mark .halo{opacity:1;}.mark .halo{opacity:.16;}.mark .rays,.mark .ripple{display:none;}
-}
-
-</style></head><body><div class="wrap">
-<div class="brand"><span class="d"></span>Renata</div>
-<h1>The mark, alive — and the lock.</h1>
-<div class="sub">She rests, she scans the filings, and when she finds an account the rings snap into perfect alignment on it — a gold sun-ray burst marking the moment. Tap through it.</div>
-<div class="stage"><div class="mark idle" id="mark"><svg viewBox="0 0 100 100" width="140" height="140">
-  <g class="rays" fill="#B5852E"><path d="M 92.5 43.5 L 99.0 50.0 L 92.5 56.5 Z"/><path d="M 91.8 60.3 L 92.5 67.6 L 86.8 72.2 Z"/><path d="M 84.6 75.5 L 84.6 84.6 L 75.5 84.6 Z"/><path d="M 72.2 86.8 L 67.6 92.5 L 60.3 91.8 Z"/><path d="M 56.5 92.5 L 50.0 99.0 L 43.5 92.5 Z"/><path d="M 39.7 91.8 L 32.4 92.5 L 27.8 86.8 Z"/><path d="M 24.5 84.6 L 15.4 84.6 L 15.4 75.5 Z"/><path d="M 13.2 72.2 L 7.5 67.6 L 8.2 60.3 Z"/><path d="M 7.5 56.5 L 1.0 50.0 L 7.5 43.5 Z"/><path d="M 8.2 39.7 L 7.5 32.4 L 13.2 27.8 Z"/><path d="M 15.4 24.5 L 15.4 15.4 L 24.5 15.4 Z"/><path d="M 27.8 13.2 L 32.4 7.5 L 39.7 8.2 Z"/><path d="M 43.5 7.5 L 50.0 1.0 L 56.5 7.5 Z"/><path d="M 60.3 8.2 L 67.6 7.5 L 72.2 13.2 Z"/><path d="M 75.5 15.4 L 84.6 15.4 L 84.6 24.5 Z"/><path d="M 86.8 27.8 L 92.5 32.4 L 91.8 39.7 Z"/></g>
-  <g class="ring o"><path d="M 70.00 15.36 A 40 40 0 1 1 30.00 15.36" fill="none" stroke="#16161F" stroke-width="4.2" stroke-linecap="round"/></g>
-  <g class="ring m"><path d="M 78.56 44.96 A 29 29 0 1 1 59.92 22.75" fill="none" stroke="#16161F" stroke-width="4.8" stroke-linecap="round"/></g>
-  <g class="ring i"><path d="M 63.79 61.57 A 18 18 0 1 1 66.91 43.84" fill="none" stroke="#16161F" stroke-width="5.4" stroke-linecap="round"/></g>
-  <circle class="ripple" cx="73.85" cy="11.84" r="5" fill="none" stroke="#574FC7" stroke-width="2"/>
-  <circle class="halo" cx="73.85" cy="11.84" r="10" fill="#574FC7" fill-opacity="0.16"/>
-  <circle class="point" cx="73.85" cy="11.84" r="5" fill="#574FC7"/>
-</svg></div><div class="sl" id="lbl">idle · present</div></div>
-<div class="controls">
-  <button data-s="idle" class="active">Idle</button>
-  <button data-s="scanning">Scanning</button>
-  <button data-s="found" class="gold">Found — lock on</button>
-</div>
-<div class="cards">
-  <div class="c"><div><svg viewBox="0 0 100 100" width="32" height="32">
-  <g class="rays" fill="#B5852E"><path d="M 92.5 43.5 L 99.0 50.0 L 92.5 56.5 Z"/><path d="M 91.8 60.3 L 92.5 67.6 L 86.8 72.2 Z"/><path d="M 84.6 75.5 L 84.6 84.6 L 75.5 84.6 Z"/><path d="M 72.2 86.8 L 67.6 92.5 L 60.3 91.8 Z"/><path d="M 56.5 92.5 L 50.0 99.0 L 43.5 92.5 Z"/><path d="M 39.7 91.8 L 32.4 92.5 L 27.8 86.8 Z"/><path d="M 24.5 84.6 L 15.4 84.6 L 15.4 75.5 Z"/><path d="M 13.2 72.2 L 7.5 67.6 L 8.2 60.3 Z"/><path d="M 7.5 56.5 L 1.0 50.0 L 7.5 43.5 Z"/><path d="M 8.2 39.7 L 7.5 32.4 L 13.2 27.8 Z"/><path d="M 15.4 24.5 L 15.4 15.4 L 24.5 15.4 Z"/><path d="M 27.8 13.2 L 32.4 7.5 L 39.7 8.2 Z"/><path d="M 43.5 7.5 L 50.0 1.0 L 56.5 7.5 Z"/><path d="M 60.3 8.2 L 67.6 7.5 L 72.2 13.2 Z"/><path d="M 75.5 15.4 L 84.6 15.4 L 84.6 24.5 Z"/><path d="M 86.8 27.8 L 92.5 32.4 L 91.8 39.7 Z"/></g>
-  <g class="ring o"><path d="M 70.00 15.36 A 40 40 0 1 1 30.00 15.36" fill="none" stroke="#16161F" stroke-width="4.2" stroke-linecap="round"/></g>
-  <g class="ring m"><path d="M 78.56 44.96 A 29 29 0 1 1 59.92 22.75" fill="none" stroke="#16161F" stroke-width="4.8" stroke-linecap="round"/></g>
-  <g class="ring i"><path d="M 63.79 61.57 A 18 18 0 1 1 66.91 43.84" fill="none" stroke="#16161F" stroke-width="5.4" stroke-linecap="round"/></g>
-  <circle class="ripple" cx="73.85" cy="11.84" r="5" fill="none" stroke="#574FC7" stroke-width="2"/>
-  <circle class="halo" cx="73.85" cy="11.84" r="10" fill="#574FC7" fill-opacity="0.16"/>
-  <circle class="point" cx="73.85" cy="11.84" r="5" fill="#574FC7"/>
-</svg></div><div><b>Idle.</b> <span>The point breathes. Her ambient presence and avatar.</span></div></div>
-  <div class="c"><div><svg viewBox="0 0 100 100" width="32" height="32">
-  <g class="rays" fill="#B5852E"><path d="M 92.5 43.5 L 99.0 50.0 L 92.5 56.5 Z"/><path d="M 91.8 60.3 L 92.5 67.6 L 86.8 72.2 Z"/><path d="M 84.6 75.5 L 84.6 84.6 L 75.5 84.6 Z"/><path d="M 72.2 86.8 L 67.6 92.5 L 60.3 91.8 Z"/><path d="M 56.5 92.5 L 50.0 99.0 L 43.5 92.5 Z"/><path d="M 39.7 91.8 L 32.4 92.5 L 27.8 86.8 Z"/><path d="M 24.5 84.6 L 15.4 84.6 L 15.4 75.5 Z"/><path d="M 13.2 72.2 L 7.5 67.6 L 8.2 60.3 Z"/><path d="M 7.5 56.5 L 1.0 50.0 L 7.5 43.5 Z"/><path d="M 8.2 39.7 L 7.5 32.4 L 13.2 27.8 Z"/><path d="M 15.4 24.5 L 15.4 15.4 L 24.5 15.4 Z"/><path d="M 27.8 13.2 L 32.4 7.5 L 39.7 8.2 Z"/><path d="M 43.5 7.5 L 50.0 1.0 L 56.5 7.5 Z"/><path d="M 60.3 8.2 L 67.6 7.5 L 72.2 13.2 Z"/><path d="M 75.5 15.4 L 84.6 15.4 L 84.6 24.5 Z"/><path d="M 86.8 27.8 L 92.5 32.4 L 91.8 39.7 Z"/></g>
-  <g class="ring o"><path d="M 70.00 15.36 A 40 40 0 1 1 30.00 15.36" fill="none" stroke="#16161F" stroke-width="4.2" stroke-linecap="round"/></g>
-  <g class="ring m"><path d="M 78.56 44.96 A 29 29 0 1 1 59.92 22.75" fill="none" stroke="#16161F" stroke-width="4.8" stroke-linecap="round"/></g>
-  <g class="ring i"><path d="M 63.79 61.57 A 18 18 0 1 1 66.91 43.84" fill="none" stroke="#16161F" stroke-width="5.4" stroke-linecap="round"/></g>
-  <circle class="ripple" cx="73.85" cy="11.84" r="5" fill="none" stroke="#574FC7" stroke-width="2"/>
-  <circle class="halo" cx="73.85" cy="11.84" r="10" fill="#574FC7" fill-opacity="0.16"/>
-  <circle class="point" cx="73.85" cy="11.84" r="5" fill="#574FC7"/>
-</svg></div><div><b>Scanning.</b> <span>Counter-rotating aperture — the loading state while she works the filings.</span></div></div>
-  <div class="c"><div><svg viewBox="0 0 100 100" width="32" height="32">
-  <g class="rays" fill="#B5852E"><path d="M 92.5 43.5 L 99.0 50.0 L 92.5 56.5 Z"/><path d="M 91.8 60.3 L 92.5 67.6 L 86.8 72.2 Z"/><path d="M 84.6 75.5 L 84.6 84.6 L 75.5 84.6 Z"/><path d="M 72.2 86.8 L 67.6 92.5 L 60.3 91.8 Z"/><path d="M 56.5 92.5 L 50.0 99.0 L 43.5 92.5 Z"/><path d="M 39.7 91.8 L 32.4 92.5 L 27.8 86.8 Z"/><path d="M 24.5 84.6 L 15.4 84.6 L 15.4 75.5 Z"/><path d="M 13.2 72.2 L 7.5 67.6 L 8.2 60.3 Z"/><path d="M 7.5 56.5 L 1.0 50.0 L 7.5 43.5 Z"/><path d="M 8.2 39.7 L 7.5 32.4 L 13.2 27.8 Z"/><path d="M 15.4 24.5 L 15.4 15.4 L 24.5 15.4 Z"/><path d="M 27.8 13.2 L 32.4 7.5 L 39.7 8.2 Z"/><path d="M 43.5 7.5 L 50.0 1.0 L 56.5 7.5 Z"/><path d="M 60.3 8.2 L 67.6 7.5 L 72.2 13.2 Z"/><path d="M 75.5 15.4 L 84.6 15.4 L 84.6 24.5 Z"/><path d="M 86.8 27.8 L 92.5 32.4 L 91.8 39.7 Z"/></g>
-  <g class="ring o"><path d="M 70.00 15.36 A 40 40 0 1 1 30.00 15.36" fill="none" stroke="#16161F" stroke-width="4.2" stroke-linecap="round"/></g>
-  <g class="ring m"><path d="M 78.56 44.96 A 29 29 0 1 1 59.92 22.75" fill="none" stroke="#16161F" stroke-width="4.8" stroke-linecap="round"/></g>
-  <g class="ring i"><path d="M 63.79 61.57 A 18 18 0 1 1 66.91 43.84" fill="none" stroke="#16161F" stroke-width="5.4" stroke-linecap="round"/></g>
-  <circle class="ripple" cx="73.85" cy="11.84" r="5" fill="none" stroke="#574FC7" stroke-width="2"/>
-  <circle class="halo" cx="73.85" cy="11.84" r="10" fill="#574FC7" fill-opacity="0.16"/>
-  <circle class="point" cx="73.85" cy="11.84" r="5" fill="#574FC7"/>
-</svg></div><div><b>Found.</b> <span>Gaps align onto the account, point locks, gold rays burst. The Sun-Stone moment.</span></div></div>
-</div>
-<div class="note"><b>The Aztec tie is structural, not decorative.</b> The aperture was always concentric rings of a cycle — the Sun Stone is the same. So the found-alignment and the sun-ray burst aren't bolted on; they're the logo completing the metaphor. Gold is reserved for these ceremonial, premium moments.</div>
-<script>
-const m=document.getElementById('mark'),lbl=document.getElementById('lbl');
-const L={idle:'idle · present',scanning:'scanning · working',found:'found · locked on'};
-document.querySelectorAll('.controls button').forEach(b=>b.onclick=()=>{
-  document.querySelectorAll('.controls button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
-  const s=b.dataset.s;
-  if(s==='found'){m.className='mark idle';void m.offsetWidth;m.className='mark found';}else{m.className='mark '+s;}
-  lbl.textContent=L[s];
-});
-</script></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="0; url=renata_brand_mark.html">
+<link rel="canonical" href="renata_brand_mark.html">
+<title>Renata — Motion (moved)</title>
+<style>body{font-family:-apple-system,system-ui,sans-serif;background:#F4F2EC;color:#16161F;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0}a{color:#332C8A}</style>
+</head>
+<body>
+<p>Motion now lives with the mark and its states on the <a href="renata_brand_mark.html">Renata mark page</a>.</p>
+</body>
+</html>

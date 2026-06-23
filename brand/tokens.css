@@ -1,0 +1,30 @@
+/* Renata brand tokens — the single source of truth.
+   Import this and reference the variables; never hard-code the hexes again. */
+:root {
+  /* surfaces */
+  --renata-paper:    #F4F2EC;
+  --renata-paper-2:  #F7F6F2;
+  --renata-card:     #FFFFFF;
+  --renata-ink:      #16161F;   /* canonical mark mass + body ink */
+  --renata-ink-soft: #5A5A6A;
+  --renata-line:     #E4E1D8;
+
+  /* brand + state colours (the mark's aperture / live status) */
+  --renata-violet:      #574FC7;  /* present / working / brand accent */
+  --renata-violet-lt:   #8B83F0;  /* lit facet, reversed aperture */
+  --renata-violet-deep: #4A42B8;
+  --renata-violet-ink:  #332C8A;
+  --renata-teal:        #0F7256;  /* state: found */
+  --renata-amber:       #8A5A0C;  /* state: timing */
+  --renata-alert:       #A6342E;  /* state: alert */
+
+  /* type */
+  --renata-font-display: "Newsreader", Georgia, serif;
+  --renata-font-ui:      "Inter", system-ui, sans-serif;
+  --renata-font-mono:    "IBM Plex Mono", monospace;
+
+  /* mark system */
+  --renata-mark-min:        16px;  /* never smaller */
+  --renata-mark-clearspace: 0.5;   /* x mark height, on every side */
+  --renata-lockup-gap:      0.35;  /* x cap-height, mark -> wordmark */
+}

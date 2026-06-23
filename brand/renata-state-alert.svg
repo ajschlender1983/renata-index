@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Renata">
-  <!-- Favicon · idle (violet). Swap the rect fill to a state colour for a live tab. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Renata, alert">
+  <!-- Live state: ALERT (red). Whole mark takes the state colour; aperture knocks out. -->
   <defs>
     <mask id="renata-aperture">
       <rect width="100" height="100" fill="#000"/>
@@ -9,5 +9,5 @@
       <path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#000"/>
     </mask>
   </defs>
-  <rect width="100" height="100" fill="#574FC7" mask="url(#renata-aperture)"/>
+  <rect width="100" height="100" fill="#A6342E" mask="url(#renata-aperture)"/>
 </svg>

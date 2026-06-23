@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Renata">
+  <!-- Renata mark, reversed · for dark surfaces · paper mass + violet aperture -->
+  <path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#F4F2EC"/>
+  <circle cx="50" cy="36" r="22" fill="#F4F2EC"/>
+  <path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#F4F2EC"/>
+  <path d="M50 27 L50 47 L40 37 Z" fill="#574FC7"/>
+  <path d="M50 27 L60 37 L50 47 Z" fill="#332C8A"/>
+  <path d="M50 32 L55 37 L50 42 L45 37 Z" fill="#F4F2EC"/>
+</svg>
