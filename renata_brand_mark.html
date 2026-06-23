@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Renata — The Mark</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25 14 L39 14 L40 86 L24 86 Z' fill='%23574FC7'/%3E%3Ccircle cx='50' cy='36' r='22' fill='%23574FC7'/%3E%3Cpath d='M44 54 L56 51 L85 86 L68 86 Z' fill='%23574FC7'/%3E%3Cpath d='M50 24 L63 37 L50 50 L37 37 Z' fill='%23F4F2EC'/%3E%3Cpath d='M50 30 L58 37 L50 44 L42 37 Z' fill='%234A42B8'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F2EC; --paper-2:#F7F6F2; --card:#FFFFFF;
+    --ink:#16161F; --ink-soft:#5A5A6A; --line:#E4E1D8; --line-soft:#EFEDE6;
+    --violet:#574FC7; --violet-deep:#4A42B8; --violet-lt:#8B83F0; --violet-soft:#EEECFB; --violet-ink:#332C8A;
+    --teal:#0F7256; --teal-lt:#5FBBA0; --amber:#8A5A0C; --amber-lt:#B5852E; --alert:#A6342E; --alert-lt:#C9554F;
+    --r:16px; --r-sm:10px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+  .mono{font-family:"IBM Plex Mono",monospace;}
+  .serif{font-family:"Newsreader",Georgia,serif;}
+  h1,h2,h3{font-family:"Newsreader",serif;font-weight:500;letter-spacing:-.015em;margin:0;}
+
+  header{padding:64px 0 52px;border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);margin-bottom:18px;}
+  h1{font-size:46px;line-height:1.04;max-width:15ch;}
+  .lede{font-family:"Newsreader",serif;font-size:20px;color:var(--ink-soft);max-width:56ch;margin-top:18px;line-height:1.5;}
+  .lede em{font-style:italic;color:var(--violet-ink);}
+  .hero-stage{margin-top:44px;display:flex;gap:46px;align-items:center;flex-wrap:wrap;}
+  .hero-mk{width:180px;height:180px;flex:none;background:var(--ink);border-radius:26px;padding:26px;cursor:pointer;}
+  .hero-cap .k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);}
+  .hero-cap .t{font-family:"Newsreader",serif;font-size:25px;margin-top:8px;max-width:30ch;line-height:1.35;}
+  .hero-cap .t em{font-style:italic;color:var(--violet-ink);}
+  .hero-cap .hint{margin-top:14px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);}
+
+  section{padding:56px 0;border-bottom:1px solid var(--line);}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .sec-num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--violet);letter-spacing:.12em;}
+  h2{font-size:28px;}
+  .sec-sub{font-family:"Newsreader",serif;font-size:18px;color:var(--ink-soft);max-width:62ch;margin-top:12px;line-height:1.5;}
+
+  .states{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:30px;}
+  @media(min-width:680px){.states{grid-template-columns:repeat(3,1fr);}}
+  .st{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;}
+  .st.lead{border-color:var(--violet);box-shadow:0 0 0 3px var(--violet-soft);}
+  .st svg{width:74px;height:74px;margin-bottom:8px;}
+  .st .lab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+  .st .nm{font-family:"Newsreader",serif;font-size:18px;}
+  .st .ds{font-size:12.5px;color:var(--ink-soft);line-height:1.45;margin-top:2px;}
+  .st .sig{font-family:"IBM Plex Mono",monospace;font-size:10px;margin-top:8px;padding:2px 9px;border-radius:20px;}
+  .sig.violet{background:var(--violet-soft);color:var(--violet-ink);}
+  .sig.teal{background:#E2F4ED;color:var(--teal);}
+  .sig.amber{background:#FAF0DC;color:var(--amber);}
+  .sig.alert{background:#FAEAE7;color:var(--alert);}
+
+  .law{margin-top:26px;background:var(--violet-soft);border:1px solid #DAD6F4;border-radius:var(--r);padding:22px 26px;}
+  .law .h{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin-bottom:6px;}
+  .law .b{font-size:14px;color:var(--ink);line-height:1.55;}
+  .law .b b{color:var(--violet-ink);}
+
+  /* usage grid */
+  .use{display:grid;grid-template-columns:1fr;gap:18px;margin-top:30px;}
+  @media(min-width:760px){.use{grid-template-columns:1.1fr 1fr;}}
+  .ucard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;}
+  .ucard h3{font-size:17px;margin-bottom:4px;}
+  .ucard .cap{font-size:12.5px;color:var(--ink-soft);margin-bottom:16px;}
+  .demo{background:var(--paper-2);border:1px solid var(--line-soft);border-radius:var(--r-sm);padding:16px 18px;}
+  .lock{display:flex;align-items:center;gap:14px;}
+  .lock svg{height:46px;width:46px;flex:none;}
+  .lock .w{font-family:"Newsreader",serif;font-size:36px;font-weight:500;letter-spacing:-.02em;transform:translateY(1px);}
+  .lock.rev{background:var(--ink);border-radius:var(--r-sm);padding:18px;margin-top:12px;}
+  .lock.rev .w{color:var(--paper-2);}
+  .favs{display:flex;gap:10px;align-items:center;}
+  .tab{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);border-radius:8px 8px 0 0;padding:7px 12px;border-bottom:none;}
+  .tab.dark{background:#222230;}
+  .tab svg{width:16px;height:16px;}
+  .tab .t{font-size:11px;color:var(--ink-soft);}
+  .tab.dark .t{color:#C9C8D6;}
+  .appbar{display:flex;align-items:center;gap:10px;}
+  .appbar svg{width:30px;height:30px;}
+  .appbar .nm{font-family:"Newsreader",serif;font-size:19px;font-weight:500;}
+  .appbar .sp{flex:1;}
+  .appbar .pill{font-size:11px;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px 10px;}
+  .clearbox{position:relative;display:inline-block;}
+  .clearbox svg{width:120px;height:120px;display:block;}
+  .clearbox .grid-o{position:absolute;inset:0;border:1px dashed #C9C3F0;}
+
+  footer{padding:40px 0 70px;text-align:center;color:var(--ink-soft);font-size:13px;}
+  footer .mono{font-size:11.5px;letter-spacing:.04em;}
+
+  /* ---- motion: only the iris speaks ---- */
+  .iris{transform-box:fill-box;transform-origin:center;}
+  @keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.09);}}
+  @keyframes breathe-slow{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+  @keyframes scan{to{transform:rotate(360deg);}}
+  @keyframes pinch{0%,100%{transform:scale(.82);}50%{transform:scale(.74);}}
+  @keyframes bloom{0%{opacity:.55;transform:scale(.5);}70%{opacity:.16;transform:scale(1.5);}100%{opacity:0;transform:scale(1.7);}}
+  .a-breathe{animation:breathe 2.6s ease-in-out infinite;}
+  .a-breathe-slow{animation:breathe-slow 3.6s ease-in-out infinite;}
+  .a-scan{animation:scan 3.4s linear infinite;}
+  .a-pinch{animation:pinch 2.2s ease-in-out infinite;}
+  .a-bloom{transform-box:fill-box;transform-origin:center;animation:bloom 2.4s ease-out infinite;}
+
+  /* hero one-shot: scanning resolves to found */
+  @keyframes heroScan{0%{transform:rotate(0deg);}55%{transform:rotate(200deg);}66%{transform:rotate(225deg) scale(1.12);}78%,100%{transform:rotate(225deg) scale(1);}}
+  @keyframes heroLit{0%,60%{fill:#8B83F0;}68%,100%{fill:#5FBBA0;}}
+  @keyframes heroBase{0%,60%{fill:#574FC7;}68%,100%{fill:#0F7256;}}
+  .hero-iris{transform-box:fill-box;transform-origin:center;animation:heroScan 5.5s ease-in-out 1 both;}
+  .hero-iris .lit{animation:heroLit 5.5s ease 1 both;}
+  .hero-iris .base{animation:heroBase 5.5s ease 1 both;}
+
+  @media(prefers-reduced-motion:reduce){
+    .a-breathe,.a-breathe-slow,.a-scan,.a-pinch,.a-bloom,.hero-iris,.hero-iris .lit,.hero-iris .base{animation:none!important;}
+    .hero-iris{transform:rotate(225deg)!important;} .hero-iris .lit{fill:#5FBBA0!important;} .hero-iris .base{fill:#0F7256!important;}
+    *{transition:none!important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Renata · The Mark</div>
+    <h1>One letter. One aperture. Every state.</h1>
+    <p class="lede">The mark is a solid R, drawn as a letter rather than assembled from parts. Inside its bowl is the aperture, and the aperture is the only thing that ever changes. It is how Renata <em>tells you what she is doing</em>, in a single glance.</p>
+    <div class="hero-stage">
+      <svg class="hero-mk" id="hero" viewBox="0 0 100 100" aria-label="Renata mark resolving">
+        <path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/>
+        <circle cx="50" cy="36" r="22" fill="#574FC7"/>
+        <path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/>
+        <path d="M50 24 L63 37 L50 50 L37 37 Z" fill="#16161F"/>
+        <g class="hero-iris">
+          <path class="lit" d="M50 30 L50 44 L42 37 Z" fill="#8B83F0"/>
+          <path class="base" d="M50 30 L58 37 L50 44 Z" fill="#574FC7"/>
+        </g>
+      </svg>
+      <div class="hero-cap">
+        <div class="k">The mark · resolving</div>
+        <div class="t">She reads the field, and the aperture turns from <em>violet to teal</em> the moment an account is found.</div>
+        <div class="hint mono">click the mark to replay</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 STATES -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>The six states</h2></div>
+    <p class="sec-sub">The R never changes. Only the aperture speaks, through colour and one small motion. Each state is legible on its own, and the whole set learns in seconds.</p>
+    <div class="states">
+
+      <!-- Present -->
+      <div class="st lead">
+        <svg viewBox="0 0 100 100" aria-label="Present">
+          <path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/>
+          <path d="M50 24 L63 37 L50 50 L37 37 Z" fill="#FFFFFF"/>
+          <g class="iris"><path d="M50 30 L50 44 L42 37 Z" fill="#8B83F0"/><path d="M50 30 L58 37 L50 44 Z" fill="#574FC7"/></g>
+        </svg>
+        <div class="lab">Present</div><div class="nm">At rest</div>
+        <div class="ds">She is here and ready. The aperture sits calm and violet.</div>
+        <div class="sig violet">violet · still</div>
+      </div>
+
+      <!-- Listening -->
+      <div class="st">
+        <svg viewBox="0 0 100 100" aria-label="Listening">
+          <path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/>
+          <path d="M50 24 L63 37 L50 50 L37 37 Z" fill="#FFFFFF"/>
+          <g class="iris a-breathe"><path d="M50 30 L50 44 L42 37 Z" fill="#8B83F0"/><path d="M50 30 L58 37 L50 44 Z" fill="#574FC7"/></g>
+        </svg>
+        <div class="lab">Listening</div><div class="nm">Attending</div>
+        <div class="ds">She is taking something in. The aperture breathes, slow and even.</div>
+        <div class="sig violet">violet · breath</div>
+      </div>
+
+      <!-- Working -->
+      <div class="st">
+        <svg viewBox="0 0 100 100" aria-label="Working">
+          <path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/>
+          <path d="M50 24 L63 37 L50 50 L37 37 Z" fill="#FFFFFF"/>
+          <g class="iris a-scan"><path d="M50 30 L50 44 L42 37 Z" fill="#8B83F0"/><path d="M50 30 L58 37 L50 44 Z" fill="#574FC7"/></g>
+        </svg>
+        <div class="lab">Working</div><div class="nm">Scanning</div>
+        <div class="ds">She is reading the field. The aperture turns, hunting for the one account.</div>
+        <div class="sig violet">violet · turning</div>
+      </div>
+
+      <!-- Found -->
+      <div class="st">
+        <svg viewBox="0 0 100 100" aria-label="Found">
+          <path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/>
+          <path d="M50 24 L63 37 L50 50 L37 37 Z" fill="#FFFFFF"/>
+          <path class="a-bloom" d="M50 27 L60 37 L50 47 L40 37 Z" fill="none" stroke="#0F7256" stroke-width="2"/>
+          <g class="iris" style="transform:rotate(45deg);"><path d="M50 30 L50 44 L42 37 Z" fill="#5FBBA0"/><path d="M50 30 L58 37 L50 44 Z" fill="#0F7256"/></g>
+        </svg>
+        <div class="lab">Found</div><div class="nm">An account surfaced</div>
+        <div class="ds">She has one for you. The aperture snaps square and turns teal. The signature moment.</div>
+        <div class="sig teal">teal · snap</div>
+      </div>
+
+      <!-- Timing -->
+      <div class="st">
+        <svg viewBox="0 0 100 100" aria-label="Timing">
+          <path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/>
+          <path d="M50 24 L63 37 L50 50 L37 37 Z" fill="#FFFFFF"/>
+          <g class="iris a-breathe-slow"><path d="M50 30 L50 44 L42 37 Z" fill="#B5852E"/><path d="M50 30 L58 37 L50 44 Z" fill="#8A5A0C"/></g>
+        </svg>
+        <div class="lab">Timing</div><div class="nm">Renewal window</div>
+        <div class="ds">A clock is running. The aperture warms amber and breathes slowly.</div>
+        <div class="sig amber">amber · slow</div>
+      </div>
+
+      <!-- Alert -->
+      <div class="st">
+        <svg viewBox="0 0 100 100" aria-label="Alert">
+          <path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/>
+          <path d="M50 24 L63 37 L50 50 L37 37 Z" fill="#FFFFFF"/>
+          <g class="iris a-pinch"><path d="M50 30 L50 44 L42 37 Z" fill="#C9554F"/><path d="M50 30 L58 37 L50 44 Z" fill="#A6342E"/></g>
+        </svg>
+        <div class="lab">Alert</div><div class="nm">At risk</div>
+        <div class="ds">Something needs you now. The aperture pinches tight and turns red.</div>
+        <div class="sig alert">red · pinched</div>
+      </div>
+
+    </div>
+
+    <div class="law">
+      <div class="h">The one rule</div>
+      <div class="b">The R is fixed. <b>Only the aperture speaks</b>, through colour and one small motion: violet present, teal found, amber timing, red at risk. Motion is slow and eased, never urgent. Every state has a still end-frame, so the mark tells the truth with animation switched off.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 USAGE -->
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>The mark in use</h2></div>
+    <p class="sec-sub">One letter across every surface. It carries the live state in the app, settles to a calm violet on the page, and never breaks up at a favicon.</p>
+    <div class="use">
+
+      <div class="ucard">
+        <h3>Lockup</h3>
+        <div class="cap">The mark beside the Newsreader wordmark. Clear space is the height of the bowl on every side.</div>
+        <div class="demo">
+          <div class="lock">
+            <svg viewBox="0 0 100 100" aria-label="Renata"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#16161F"/><circle cx="50" cy="36" r="22" fill="#16161F"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#16161F"/><path d="M50 24 L63 37 L50 50 L37 37 Z" fill="#F7F6F2"/><path d="M50 30 L58 37 L50 44 L42 37 Z" fill="#574FC7"/></svg>
+            <span class="w">Renata</span>
+          </div>
+          <div class="lock rev">
+            <svg viewBox="0 0 100 100" aria-label="Renata reversed"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/><path d="M50 24 L63 37 L50 50 L37 37 Z" fill="#16161F"/><path d="M50 30 L58 37 L50 44 L42 37 Z" fill="#8B83F0"/></svg>
+            <span class="w">Renata</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ucard">
+        <h3>App bar · the live agent</h3>
+        <div class="cap">At 30px, left of the wordmark. This instance carries the state, so it pulses while she works and resolves teal when she finds something.</div>
+        <div class="demo">
+          <div class="appbar">
+            <svg viewBox="0 0 100 100"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#16161F"/><circle cx="50" cy="36" r="22" fill="#16161F"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#16161F"/><path d="M50 24 L63 37 L50 50 L37 37 Z" fill="#FFFFFF"/><g class="iris a-breathe"><path d="M50 30 L50 44 L42 37 Z" fill="#8B83F0"/><path d="M50 30 L58 37 L50 44 Z" fill="#574FC7"/></g></svg>
+            <span class="nm">Renata</span>
+            <span class="sp"></span>
+            <span class="pill">Market warm</span>
+          </div>
+        </div>
+        <div class="cap" style="margin:16px 0 0;">Favicon · holds at 16px on light and dark tabs</div>
+        <div class="demo">
+          <div class="favs">
+            <div class="tab"><svg viewBox="0 0 100 100"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#574FC7"/><circle cx="50" cy="36" r="22" fill="#574FC7"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#574FC7"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#F4F2EC"/></svg><span class="t">Renata</span></div>
+            <div class="tab dark"><svg viewBox="0 0 100 100"><path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#8B83F0"/><circle cx="50" cy="36" r="22" fill="#8B83F0"/><path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#8B83F0"/><path d="M50 26 L61 37 L50 48 L39 37 Z" fill="#222230"/></svg><span class="t">Renata</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="serif" style="font-size:17px;color:var(--ink);">Renata. Drawn, not assembled.</div>
+    <div class="mono" style="margin-top:8px;">the mark · cut terminals · the aperture speaks</div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var hero = document.getElementById('hero');
+    if(!hero) return;
+    function replay(){
+      var els = hero.querySelectorAll('.hero-iris, .hero-iris .lit, .hero-iris .base');
+      els.forEach(function(el){ el.style.animation='none'; void el.offsetWidth; el.style.animation=''; });
+    }
+    hero.addEventListener('click', replay);
+  })();
+</script>
+
+</body>
+</html>

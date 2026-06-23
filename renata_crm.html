@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Renata — Beta-Recruitment CRM</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25 14 L39 14 L40 86 L24 86 Z' fill='%23574FC7'/%3E%3Ccircle cx='50' cy='36' r='22' fill='%23574FC7'/%3E%3Cpath d='M44 54 L56 51 L85 86 L68 86 Z' fill='%23574FC7'/%3E%3Cpath d='M50 27 L60 37 L50 47 L40 37 Z' fill='%23F7F6F2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F6F2;--card:#FFFFFF;--ink:#16161F;--ink-soft:#5A5A6E;
+    --gold:#B5852E;--gold-soft:#EFE2C4;
+    --line:#E7E5DD;--line-soft:#F0EEE8;
+    --violet:#574FC7;--violet-soft:#EDEBFA;--violet-ink:#332C8A;
+    --teal:#0F7256;--teal-soft:#E2F4ED;
+    --amber:#8A5A0C;--amber-soft:#FAF0DC;--alert:#A6342E;--alert-soft:#FAEAE7;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-size:14.5px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;}
+  .voice{font-family:"Newsreader",Georgia,serif;}
+  .mono{font-family:"IBM Plex Mono",monospace;}
+  a{color:var(--violet-ink);}
+  .wrap{max-width:1140px;margin:0 auto;padding:26px 20px 80px;}
+
+  header.top{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line);padding-bottom:20px;}
+  .wm{font-family:"Newsreader",serif;font-weight:500;font-size:27px;display:flex;align-items:center;gap:11px;}
+  .wm small{font-family:"Inter";font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--violet);background:var(--violet-soft);padding:4px 9px;border-radius:7px;margin-left:4px;}
+  header.top .meta{margin-left:auto;text-align:right;font-size:12px;color:var(--ink-soft);}
+
+  nav.tabs{display:flex;gap:6px;margin:20px 0 22px;flex-wrap:wrap;}
+  nav.tabs button{font-family:inherit;font-size:13.5px;font-weight:500;color:var(--ink-soft);
+    background:transparent;border:1px solid transparent;border-radius:10px;padding:9px 15px;cursor:pointer;}
+  nav.tabs button:hover{background:var(--line-soft);}
+  nav.tabs button.on{background:var(--ink);color:#fff;}
+
+  .panel{display:none;}
+  .panel.on{display:block;animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  @media(prefers-reduced-motion:reduce){.panel.on{animation:none;}}
+
+  h2.sec{font-family:"Newsreader",serif;font-weight:500;font-size:22px;margin:0 0 4px;letter-spacing:-.01em;}
+  .sub{color:var(--ink-soft);font-size:13px;margin-bottom:18px;max-width:70ch;}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--violet);margin-bottom:10px;}
+
+  /* cards / grid */
+  .grid{display:grid;gap:14px;}
+  .g4{grid-template-columns:repeat(4,1fr);}
+  .g3{grid-template-columns:repeat(3,1fr);}
+  .g2{grid-template-columns:1.3fr 1fr;}
+  @media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr);}.g3,.g2{grid-template-columns:1fr;}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:18px 18px;}
+  .kpi .n{font-family:"IBM Plex Mono",monospace;font-size:30px;font-weight:500;line-height:1;}
+  .kpi .l{font-size:12px;color:var(--ink-soft);margin-top:7px;}
+  .kpi .l b{color:var(--ink);font-weight:600;}
+
+  /* north star */
+  .northstar{background:var(--ink);color:#fff;border-radius:18px;padding:22px 24px;display:flex;align-items:center;gap:26px;flex-wrap:wrap;}
+  .northstar .big{font-family:"IBM Plex Mono",monospace;font-size:44px;line-height:1;}
+  .northstar .big b{color:#9CE3CC;}
+  .northstar .cap{font-family:"Newsreader",serif;font-size:18px;line-height:1.4;max-width:42ch;}
+  .northstar .cap span{color:#C9C4F2;}
+
+  /* start-here list */
+  .startrow{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line-soft);}
+  .startrow:first-of-type{border-top:none;}
+  .startrow .rank{font-family:"IBM Plex Mono",monospace;color:var(--ink-soft);font-size:12px;width:20px;}
+  .startrow .nm{font-weight:600;}
+  .startrow .nm small{font-weight:400;color:var(--ink-soft);}
+  .startrow .why{color:var(--ink-soft);font-size:12.5px;margin-top:2px;}
+  .startrow .go{margin-left:auto;}
+  .btn{font-family:inherit;font-size:12px;font-weight:600;border:1px solid var(--line);background:var(--card);
+    border-radius:9px;padding:7px 12px;cursor:pointer;color:var(--violet-ink);white-space:nowrap;}
+  .btn:hover{background:var(--violet-soft);border-color:var(--violet-soft);}
+
+  /* bars */
+  .bar{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:12.5px;}
+  .bar .lab{width:160px;color:var(--ink-soft);flex-shrink:0;}
+  .bar .track{flex:1;height:9px;background:var(--line-soft);border-radius:6px;overflow:hidden;}
+  .bar .fill{height:100%;border-radius:6px;}
+  .bar .v{font-family:"IBM Plex Mono",monospace;color:var(--ink-soft);width:30px;text-align:right;}
+
+  /* controls */
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
+  .controls input,.controls select{font-family:inherit;font-size:13px;border:1px solid var(--line);
+    border-radius:9px;padding:8px 11px;background:var(--card);color:var(--ink);}
+  .controls input{flex:1;min-width:180px;}
+  .count{font-size:12px;color:var(--ink-soft);margin-left:auto;}
+
+  /* table */
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line-soft);font-size:13px;vertical-align:middle;}
+  th{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;cursor:pointer;user-select:none;background:var(--line-soft);}
+  tbody tr{cursor:pointer;}
+  tbody tr:hover{background:var(--violet-soft);}
+  td .firm{font-weight:600;}
+  td .who{color:var(--ink-soft);font-size:12px;}
+
+  .grade{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;
+    font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:13px;}
+  .grade.A{background:var(--teal-soft);color:var(--teal);}
+  .grade.B{background:var(--violet-soft);color:var(--violet-ink);}
+  .grade.C{background:var(--line-soft);color:var(--ink-soft);}
+  .grade.x{background:var(--alert-soft);color:var(--alert);font-size:11px;}
+
+  .pill{display:inline-block;font-size:11px;padding:3px 9px;border-radius:20px;background:var(--line-soft);color:var(--ink-soft);}
+  .pill.beta{background:var(--violet-soft);color:var(--violet-ink);}
+  .pill.expansion{background:var(--gold-soft);color:var(--amber);}
+  .pill.excluded{background:var(--alert-soft);color:var(--alert);}
+  .smono{font-family:"IBM Plex Mono",monospace;font-size:13px;}
+
+  /* drawer */
+  .scrim{position:fixed;inset:0;background:rgba(22,22,31,.42);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40;}
+  .scrim.on{opacity:1;pointer-events:auto;}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(560px,94vw);background:var(--paper);
+    box-shadow:-18px 0 50px rgba(22,22,31,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+    z-index:50;overflow-y:auto;}
+  .drawer.on{transform:none;}
+  @media(prefers-reduced-motion:reduce){.scrim,.drawer{transition:none;}}
+  .drawer .dpad{padding:22px 24px 60px;}
+  .drawer .close{position:sticky;top:0;float:right;font-size:20px;line-height:1;border:none;background:var(--card);
+    border:1px solid var(--line);border-radius:9px;width:34px;height:34px;cursor:pointer;color:var(--ink-soft);}
+  .dhead{display:flex;gap:16px;align-items:center;margin-bottom:6px;}
+  .ring{flex-shrink:0;}
+  .dhead .dn{font-family:"Newsreader",serif;font-size:22px;font-weight:500;line-height:1.15;}
+  .dhead .dw{color:var(--ink-soft);font-size:13px;margin-top:3px;}
+  .read{background:var(--ink);color:#fff;border-radius:13px;padding:14px 16px;margin:14px 0;
+    font-family:"Newsreader",serif;font-size:16px;line-height:1.45;}
+  .read b{color:#C9C4F2;font-weight:500;}
+  .hook{background:var(--violet-soft);border-radius:12px;padding:13px 15px;margin:12px 0;font-size:13.5px;}
+  .hook .hl{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);margin-bottom:6px;}
+  .hook .ht{font-family:"Newsreader",serif;font-size:15px;line-height:1.45;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 4px;}
+  .chip{font-size:11.5px;padding:5px 10px;border-radius:8px;display:inline-flex;gap:6px;align-items:center;}
+  .chip b{font-family:"IBM Plex Mono",monospace;font-weight:500;}
+  .chip.violet{background:var(--violet-soft);color:var(--violet-ink);}
+  .chip.teal{background:var(--teal-soft);color:var(--teal);}
+  .chip.gold{background:var(--gold-soft);color:var(--amber);}
+  .chip.amber{background:var(--amber-soft);color:var(--amber);}
+  .chip.alert{background:var(--alert-soft);color:var(--alert);}
+  .facts{margin:14px 0;}
+  .facts .f{display:flex;gap:12px;padding:7px 0;border-top:1px solid var(--line-soft);font-size:13px;}
+  .facts .f:first-child{border-top:none;}
+  .facts .f .k{width:120px;color:var(--ink-soft);flex-shrink:0;}
+  .facts .f .v{flex:1;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .tag{font-size:11px;background:var(--line-soft);color:var(--ink-soft);padding:3px 9px;border-radius:7px;}
+  .dimrow{display:flex;align-items:center;gap:9px;margin:5px 0;font-size:11.5px;}
+  .dimrow .dl{width:120px;color:var(--ink-soft);}
+  .dimrow .dt{flex:1;height:7px;background:var(--line-soft);border-radius:5px;overflow:hidden;}
+  .dimrow .df{height:100%;}
+  .dimrow .dv{font-family:"IBM Plex Mono",monospace;color:var(--ink-soft);width:42px;text-align:right;}
+  .seclabel{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-soft);margin:18px 0 8px;}
+
+  /* persona cards */
+  .pcard{border:1px solid var(--line);border-radius:16px;padding:20px;background:var(--card);position:relative;overflow:hidden;}
+  .pcard .ptag{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;display:inline-block;margin-bottom:10px;}
+  .pcard h3{font-family:"Newsreader",serif;font-weight:500;font-size:20px;margin:2px 0 4px;}
+  .pcard .pstat{font-size:12px;color:var(--ink-soft);font-style:italic;margin-bottom:10px;}
+  .pcard .ptraits{font-size:13px;margin-bottom:12px;}
+  .pcard .pangle{font-family:"Newsreader",serif;font-size:14px;line-height:1.45;background:var(--paper);border-radius:10px;padding:11px 13px;margin-bottom:12px;}
+  .pcard .pfind{font-size:11.5px;color:var(--ink-soft);}
+  .pcard .pcount{position:absolute;top:18px;right:20px;font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink-soft);}
+  .pcard .psamples{font-size:11.5px;color:var(--ink-soft);margin-top:10px;}
+  .pcard .psamples b{color:var(--ink);font-weight:600;}
+  .ring-wrap{position:relative;width:62px;height:62px;}
+  .ring-wrap .rn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:500;}
+  .footnote{margin-top:30px;font-size:11.5px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:16px;}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink-soft);margin-top:10px;}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="wm">
+      <svg width="30" height="30" viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M25 14 L39 14 L40 86 L24 86 Z" fill="#16161F"/>
+        <circle cx="50" cy="36" r="22" fill="#16161F"/>
+        <path d="M44 54 L56 51 L85 86 L68 86 Z" fill="#16161F"/>
+        <path d="M50 27 L50 47 L40 37 Z" fill="#8B83F0"/>
+        <path d="M50 27 L60 37 L50 47 Z" fill="#574FC7"/>
+        <path d="M50 32 L55 37 L50 42 L45 37 Z" fill="#16161F"/>
+      </svg>
+      Renata<small>Beta CRM</small>
+    </div>
+    <div class="meta" id="hmeta"></div>
+  </header>
+
+  <nav class="tabs" id="tabs"></nav>
+
+  <section class="panel" id="p-overview"></section>
+  <section class="panel" id="p-leads"></section>
+  <section class="panel" id="p-cohort"></section>
+  <section class="panel" id="p-personas"></section>
+
+  <div class="footnote" id="foot"></div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Lead detail"><div class="dpad" id="dpad"></div></aside>
+
+<script src="./leads_data.js"></script>
+<script>
+(function(){
+  "use strict";
+  var META = window.RENATA_META, LEADS = window.RENATA_LEADS || [];
+  // ---- tiny DOM helper (no innerHTML) ----
+  function el(tag, attrs){
+    var n = document.createElement(tag), i, k;
+    if(attrs) for(k in attrs){
+      if(k==="class") n.className = attrs[k];
+      else if(k==="text") n.textContent = attrs[k];
+      else if(k==="html") {/* never used */}
+      else if(k.slice(0,2)==="on") n.addEventListener(k.slice(2), attrs[k]);
+      else if(attrs[k]!=null) n.setAttribute(k, attrs[k]);
+    }
+    for(i=2;i<arguments.length;i++){
+      var c = arguments[i];
+      if(c==null||c===false) continue;
+      if(Array.isArray(c)) c.forEach(function(x){ if(x!=null&&x!==false) n.appendChild(typeof x==="string"?document.createTextNode(x):x); });
+      else n.appendChild(typeof c==="string"?document.createTextNode(c):c);
+    }
+    return n;
+  }
+  function clear(n){ while(n.firstChild) n.removeChild(n.firstChild); }
+  function gradeClass(g){ return g==="A"?"A":g==="B"?"B":g==="—"?"x":"C"; }
+  function colorVar(c){ return ({violet:"#574FC7",teal:"#0F7256",gold:"#B5852E",amber:"#8A5A0C",alert:"#A6342E",ink:"#5A5A6E"})[c]||"#574FC7"; }
+
+  function ring(score, grade, size){
+    size = size||62;
+    var r = (size/2)-5, c = 2*Math.PI*r, pct = Math.max(0,Math.min(1, score/100));
+    var col = grade==="A"?"#0F7256":grade==="B"?"#574FC7":"#9A98A8";
+    var svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+    svg.setAttribute("width",size); svg.setAttribute("height",size); svg.setAttribute("viewBox","0 0 "+size+" "+size);
+    function circ(stroke,w,dash){
+      var el=document.createElementNS("http://www.w3.org/2000/svg","circle");
+      el.setAttribute("cx",size/2); el.setAttribute("cy",size/2); el.setAttribute("r",r);
+      el.setAttribute("fill","none"); el.setAttribute("stroke",stroke); el.setAttribute("stroke-width",w);
+      if(dash){ el.setAttribute("stroke-dasharray",c); el.setAttribute("stroke-dashoffset",c*(1-pct));
+        el.setAttribute("stroke-linecap","round"); el.setAttribute("transform","rotate(-90 "+size/2+" "+size/2+")"); }
+      return el;
+    }
+    svg.appendChild(circ("#E7E5DD",6,false));
+    svg.appendChild(circ(col,6,true));
+    var w = el("div",{class:"ring-wrap"}); w.style.width=size+"px"; w.style.height=size+"px";
+    w.appendChild(svg);
+    w.appendChild(el("div",{class:"rn",text:String(score)}));
+    return w;
+  }
+
+  function leadsBy(tier){ return LEADS.filter(function(l){return l.tier===tier;}); }
+  function personaCount(key){ return LEADS.filter(function(l){return l.persona===key && l.tier!=="excluded";}).length; }
+  function personaSamples(key){
+    return LEADS.filter(function(l){return l.persona===key && l.tier!=="excluded";})
+      .sort(function(a,b){return b.beta_fit_score-a.beta_fit_score;}).slice(0,3)
+      .map(function(l){return l.firm_name;});
+  }
+
+  // ============ OVERVIEW ============
+  function buildOverview(){
+    var root = document.getElementById("p-overview"); clear(root);
+    var C = META.counts, beta = leadsBy("beta").sort(function(a,b){return a.beta_rank-b.beta_rank;});
+
+    root.appendChild(el("div",{class:"northstar"},
+      el("div",null, el("div",{class:"big"}, document.createTextNode(META.north_star.in_beta+""), (function(){var b=el("b");b.textContent=" / "+META.north_star.beta_target;return b;})()),
+        el("div",{style:"font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9CE3CC;margin-top:8px;font-family:'IBM Plex Mono',monospace;",text:"active beta users"})),
+      el("div",{class:"cap"}, "The only number that matters. ", el("span",{text:"Land 8–12 active design partners"}), " — gate “active” on a real activation event (loaded their book, reviewed one live in-play list), never on a polite signup.")
+    ));
+
+    // KPI row
+    var k = el("div",{class:"grid g4",style:"margin-top:14px;"});
+    function kpi(n,l1,l2){ return el("div",{class:"card kpi"}, el("div",{class:"n",text:String(n)}), el("div",{class:"l"}, el("b",{text:l1}), l2?" "+l2:"")); }
+    k.appendChild(kpi(C.total, "leads", "sourced (public data)"));
+    k.appendChild(kpi(C.beta, "Austin beta cohort", "ranked"));
+    k.appendChild(kpi(C.expansion, "nationwide", "expansion pool"));
+    k.appendChild(kpi(C.A+"·"+C.B+"·"+C.C, "A · B · C", "grade split"));
+    root.appendChild(k);
+
+    // Start here + distributions
+    var row = el("div",{class:"grid g2",style:"margin-top:14px;"});
+    var start = el("div",{class:"card"},
+      el("div",{class:"eyebrow",text:"Start here — this week"}),
+      el("h2",{class:"sec",text:"Your 5 highest-fit Austin brokers"}),
+      el("div",{class:"sub",text:"Wave 1 design partners, ranked by beta-fit. Recruit in person — at NABIP, or over coffee."}));
+    beta.slice(0,5).forEach(function(l){
+      start.appendChild(el("div",{class:"startrow"},
+        el("div",{class:"rank",text:"#"+l.beta_rank}),
+        el("span",{class:"grade "+gradeClass(l.grade),text:l.grade}),
+        el("div",{style:"flex:1;min-width:0;"},
+          el("div",{class:"nm"}, l.firm_name, l.principal_name?el("small",{text:" · "+l.principal_name}):null),
+          el("div",{class:"why",text:l.top_reason||""})),
+        el("button",{class:"btn",text:"Open",onclick:function(){openLead(l.id);}})
+      ));
+    });
+    row.appendChild(start);
+
+    // distributions
+    var dist = el("div",{class:"card"},
+      el("div",{class:"eyebrow",text:"At a glance"}),
+      el("h2",{class:"sec",text:"Pool composition"}));
+    dist.appendChild(barBlock("By tier", [
+      ["Austin beta cohort", C.beta, "#574FC7"],
+      ["Nationwide expansion", C.expansion, "#B5852E"],
+      ["Excluded (tagged)", C.excluded, "#A6342E"]
+    ], C.total));
+    var pc = META.personas.map(function(p){ return [p.name.replace("The ",""), personaCount(p.key), colorVar(p.color)]; })
+              .filter(function(x){return x[1]>0;});
+    dist.appendChild(barBlock("By persona", pc, Math.max.apply(null,pc.map(function(x){return x[1];}))));
+    row.appendChild(dist);
+    root.appendChild(row);
+
+    // method note
+    root.appendChild(el("div",{class:"card",style:"margin-top:14px;"},
+      el("div",{class:"eyebrow",text:"How the score works"}),
+      el("div",{class:"sub",style:"margin:0;"}, "Every lead's Beta-Fit Score (0–100) is the sum of checked, plain-English reason codes across five dimensions — the same transparent, reason-coded logic Renata's In-Play Score uses on employers, pointed at brokers. ",
+        el("b",{text:"Grades: A "+META.model.grades.A+" · B "+META.model.grades.B+" · C "+META.model.grades.C+"."}),
+        " No broker maxes all five dimensions, so the practical ceiling is ~70. Open any lead to see its breakdown."),
+      legend()
+    ));
+  }
+  function legend(){
+    var L = el("div",{class:"legend"});
+    META.model.dimensions.forEach(function(dm){
+      var col = colorVar(META.model.dim_color[dm]);
+      var s = el("span"); var d = el("span",{class:"dot"}); d.style.background=col; s.appendChild(d);
+      s.appendChild(document.createTextNode(dm+" ("+META.model.dim_max[dm]+")"));
+      L.appendChild(s);
+    });
+    return L;
+  }
+  function barBlock(title, rows, max){
+    var wrap = el("div",{style:"margin-top:12px;"}, el("div",{class:"seclabel",text:title}));
+    rows.forEach(function(r){
+      var pct = max? Math.round(r[1]/max*100):0;
+      var fill = el("div",{class:"fill"}); fill.style.width=Math.max(4,pct)+"%"; fill.style.background=r[2];
+      wrap.appendChild(el("div",{class:"bar"},
+        el("div",{class:"lab",text:r[0]}),
+        el("div",{class:"track"}, fill),
+        el("div",{class:"v",text:String(r[1])})));
+    });
+    return wrap;
+  }
+
+  // ============ ALL LEADS ============
+  var state = {q:"",tier:"",persona:"",grade:"",sort:"score"};
+  function buildLeads(){
+    var root = document.getElementById("p-leads"); clear(root);
+    root.appendChild(el("div",{class:"eyebrow",text:"All leads"}));
+    root.appendChild(el("h2",{class:"sec",text:"The full pipeline"}));
+    root.appendChild(el("div",{class:"sub",text:"Search, filter, and sort. Click any row for the full dossier — score breakdown, sources, Renata's read, and a ready outreach hook."}));
+
+    var ctr = el("div",{class:"controls"});
+    var q = el("input",{type:"text",placeholder:"Search firm, principal, city…",oninput:function(e){state.q=e.target.value.toLowerCase();renderRows();}});
+    ctr.appendChild(q);
+    ctr.appendChild(sel({"":"All tiers",beta:"Austin beta",expansion:"Expansion",excluded:"Excluded"},"tier"));
+    var pmap={"":"All personas"}; META.personas.forEach(function(p){pmap[p.key]=p.name.replace("The ","");});
+    ctr.appendChild(sel(pmap,"persona"));
+    ctr.appendChild(sel({"":"All grades",A:"Grade A",B:"Grade B",C:"Grade C"},"grade"));
+    ctr.appendChild(sel({score:"Sort: Score",firm:"Sort: Firm",city:"Sort: City"},"sort"));
+    var cnt = el("div",{class:"count",id:"lcount"}); ctr.appendChild(cnt);
+    root.appendChild(ctr);
+
+    var table = el("table");
+    table.appendChild(el("thead",null, el("tr",null,
+      th("Firm"), th("Grade"), th("Score"), th("Persona"), th("Location"), th("Tier"))));
+    var tb = el("tbody",{id:"lbody"});
+    table.appendChild(tb);
+    root.appendChild(table);
+    renderRows();
+  }
+  function sel(map,key){
+    var s = el("select",{onchange:function(e){state[key]=e.target.value;renderRows();}});
+    Object.keys(map).forEach(function(k){ s.appendChild(el("option",{value:k,text:map[k]})); });
+    return s;
+  }
+  function th(t){ return el("th",{text:t,onclick:function(){
+    state.sort = (t==="Firm")?"firm":(t==="Location")?"city":"score"; renderRows();
+  }}); }
+  function personaName(key){ var p=META.personas.filter(function(x){return x.key===key;})[0]; return p?p.name.replace("The ",""):key; }
+  function renderRows(){
+    var tb = document.getElementById("lbody"); if(!tb) return; clear(tb);
+    var rows = LEADS.filter(function(l){
+      if(state.tier && l.tier!==state.tier) return false;
+      if(state.persona && l.persona!==state.persona) return false;
+      if(state.grade && l.grade!==state.grade) return false;
+      if(state.q){
+        var hay = (l.firm_name+" "+(l.principal_name||"")+" "+(l.city||"")+" "+(l.state||"")).toLowerCase();
+        if(hay.indexOf(state.q)<0) return false;
+      }
+      return true;
+    });
+    rows.sort(function(a,b){
+      if(state.sort==="firm") return a.firm_name.localeCompare(b.firm_name);
+      if(state.sort==="city") return (a.city||"~").localeCompare(b.city||"~");
+      return b.beta_fit_score-a.beta_fit_score;
+    });
+    rows.forEach(function(l){
+      var tr = el("tr",{onclick:function(){openLead(l.id);}},
+        el("td",null, el("div",{class:"firm",text:l.firm_name}),
+           el("div",{class:"who",text:[l.principal_name,l.title].filter(Boolean).join(" · ")||(l.independence||"")})),
+        el("td",null, el("span",{class:"grade "+gradeClass(l.grade),text:l.grade})),
+        el("td",null, el("span",{class:"smono",text:l.tier==="excluded"?"—":String(l.beta_fit_score)})),
+        el("td",{text:personaName(l.persona)}),
+        el("td",null, el("span",{text:[l.city,l.state].filter(Boolean).join(", ")})),
+        el("td",null, el("span",{class:"pill "+l.tier,text:l.tier})));
+      tb.appendChild(tr);
+    });
+    var c=document.getElementById("lcount"); if(c) c.textContent=rows.length+" of "+LEADS.length;
+  }
+
+  // ============ BETA COHORT ============
+  function buildCohort(){
+    var root = document.getElementById("p-cohort"); clear(root);
+    root.appendChild(el("div",{class:"eyebrow",text:"Austin beta cohort"}));
+    root.appendChild(el("h2",{class:"sec",text:"The 14 most-qualified Austin-metro brokers, ranked"}));
+    root.appendChild(el("div",{class:"sub"}, "Selected from the nationwide pool by Beta-Fit, filtered to the Austin / Central-Texas beachhead. ",
+      el("b",{text:"Wave 1"})," = recruit in person first (debug onboarding on no one but your best). ",
+      el("b",{text:"Wave 2"})," fires 2–3 weeks later. Backfill from the nationwide pool if active count lags — ~30 cold Austin leads alone yield only 3–4 active."));
+    var beta = leadsBy("beta").sort(function(a,b){return a.beta_rank-b.beta_rank;});
+    ["Wave 1 — Design Partners","Wave 2 — Early Cohort"].forEach(function(w){
+      root.appendChild(el("div",{class:"seclabel",style:"margin-top:22px;",text:w}));
+      beta.filter(function(l){return l.wave===w;}).forEach(function(l){
+        root.appendChild(cohortCard(l));
+      });
+    });
+  }
+  function cohortCard(l){
+    var card = el("div",{class:"card",style:"display:flex;gap:16px;align-items:flex-start;margin-bottom:10px;cursor:pointer;",
+      onclick:function(){openLead(l.id);}});
+    card.appendChild(ring(l.beta_fit_score, l.grade, 58));
+    var mid = el("div",{style:"flex:1;min-width:0;"},
+      el("div",{style:"display:flex;align-items:center;gap:9px;flex-wrap:wrap;"},
+        el("span",{style:"font-weight:600;font-size:15px;",text:"#"+l.beta_rank+"  "+l.firm_name}),
+        el("span",{class:"grade "+gradeClass(l.grade),text:l.grade}),
+        el("span",{class:"pill",text:personaName(l.persona)})),
+      el("div",{class:"who",style:"margin:3px 0 6px;",text:[l.principal_name,l.title,[l.city,l.state].filter(Boolean).join(", ")].filter(Boolean).join(" · ")}),
+      el("div",{style:"font-size:13px;color:var(--ink-soft);",text:l.top_reason||""}));
+    card.appendChild(mid);
+    return card;
+  }
+
+  // ============ PERSONAS ============
+  function buildPersonas(){
+    var root = document.getElementById("p-personas"); clear(root);
+    root.appendChild(el("div",{class:"eyebrow",text:"Persona dashboard"}));
+    root.appendChild(el("h2",{class:"sec",text:"Who you're really talking to"}));
+    root.appendChild(el("div",{class:"sub",text:"Six broker archetypes from the data — four to target, one secondary, one to skip. Each card carries the message angle that lands and real sample firms from the CRM. Persona drives the outreach copy."}));
+    var g = el("div",{class:"grid g2"});
+    META.personas.forEach(function(p){
+      var samples = personaSamples(p.key), cnt = personaCount(p.key);
+      var tagBg = ({PRIMARY:"var(--violet-soft)",STRONG:"var(--amber-soft)",DISTRIBUTION:"var(--gold-soft)",SECONDARY:"var(--line-soft)",SKIP:"var(--alert-soft)"})[p.rank];
+      var tagCol = ({PRIMARY:"var(--violet-ink)",STRONG:"var(--amber)",DISTRIBUTION:"var(--amber)",SECONDARY:"var(--ink-soft)",SKIP:"var(--alert)"})[p.rank];
+      var tag = el("span",{class:"ptag",text:p.rank}); tag.style.background=tagBg; tag.style.color=tagCol;
+      var card = el("div",{class:"pcard"},
+        el("div",{class:"pcount",text:cnt+(cnt===1?" lead":" leads")}),
+        tag,
+        el("h3",{text:p.name}),
+        el("div",{class:"pstat",text:p.stat}),
+        el("div",{class:"ptraits",text:p.traits}),
+        el("div",{class:"pangle",text:p.angle}),
+        el("div",{class:"pfind"}, el("b",{text:"Find them: ",style:"color:var(--ink);"}), p.find),
+        samples.length?el("div",{class:"psamples"}, el("b",{text:"In this CRM: "}), samples.join(", ")):null);
+      var accent = colorVar(p.color);
+      card.style.borderTop = "3px solid "+accent;
+      g.appendChild(card);
+    });
+    root.appendChild(g);
+  }
+
+  // ============ DRAWER ============
+  function openLead(id){
+    var l = LEADS.filter(function(x){return x.id===id;})[0]; if(!l) return;
+    var d = document.getElementById("dpad"); clear(d);
+    d.appendChild(el("button",{class:"close",text:"×",onclick:closeDrawer,"aria-label":"Close"}));
+    d.appendChild(el("div",{class:"dhead"},
+      l.tier!=="excluded"?el("div",{class:"ring"}, ring(l.beta_fit_score,l.grade,72)):el("span",{class:"grade x",style:"width:40px;height:40px;",text:"EX"}),
+      el("div",null,
+        el("div",{class:"dn",text:l.firm_name}),
+        el("div",{class:"dw",text:[l.principal_name,l.title].filter(Boolean).join(" · ")||l.independence}),
+        el("div",{style:"margin-top:7px;display:flex;gap:7px;flex-wrap:wrap;"},
+          el("span",{class:"pill "+l.tier,text:l.tier}),
+          l.tier!=="excluded"?el("span",{class:"grade "+gradeClass(l.grade),text:"Grade "+l.grade,style:"width:auto;padding:0 8px;"}):null,
+          el("span",{class:"pill",text:personaName(l.persona)}),
+          l.wave?el("span",{class:"pill beta",text:l.wave.split(" — ")[0]}):null)
+      )));
+
+    if(l.exclude_reason){
+      d.appendChild(el("div",{class:"hook",style:"background:var(--alert-soft);"},
+        el("div",{class:"hl",style:"color:var(--alert);",text:"Excluded — tagged so it's never re-researched"}),
+        el("div",{style:"font-size:13.5px;",text:l.exclude_reason})));
+    }
+    if(l.renata_read){
+      d.appendChild(el("div",{class:"read"}, el("b",{text:"Renata's read — "}), l.renata_read));
+    }
+    if(l.top_reason && !l.renata_read){
+      d.appendChild(el("div",{class:"hook"}, el("div",{class:"hl",text:"Top reason"}), el("div",{style:"font-size:13.5px;",text:l.top_reason})));
+    }
+    if(l.outreach_hook){
+      d.appendChild(el("div",{class:"hook"},
+        el("div",{class:"hl",text:"Outreach hook — lead with their fact, not “I found you”"}),
+        el("div",{class:"ht",text:"“"+l.outreach_hook+"”"})));
+    }
+
+    if(l.reason_chips && l.reason_chips.length){
+      d.appendChild(el("div",{class:"seclabel",text:"Beta-fit score breakdown — every point is a checked reason"}));
+      var chips = el("div",{class:"chips"});
+      l.reason_chips.forEach(function(c){
+        chips.appendChild(el("span",{class:"chip "+c.color}, c.label, el("b",{text:"+"+c.points})));
+      });
+      d.appendChild(chips);
+      // dimension bars
+      var dims = el("div",{style:"margin-top:12px;"});
+      l.dimensions.forEach(function(dm){
+        var pct = dm.max?Math.round(dm.points/dm.max*100):0;
+        var f = el("div",{class:"df"}); f.style.width=Math.max(3,pct)+"%"; f.style.background=colorVar(dm.color);
+        dims.appendChild(el("div",{class:"dimrow"},
+          el("div",{class:"dl",text:dm.dim}),
+          el("div",{class:"dt"}, f),
+          el("div",{class:"dv",text:dm.points+"/"+dm.max})));
+      });
+      d.appendChild(dims);
+    }
+
+    d.appendChild(el("div",{class:"seclabel",text:"Firm facts"}));
+    var facts = el("div",{class:"facts"});
+    function fact(k,v){ if(!v) return; facts.appendChild(el("div",{class:"f"}, el("div",{class:"k",text:k}), el("div",{class:"v"}, v))); }
+    fact("Location",[l.city,l.state].filter(Boolean).join(", "));
+    fact("Size",l.firm_size_band);
+    fact("Market",l.market_focus);
+    fact("Independence",l.independence);
+    fact("NABIP",l.nabip && l.nabip!=="unknown"?l.nabip:null);
+    if(l.website) fact("Website", el("a",{href:l.website,target:"_blank",rel:"noopener",text:l.website.replace(/^https?:\/\//,"")}));
+    if(l.public_linkedin_url) fact("LinkedIn", el("a",{href:l.public_linkedin_url,target:"_blank",rel:"noopener",text:"public profile (verified, not scraped)"}));
+    fact("Contact",l.contact_path);
+    if(l.shared_context) fact("Warm context", l.shared_context);
+    if(l.data_completeness!=null) fact("Data completeness", l.data_completeness+"%");
+    d.appendChild(facts);
+
+    if(l.specialties && l.specialties.length){
+      d.appendChild(el("div",{class:"seclabel",text:"Specialties"}));
+      d.appendChild(tagRow(l.specialties));
+    }
+    if(l.early_adopter_signals && l.early_adopter_signals.length){
+      d.appendChild(el("div",{class:"seclabel",text:"Early-adopter signals"}));
+      d.appendChild(tagRow(l.early_adopter_signals));
+    }
+    if(l.pain_signals && l.pain_signals.length){
+      d.appendChild(el("div",{class:"seclabel",text:"Pain / hunter signals"}));
+      d.appendChild(tagRow(l.pain_signals));
+    }
+    if(l.notes){ d.appendChild(el("div",{class:"seclabel",text:"Notes"})); d.appendChild(el("div",{style:"font-size:12.5px;color:var(--ink-soft);",text:l.notes})); }
+    if(l.source_urls && l.source_urls.length){
+      d.appendChild(el("div",{class:"seclabel",text:"Sources (public)"}));
+      var ul = el("div",{style:"font-size:12px;"});
+      l.source_urls.forEach(function(u){ ul.appendChild(el("div",{style:"margin:3px 0;"}, el("a",{href:u,target:"_blank",rel:"noopener",text:u.replace(/^https?:\/\//,"").slice(0,60)}))); });
+      d.appendChild(ul);
+    }
+
+    document.getElementById("scrim").classList.add("on");
+    document.getElementById("drawer").classList.add("on");
+  }
+  function tagRow(arr){ var w=el("div",{class:"tags"}); arr.forEach(function(t){w.appendChild(el("span",{class:"tag",text:t}));}); return w; }
+  function closeDrawer(){ document.getElementById("scrim").classList.remove("on"); document.getElementById("drawer").classList.remove("on"); }
+  document.getElementById("scrim").addEventListener("click",closeDrawer);
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeDrawer(); });
+
+  // ============ TABS ============
+  var TABS = [["overview","Overview"],["leads","All leads"],["cohort","Beta cohort"],["personas","Personas"]];
+  function showTab(key){
+    TABS.forEach(function(t){
+      document.getElementById("p-"+t[0]).classList.toggle("on",t[0]===key);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("#tabs button"),function(b){
+      b.classList.toggle("on", b.getAttribute("data-k")===key);
+    });
+  }
+  function buildTabs(){
+    var nav = document.getElementById("tabs"); clear(nav);
+    TABS.forEach(function(t){
+      nav.appendChild(el("button",{"data-k":t[0],text:t[1],onclick:function(){showTab(t[0]);}}));
+    });
+  }
+
+  // ============ INIT ============
+  document.getElementById("hmeta").appendChild(el("div",null,
+    el("div",{text:META.title}),
+    el("div",{style:"font-family:'IBM Plex Mono',monospace;font-size:11px;",text:"generated "+META.generated+" · "+META.counts.total+" leads · public-source data"})));
+  buildTabs(); buildOverview(); buildLeads(); buildCohort(); buildPersonas();
+  showTab("overview");
+  document.getElementById("foot").appendChild(el("div",null,
+    el("div",{text:"Sourcing is public-data only (firm sites, NABIP Austin, DOL Form 5500, Health Rosetta directory, press/podcasts). LinkedIn URLs are human-verified references, never scraped. Outreach is human-sent, one-to-one, US-only, opt-out-clean — never bulk-automated."}),
+    el("div",{style:"margin-top:6px;",text:"Strategy: docs/CRM_STRATEGY.md · EBI log: docs/EBI_CRM.md · Data: crm/leads.json + crm/leads.csv (rebuild with crm/build_crm.py)."})
+  ));
+})();
+</script>
+</body>
+</html>
