@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Renata — Exit, Acquirers &amp; Comps</title>
+<link rel="icon" type="image/svg+xml" href="brand/renata-favicon.svg">
+<link rel="apple-touch-icon" href="brand/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F2EC; --paper-2:#F7F6F2; --card:#FFFFFF;
+    --ink:#16161F; --ink-soft:#5A5A6A; --line:#E4E1D8; --line-soft:#EFEDE6;
+    --violet:#574FC7; --violet-lt:#8B83F0; --violet-soft:#EEECFB; --violet-ink:#332C8A;
+    --teal:#0F7256; --teal-soft:#E2F4ED; --amber:#8A5A0C; --alert:#A6342E;
+    --r:16px; --r-sm:10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+  .mono{font-family:"IBM Plex Mono",monospace;}
+  .serif{font-family:"Newsreader",Georgia,serif;}
+  h1,h2,h3{font-family:"Newsreader",serif;font-weight:500;letter-spacing:-.015em;margin:0;}
+
+  header{padding:60px 0 40px;border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);margin-bottom:16px;}
+  h1{font-size:42px;line-height:1.06;max-width:20ch;}
+  .lede{font-family:"Newsreader",serif;font-size:19px;color:var(--ink-soft);max-width:64ch;margin-top:16px;line-height:1.5;}
+  .lede em{font-style:italic;color:var(--violet-ink);}
+
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .sec-num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--violet);letter-spacing:.1em;}
+  h2{font-size:26px;}
+  .sec-sub{font-family:"Newsreader",serif;font-size:17px;color:var(--ink-soft);max-width:64ch;margin-top:10px;line-height:1.5;}
+
+  .verdict{background:var(--ink);color:var(--paper-2);border-radius:var(--r);padding:30px 32px;margin-top:8px;}
+  .verdict .k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet-lt);}
+  .verdict h3{color:var(--paper-2);font-size:23px;margin:12px 0 14px;max-width:34ch;}
+  .verdict p{color:#A6A5B4;font-size:14px;line-height:1.6;margin:0 0 10px;}
+  .verdict b{color:#B7B2EC;}
+  .verdict .warn{color:#E7C9A6;}
+
+  .tablewrap{overflow-x:auto;margin-top:24px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:760px;}
+  th{text-align:left;padding:12px 14px;border-bottom:2px solid var(--line);font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;}
+  td{padding:13px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  .deal{font-weight:600;font-family:"Newsreader",serif;font-size:14px;}
+  .mult{font-family:"IBM Plex Mono",monospace;font-weight:500;color:var(--violet-ink);}
+  .vt{font-size:11px;color:var(--ink-soft);}
+
+  .acq{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px;}
+  @media(min-width:760px){.acq{grid-template-columns:1fr 1fr;}}
+  .ac{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;}
+  .ac.lead{border-color:#C9C3F0;box-shadow:0 0 0 3px var(--violet-soft);}
+  .ac h3{font-size:16px;display:flex;align-items:center;gap:8px;}
+  .ac .names{font-size:13px;margin-top:8px;line-height:1.6;}
+  .ac .names b{color:var(--violet-ink);}
+  .ac .why{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.5;}
+  .pill{display:inline-block;font-size:9px;font-family:"IBM Plex Mono",monospace;letter-spacing:.04em;padding:2px 7px;border-radius:20px;text-transform:uppercase;background:var(--violet);color:#fff;}
+
+  .play{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px;}
+  @media(min-width:680px){.play{grid-template-columns:repeat(4,1fr);}}
+  .ps{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:16px;}
+  .ps .n{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--violet);}
+  .ps b{display:block;margin:6px 0 4px;font-family:"Newsreader",serif;font-weight:500;font-size:15px;}
+  .ps span{font-size:12px;color:var(--ink-soft);line-height:1.45;}
+
+  .caveats{margin-top:24px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+  .caveats b{color:var(--ink);}
+  .src{margin-top:18px;font-size:11.5px;color:var(--ink-soft);line-height:1.8;}
+  .src a{color:var(--violet-ink);}
+  footer{padding:36px 0 64px;text-align:center;color:var(--ink-soft);font-size:13px;}
+  footer .mono{font-size:11.5px;letter-spacing:.04em;margin-top:8px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Renata · Exit, Acquirers &amp; Comps</div>
+    <h1>Who buys, at what multiple, and how fast.</h1>
+    <p class="lede">The operator playbook only works if there is a buyer at the end of it. There is, and it is one of the most active M&amp;A machines in finance. This is the exit map: the comps, the named acquirers, and the honest timeline to a <em>sellable book</em>.</p>
+  </div>
+</header>
+
+<!-- VERDICT -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>The verdict</h2></div>
+    <div class="verdict">
+      <div class="k">Fastest, highest-multiple exit</div>
+      <h3>Build a recurring book in benefits + 401(k), then sell it into the insurance roll-up machine.</h3>
+      <p>Established agency and advisory books sell at <b>~11–12x EBITDA on average</b> (platform firms 14–18x with earnouts), and PE-backed aggregators drove <b>~71% of 854 US brokerage deals in 2025</b>. The buyer demand is deep, durable, and serial. The <b>401(k) / retirement-plan advisory</b> re-skin sits in the same machine, runs off the same Form 5500 file, and is consolidating fast, with proven roll-up value creation (CAPTRUST roughly tripled to $3.7B in three years across 29 acquisitions).</p>
+      <p class="warn">The hard caveat: those multiples are for established books with roughly $1M+ of durable recurring EBITDA. A brand-new two-founder shop has no sellable EBITDA for years. Realistically it is <b style="color:#E7C9A6;">3 to 5+ years of book-building</b> before you are a tuck-in anyone will buy. There is no quick flip. The engine builds the book faster; it does not skip the calendar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMPS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>The comps</h2></div>
+    <p class="sec-sub">Recent verified transactions and the multiples that price this market. Big deals are scale benchmarks; the line that matters for us is the tuck-in range.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Deal</th><th>Year</th><th>Vertical</th><th>Size</th><th>Multiple</th></tr></thead>
+        <tbody>
+          <tr><td><span class="deal">Benchmark: agency books</span></td><td>2025</td><td><span class="vt">Insurance / benefits</span></td><td><span class="vt">all sizes</span></td><td><span class="mult">~11–12x EBITDA</span><div class="vt">platform 14–18x · tuck-in 7.5–12x · 8x floor</div></td></tr>
+          <tr><td><span class="deal">Gallagher → AssuredPartners</span></td><td>2025</td><td><span class="vt">Benefits + P&amp;C</span></td><td><span class="mono">$13.45B</span></td><td><span class="mult">~4.6x rev / ~11.3x EBITDAC</span><div class="vt">largest US broker sale to a strategic</div></td></tr>
+          <tr><td><span class="deal">Marsh McLennan → McGriff</span></td><td>2024</td><td><span class="vt">Benefits + P&amp;C</span></td><td><span class="mono">~$7.75B</span></td><td><span class="mult">~$1.3B revenue</span><div class="vt">folded into Marsh McLennan Agency</div></td></tr>
+          <tr><td><span class="deal">Aon → NFP</span></td><td>2024</td><td><span class="vt">P&amp;C + benefits + wealth + retirement</span></td><td><span class="mono">~$13.0–13.4B</span></td><td><span class="mult">strategic</span><div class="vt">spans all our verticals at once</div></td></tr>
+          <tr><td><span class="deal">Carlyle / GTCR → CAPTRUST (stake)</span></td><td>2023</td><td><span class="vt">401(k) / RPA</span></td><td><span class="mono">$3.7B+ val</span></td><td><span class="mult">~3x in 3 yrs</span><div class="vt">29 acquisitions, $1.25B → $3.7B</div></td></tr>
+          <tr><td><span class="deal">Creative Planning → SageView</span></td><td>2025</td><td><span class="vt">401(k) / RPA</span></td><td><span class="mono">~$235B AUA</span></td><td><span class="mult">—</span><div class="vt">Aquiline had paid ~$325M (2021)</div></td></tr>
+          <tr><td><span class="deal">OneDigital → Wintrust retirement</span></td><td>2024</td><td><span class="vt">401(k) / RPA</span></td><td><span class="mono">~$2.6B accts</span></td><td><span class="mult">—</span><div class="vt">200+ plan sponsors, 40k+ participants</div></td></tr>
+          <tr><td><span class="deal">Ryan LLC → Paradigm Tax Group</span></td><td>2022</td><td><span class="vt">Property-tax</span></td><td><span class="vt">largest pure-play</span></td><td><span class="mult">no multiple disclosed</span><div class="vt">3 property-tax buys in 2022</div></td></tr>
+          <tr><td><span class="deal">Public govcon primes</span></td><td>2024</td><td><span class="vt">Govcon</span></td><td><span class="vt">large-cap only</span></td><td><span class="mult">11–21x EV/EBITDA (~15x med)</span><div class="vt">size-gated; small firms discount hard</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ACQUIRERS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Who the acquirers are</h2></div>
+    <p class="sec-sub">Serial, PE-backed, and hungry. These are concrete exit counterparties, not theory.</p>
+    <div class="acq">
+      <div class="ac lead">
+        <h3>401(k) / retirement advisory <span class="pill">our pick</span></h3>
+        <div class="names"><b>CAPTRUST</b> (marquee roll-up) · <b>OneDigital Retirement</b> · <b>Creative Planning</b> · <b>Hub Retirement</b> · <b>Mariner</b> · <b>SageView</b></div>
+        <div class="why">Buying retirement books for purchasing power with recordkeepers and expanded fiduciary consulting. CAPTRUST alone did 29 deals in three years. Same Form 5500 file we already run.</div>
+      </div>
+      <div class="ac">
+        <h3>Benefits &amp; commercial P&amp;C</h3>
+        <div class="names"><b>BroadStreet Partners</b> (#1, ~65–69 deals/yr) · <b>Inszone</b> (~45) · <b>ALKEME</b> (~42) · <b>Hub International</b> (~49) · Gallagher · Marsh McLennan Agency · Aon/NFP · OneDigital · AssuredPartners · World · Patriot Growth · Acrisure</div>
+        <div class="why">The deepest tuck-in market in finance. The big strategics (Aon/NFP, MMA, OneDigital) buy benefits AND retirement, so a multi-line book off one engine is a more attractive target.</div>
+      </div>
+      <div class="ac">
+        <h3>Property-tax appeals</h3>
+        <div class="names"><b>Ryan LLC</b> (the consolidator) · Altus Group · Kroll</div>
+        <div class="why">Active buyer (3 property-tax acquisitions in 2022), but no public EBITDA-multiple comp surfaced, so liquidity and pricing rank below insurance and RPA. A cash business more than an exit story.</div>
+      </div>
+      <div class="ac">
+        <h3>Govcon &amp; CRE</h3>
+        <div class="names">Govcon: large primes (CACI, Booz Allen, Leidos, SAIC). CRE: CBRE, JLL, Cushman, Newmark, Colliers</div>
+        <div class="why">Govcon multiples are great but only at large-cap scale, a steep discount for a small private firm. CRE majors were named but not verified as buyers of small data-driven operators. Both rank low for us.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE PLAYBOOK -->
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>The playbook to a sellable book</h2></div>
+    <p class="sec-sub">There is no shortcut to the multiple. The path is to build a recurring book faster than a normal agency could, across two lines the same buyers want, then tuck in.</p>
+    <div class="play">
+      <div class="ps"><div class="n">01 · now</div><b>Become the operator</b><span>License, sign a GA for appointments and back-office, point Renata at Austin mid-market. Benefits first, 401(k) off the same file.</span></div>
+      <div class="ps"><div class="n">02 · yr 1–2</div><b>Build recurring revenue</b><span>Win and retain accounts. Recurring commission and advisory fees are the asset. Retention and low client concentration are what a buyer diligences.</span></div>
+      <div class="ps"><div class="n">03 · yr 3–5</div><b>Reach the tuck-in floor</b><span>Roughly $1M+ of durable EBITDA (a few $M revenue). Multi-line (benefits + retirement) makes you a cleaner target.</span></div>
+      <div class="ps"><div class="n">04 · exit</div><b>Sell into the machine</b><span>Tuck-in at ~8–12x EBITDA to a serial acquirer (CAPTRUST, OneDigital, BroadStreet, Inszone). Platform-level 14–18x comes only with scale.</span></div>
+    </div>
+
+    <div class="caveats">
+      <b>Caveats and honesty.</b> Every high multiple here is for an <b>established book with durable recurring EBITDA</b>, not a nascent two-founder shop. A new operator has no sellable EBITDA for years; tuck-ins trade at the low end (7.5–12x), platform deals (14–18x) require scale. Multiples are at <b>cyclical highs</b> (peaked Q3 2024, roughly flat through 2025) and are rate and credit-spread sensitive, so they could compress inside a 3 to 5 year window. M&amp;A-advisory sources (Sica Fletcher, MarshBerry) are interested parties, though their figures are conservative and corroborated; deal-count rankings vary by provider. No multiple comps surfaced for the insurtech-native exits (Newfront, Nava). <b>Open question:</b> whether a proprietary Form 5500 data engine adds standalone acquisition value or a multiple premium, or whether acquirers only pay for the resulting book. The honest base case: they pay for the book; the engine's job is to build it faster.</div>
+    <div class="src">
+      <b>Sources.</b>
+      <a href="https://www.leadersedge.com/industry/brokerage-ma-holds-firm-in-volatile-economy">Leader's Edge / MarshBerry — brokerage M&amp;A</a> ·
+      <a href="https://www.sicafletcher.com/2025-valuations-interest-rates-spreads-deal-volume">Sica Fletcher — 2025 valuations</a> ·
+      <a href="https://www.sicafletcher.com/post/insurance-agency-valuation-rule-of-thumb-scf">Sica Fletcher — agency multiple rule of thumb</a> ·
+      <a href="https://www.insurancejournal.com/news/national/2025/08/18/836091.htm">Insurance Journal — Gallagher / AssuredPartners</a> ·
+      <a href="https://www.corporate.marsh.com/news-events/2024/november/marsh-mclennan-completes-acquisition-of-mcgriff-insurance-services.html">Marsh McLennan — McGriff close</a> ·
+      <a href="https://www.cravath.com/news-insights/aons-dollar134-billion-acquisition-of-nfp.html">Cravath — Aon / NFP</a> ·
+      <a href="https://pe-insights.com/carlyle-joins-gtcr-as-strategic-investor-in-captrust-valued-more-than-3-7bn/">PE Insights — Carlyle / CAPTRUST</a> ·
+      <a href="https://www.wealthmanagement.com/rpa-news/what-creative-planning-s-acquisition-of-sageview-means-for-advisors-and-the-401-k-industry">WealthMgmt — Creative Planning / SageView</a> ·
+      <a href="https://401kspecialistmag.com/corporate-roundup-onedigital-acquires-wintrusts-retirement-division-captrust-pontera-partnership/">401k Specialist — OneDigital / Wintrust</a> ·
+      <a href="https://www.businesswire.com/news/home/20220719005084/en/Ryan-Acquires-Paradigm-Tax-Group-Expanding-Property-Tax-Management-Services-Across-the-United-States">BusinessWire — Ryan / Paradigm</a> ·
+      <a href="https://www.cohnreznick.com/insights/government-contractor-valuation-tracker-h1-2024">CohnReznick — govcon valuation tracker</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="serif" style="font-size:17px;color:var(--ink);">Renata. Build the book, then sell it.</div>
+    <div class="mono">exit, acquirers &amp; comps · verified deep research · 2026</div>
+  </div>
+</footer>
+
+</body>
+</html>
