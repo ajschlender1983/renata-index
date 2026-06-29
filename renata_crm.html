@@ -244,6 +244,7 @@
   <section class="panel" id="p-cohort"></section>
   <section class="panel" id="p-personas"></section>
   <section class="panel" id="p-gtm"></section>
+  <section class="panel" id="p-employers"></section>
 
   <div class="footnote" id="foot"></div>
 </div>
@@ -719,12 +720,56 @@
   document.getElementById("scrim").addEventListener("click",closeDrawer);
   document.addEventListener("keydown",function(e){ if(e.key==="Escape"){ closeDrawer(); closeModal(); } });
 
+  // ====================================================== EMPLOYERS (in-play research)
+  // Research candidates for the broker model. Names + approx headcount are public;
+  // renewal month, carrier, cost-per-head, and the In-Play Score come from each
+  // employer's DOL Form 5500 filing once the ingest is pointed at this list.
+  var EMPLOYERS=[
+    {name:"Bazaarvoice",       ind:"Marketing software",     emp:"~750",   why:"Mid-market HQ; pull the 5500 for renewal and cost-per-head"},
+    {name:"RetailMeNot",       ind:"Consumer software",      emp:"~500",   why:"Ownership changes; benefits are often re-bid after M&A"},
+    {name:"Kendra Scott",      ind:"Retail / jewelry",       emp:"~2,000", why:"Retail full/part-time mix; churn raises plan cost"},
+    {name:"Alamo Drafthouse",  ind:"Entertainment",          emp:"~1,500", why:"Hospitality workforce; ACA exposure worth a timing check"},
+    {name:"Certain Affinity",  ind:"Video games",            emp:"~250",   why:"Profitable mid-market; likely fully-insured, sticky incumbent"},
+    {name:"CrowdStreet",       ind:"Fintech / real estate",  emp:"~200",   why:"Post-restructuring; benefits frequently in flux"},
+    {name:"The Zebra",         ind:"Insurtech",              emp:"~300",   why:"Insurance-savvy buyer; responds to a transparent pitch"},
+    {name:"Self Financial",    ind:"Fintech",                emp:"~300",   why:"Venture-backed growth; headcount swings move plan economics"},
+    {name:"Aceable",           ind:"Edtech",                 emp:"~200",   why:"Mid-market HQ; renewal unknown, good 5500 candidate"},
+    {name:"Khoros",            ind:"Software",               emp:"~400",   why:"Post-merger entity; consolidated plans are often mispriced"},
+    {name:"ZenBusiness",       ind:"SMB services",           emp:"~300",   why:"Fast-scaled headcount; cost-per-head likely drifting over peers"},
+    {name:"Volusion",          ind:"E-commerce software",    emp:"~150",   why:"Smaller mid-market; fully-insured, commission-rich"}
+  ];
+  function buildEmployers(){
+    var root=document.getElementById("p-employers"); clear(root);
+    root.appendChild(el("div",{class:"eyebrow",text:"Employers · in-play research"}));
+    root.appendChild(el("h2",{class:"sec",text:"Austin employers to win as broker of record"}));
+    root.appendChild(el("div",{class:"sub"}, "Research candidates for the broker model. Names and approximate headcounts are public. ",
+      el("b",{text:"Renewal month, carrier, cost-per-head, and the In-Play Score come from each employer's DOL Form 5500 filing once the ingest is pointed at this list."})));
+    root.appendChild(el("div",{class:"sub",style:"margin-top:6px;",text:EMPLOYERS.length+" candidates · Austin / Central Texas · mid-market (roughly 100 to 2,000 employees)"}));
+    var t=el("table",{style:"width:100%;border-collapse:collapse;margin-top:18px;"});
+    var hr=el("tr",{});
+    ["Company","Industry","Metro","~Headcount","Why a candidate","Status"].forEach(function(h){
+      hr.appendChild(el("th",{style:"text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);color:var(--ink-soft);font-weight:500;font-size:11px;letter-spacing:.05em;text-transform:uppercase;",text:h})); });
+    t.appendChild(hr);
+    var cell="padding:11px 10px;border-bottom:1px solid var(--line-soft);font-size:13px;vertical-align:top;";
+    EMPLOYERS.forEach(function(e){
+      var tr=el("tr",{});
+      tr.appendChild(el("td",{style:cell+"font-weight:600;white-space:nowrap;",text:e.name}));
+      tr.appendChild(el("td",{style:cell,text:e.ind}));
+      tr.appendChild(el("td",{style:cell+"color:var(--ink-soft);",text:"Austin, TX"}));
+      tr.appendChild(el("td",{style:cell+"color:var(--ink-soft);",text:e.emp}));
+      tr.appendChild(el("td",{style:cell+"color:var(--ink-soft);max-width:340px;",text:e.why}));
+      tr.appendChild(el("td",{style:cell}, el("span",{class:"pill",text:"To enrich"})));
+      t.appendChild(tr);
+    });
+    root.appendChild(t);
+  }
+
   // ====================================================== tabs
-  var TABS=[["overview","Overview"],["pipeline","Pipeline"],["cohort","Beta cohort"],["personas","Personas"],["gtm","GTM"]];
+  var TABS=[["overview","Overview"],["employers","Employers"],["pipeline","Pipeline"],["cohort","Beta cohort"],["personas","Personas"],["gtm","GTM"]];
   function showTab(key){ TABS.forEach(function(t){ document.getElementById("p-"+t[0]).classList.toggle("on",t[0]===key); });
     Array.prototype.forEach.call(document.querySelectorAll("#tabs button"),function(b){ b.classList.toggle("on", b.getAttribute("data-k")===key); }); }
   function buildTabs(){ var nav=document.getElementById("tabs"); clear(nav); TABS.forEach(function(t){ nav.appendChild(el("button",{"data-k":t[0],text:t[1],onclick:function(){showTab(t[0]);}})); }); }
-  function rerenderAll(){ buildOverview(); buildPipeline(); buildCohort(); buildPersonas(); buildGTM(); }
+  function rerenderAll(){ buildOverview(); buildEmployers(); buildPipeline(); buildCohort(); buildPersonas(); buildGTM(); }
 
   function header(){
     var h=document.getElementById("hmeta"); clear(h);
