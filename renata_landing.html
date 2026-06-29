@@ -132,14 +132,14 @@
       </svg>
       Renata
     </div>
-    <button class="btn" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">Get your Radar</button>
+    <button class="btn" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">Free audit</button>
   </div>
 
   <div class="hero">
-    <div class="free">● free to look · pay only to unlock</div>
-    <h1>See which companies near you are about to switch benefits brokers.</h1>
-    <p>Renata is the agent that reads every public filing, finds the accounts in play, and writes the outreach. Your job is the one thing she can't do: <span class="voice" style="color:var(--ink);font-style:italic;">the right human touch, at the perfect time.</span></p>
-    <button class="btn lg" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">Show me my Radar →</button>
+    <div class="free">● free benefits audit · no obligation</div>
+    <h1>Your benefits renewal is coming. You are probably overpaying.</h1>
+    <p>Renata is a modern benefits brokerage for mid-market employers. We read your public filings, find exactly where you are over your peers, and bring you the numbers <span class="voice" style="color:var(--ink);font-style:italic;">before your renewal, in days not weeks.</span></p>
+    <button class="btn lg" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">Get my free audit →</button>
   </div>
 
   <!-- LIVE DASHBOARD -->
@@ -149,8 +149,8 @@
       <span class="sep">·</span>
       <span>last refreshed <b id="refreshed">just now</b></span>
       <span class="sep">·</span>
-      <span><b id="count">1,284</b> accounts in play this week</span>
-      <span class="temp">lead quality <span class="hot">HOT</span><span class="gauge" title="lead temperature"></span></span>
+      <span><b id="count">1,284</b> mid-market employers overpaying this week</span>
+      <span class="temp">avg overspend <span class="hot">HIGH</span><span class="gauge" title="overspend gauge"></span></span>
     </div>
     <table>
       <thead><tr><th>Company</th><th>Why it's in play</th><th class="r">Est. spend</th><th class="c">In&nbsp;play</th></tr></thead>
@@ -178,53 +178,36 @@
       </tbody>
     </table>
     <div class="lockbar">
-      <span class="txt">🔒 <b id="more">38</b> more in-play accounts in your metro</span>
+      <span class="txt">🔒 We are tracking <b id="more">38</b> more mid-market employers in your metro</span>
       <button class="btn" onclick="document.getElementById('offer').scrollIntoView({behavior:'smooth'})">Unlock</button>
     </div>
   </div>
 
   <!-- STEPS -->
   <div class="steps">
-    <div class="step"><div class="n">01</div><b>See the opportunity</b><span>Your metro's in-play accounts, free. Renewal timing, spend, and who the incumbent broker is.</span></div>
-    <div class="step"><div class="n">02</div><b>Unlock the names</b><span>One tap reveals every account and the reasons it's in play, refreshed constantly.</span></div>
-    <div class="step"><div class="n">03</div><b>Renata writes the outreach</b><span>Each account comes with a tailored intro, ready to send.</span></div>
+    <div class="step"><div class="n">01</div><b>We read your filing</b><span>Your public benefits data shows your renewal date, your spend, and how you compare to similar employers.</span></div>
+    <div class="step"><div class="n">02</div><b>We find the savings</b><span>Renata scores exactly where you are overpaying. Most mid-market groups run 15 to 25% over comparable peers.</span></div>
+    <div class="step"><div class="n">03</div><b>We become your broker</b><span>Transparent, with no hidden commissions. We bring real options before your renewal and stay on your side.</span></div>
   </div>
 
   <!-- THE PROMISE -->
   <div style="text-align:center;background:var(--ink);color:#fff;border-radius:18px;padding:30px 26px;margin:8px 0 34px;">
-    <div style="font-family:'Newsreader',serif;font-size:24px;line-height:1.4;max-width:30ch;margin:0 auto;">Renata does the finding, the scoring, and the writing. You do the one thing that closes: <span style="color:#C9C4F2;">the human touch, at the perfect time.</span></div>
+    <div style="font-family:'Newsreader',serif;font-size:24px;line-height:1.4;max-width:34ch;margin:0 auto;">We do the finding, the scoring, and the audit. You keep the savings. <span style="color:#C9C4F2;">No hidden commissions, no carrier kickbacks, ever.</span></div>
   </div>
 
   <!-- OFFER + CALCULATOR -->
   <div id="offer">
-    <div class="section-h"><h2>Pick the plan that fits how you sell.</h2><p>One closed account pays for years of either plan. Run your own numbers.</p></div>
-    <div class="plans">
-      <div class="plan" id="planPerf"><div class="pn">Performance</div><div class="pp">$99<span style="font-size:13px;">/mo</span></div><div class="pd">+ $750 per closed win, billed only when you win.</div></div>
-      <div class="plan pick" id="planFlat"><div class="pn">Flat · unlimited wins</div><div class="pp">$399<span style="font-size:13px;">/mo</span></div><div class="pd">For steady closers. No per-win fees, ever.</div></div>
+    <div class="section-h"><h2>A free audit, before your renewal.</h2><p>We show you exactly where you stand against comparable employers. No obligation, no hidden fees, no sales pressure.</p></div>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><b>Your cost versus peers</b><span>The real number: what you spend per employee against similar mid-market groups in your market.</span></div>
+      <div class="step"><div class="n">02</div><b>Your renewal leverage</b><span>When your plan renews, and where the room is to move the rate this cycle.</span></div>
+      <div class="step"><div class="n">03</div><b>A transparent path</b><span>If we can save you money, we show you how, and exactly what becoming your broker would look like.</span></div>
     </div>
-
-    <div class="calc">
-      <h3>Your break-even, both ways</h3>
-      <div class="field">
-        <label>Average annual commission per account you win: <span class="val" id="vAcct">$30,000</span></label>
-        <input type="range" id="acct" min="10000" max="60000" step="1000" value="30000">
-      </div>
-      <div class="field">
-        <label>Accounts you expect to win per year with Renata: <span class="val" id="vWins">3</span></label>
-        <input type="range" id="wins" min="1" max="12" step="1" value="3">
-      </div>
-      <div class="result">
-        <div class="rc"><div class="k">Performance plan / yr</div><div class="v" id="costPerf">$3,438</div></div>
-        <div class="rc"><div class="k">Flat plan / yr</div><div class="v" id="costFlat">$4,788</div></div>
-        <div class="rc"><div class="k">Value you'd capture</div><div class="v good" id="value">$90,000</div></div>
-        <div class="rc"><div class="k">Return on the tool</div><div class="v good" id="roi">19×</div></div>
-      </div>
-      <div class="verdict" id="verdict"></div>
-      <div style="text-align:center;margin-top:16px;"><button class="btn lg">Start free · unlock my metro</button></div>
-    </div>
+    <div style="text-align:center;margin-top:24px;"><button class="btn lg">Get my free audit</button></div>
+    <div style="text-align:center;margin-top:12px;color:var(--ink-soft);font-size:13px;">We are paid transparently and only when we deliver. You will always know exactly what we make.</div>
   </div>
 
-  <footer>Renata reads the filings so you don't have to. · Data refreshed continuously from public sources.</footer>
+  <footer>Renata reads the filings so you do not have to. · A modern, transparent benefits brokerage for mid-market employers.</footer>
 </div>
 
 <!-- CLOSE TICKER -->
@@ -241,34 +224,15 @@ setInterval(()=>{secs+=1;const m=Math.floor(secs/60);
 setInterval(()=>{secs=2;const c=document.getElementById('count');
   c.textContent=(1280+Math.floor(Math.random()*20)).toLocaleString();},9000);
 
-// break-even calculator
-const acct=document.getElementById('acct'),wins=document.getElementById('wins');
-function money(n){return '$'+Math.round(n).toLocaleString();}
-function calc(){
-  const a=+acct.value,w=+wins.value;
-  document.getElementById('vAcct').textContent=money(a);
-  document.getElementById('vWins').textContent=w;
-  const perf=99*12+750*w, flat=399*12;
-  const value=a*w, cheaper=perf<flat?'Performance':'Flat', best=Math.min(perf,flat);
-  document.getElementById('costPerf').textContent=money(perf);
-  document.getElementById('costFlat').textContent=money(flat);
-  document.getElementById('value').textContent=money(value);
-  document.getElementById('roi').textContent=(value/best).toFixed(0)+'×';
-  document.getElementById('planPerf').classList.toggle('pick',cheaper==='Performance');
-  document.getElementById('planFlat').classList.toggle('pick',cheaper==='Flat');
-  document.getElementById('verdict').innerHTML='At <b>'+w+'</b> win'+(w>1?'s':'')+' a year, the <b>'+cheaper+
-    '</b> plan is cheaper for you, '+money(best)+'/yr against '+money(value)+
-    ' in commission. Renata pays for itself <b>'+(value/best).toFixed(0)+'×</b> over.';
-}
-acct.oninput=calc;wins.oninput=calc;calc();
+// (broker break-even calculator removed — this is the employer-facing page)
 
-// close-deal ticker (placeholder data; wire to live closes later)
+// social-proof ticker (illustrative; wire to live results later)
 const closes=[
-  ['A broker in <b>Dallas</b> just closed a 140-life group','2 min ago'],
-  ['A broker in <b>Austin</b> just unlocked their metro','5 min ago'],
-  ['A broker in <b>Houston</b> just closed an 80-life group','11 min ago'],
-  ['A broker in <b>San Antonio</b> just closed a 220-life group','18 min ago'],
-  ['A broker in <b>Fort Worth</b> just booked 4 renewal meetings','24 min ago']
+  ['An <b>Austin</b> manufacturer just found <b>19%</b> in benefits savings','2 min ago'],
+  ['A <b>Round Rock</b> distributor cut <b>$214k</b> off its renewal','5 min ago'],
+  ['A Central Texas clinic group switched and saved <b>22%</b>','11 min ago'],
+  ['A <b>San Marcos</b> employer booked a free audit','18 min ago'],
+  ['A <b>Cedar Park</b> services firm beat its renewal by <b>14%</b>','24 min ago']
 ];
 let ti=0;const toast=document.getElementById('toast');
 function popToast(){

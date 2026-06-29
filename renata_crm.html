@@ -725,29 +725,29 @@
   // renewal month, carrier, cost-per-head, and the In-Play Score come from each
   // employer's DOL Form 5500 filing once the ingest is pointed at this list.
   var EMPLOYERS=[
-    {name:"Bazaarvoice",       ind:"Marketing software",     emp:"~750",   why:"Mid-market HQ; pull the 5500 for renewal and cost-per-head"},
-    {name:"RetailMeNot",       ind:"Consumer software",      emp:"~500",   why:"Ownership changes; benefits are often re-bid after M&A"},
-    {name:"Kendra Scott",      ind:"Retail / jewelry",       emp:"~2,000", why:"Retail full/part-time mix; churn raises plan cost"},
-    {name:"Alamo Drafthouse",  ind:"Entertainment",          emp:"~1,500", why:"Hospitality workforce; ACA exposure worth a timing check"},
-    {name:"Certain Affinity",  ind:"Video games",            emp:"~250",   why:"Profitable mid-market; likely fully-insured, sticky incumbent"},
-    {name:"CrowdStreet",       ind:"Fintech / real estate",  emp:"~200",   why:"Post-restructuring; benefits frequently in flux"},
-    {name:"The Zebra",         ind:"Insurtech",              emp:"~300",   why:"Insurance-savvy buyer; responds to a transparent pitch"},
-    {name:"Self Financial",    ind:"Fintech",                emp:"~300",   why:"Venture-backed growth; headcount swings move plan economics"},
-    {name:"Aceable",           ind:"Edtech",                 emp:"~200",   why:"Mid-market HQ; renewal unknown, good 5500 candidate"},
-    {name:"Khoros",            ind:"Software",               emp:"~400",   why:"Post-merger entity; consolidated plans are often mispriced"},
-    {name:"ZenBusiness",       ind:"SMB services",           emp:"~300",   why:"Fast-scaled headcount; cost-per-head likely drifting over peers"},
-    {name:"Volusion",          ind:"E-commerce software",    emp:"~150",   why:"Smaller mid-market; fully-insured, commission-rich"}
+    {name:"McCoy's Building Supply",     ind:"Building materials",      emp:"~2,000", why:"Large blue-collar workforce; cost-per-head likely high. Pull renewal + peer benchmark"},
+    {name:"Texas Disposal Systems",      ind:"Waste / environmental",   emp:"~1,000", why:"Hourly, multi-site; fully-insured with a sticky local incumbent"},
+    {name:"Fifth Generation (Tito's)",   ind:"Beverage manufacturing",  emp:"~500",   why:"Profitable manufacturer; plan likely running over peers"},
+    {name:"Yeti",                        ind:"Consumer products / mfg", emp:"~1,200", why:"Growth + manufacturing mix; renewal timing worth checking"},
+    {name:"Kerbey Lane Cafe",            ind:"Restaurants",             emp:"~700",   why:"High-turnover hourly; ACA exposure and renewal are the levers"},
+    {name:"P. Terry's Burger Stand",     ind:"Restaurants",             emp:"~900",   why:"Fast-growing chain; headcount swings move plan economics"},
+    {name:"Torchy's Tacos",              ind:"Restaurants",             emp:"~1,500", why:"Multi-unit hourly; rate increases hit hard, strong timing pitch"},
+    {name:"Austin Regional Clinic",      ind:"Healthcare",              emp:"~1,500", why:"Large group; self-insured candidate, PEPM consulting fee"},
+    {name:"Lone Star Circle of Care",    ind:"Community healthcare",    emp:"~1,000", why:"Mission-driven; a cost-discipline pitch lands well"},
+    {name:"Rogers-O'Brien Construction", ind:"Commercial construction", emp:"~600",   why:"Project-based workforce; comp and renewal often misaligned"},
+    {name:"TDIndustries",                ind:"Mechanical / construction", emp:"~2,000", why:"Employee-owned; cost transparency resonates with the board"},
+    {name:"ABC Home & Commercial",       ind:"Home / commercial services", emp:"~1,000", why:"Family-owned services firm; classic sleepy-broker account"}
   ];
   function buildEmployers(){
     var root=document.getElementById("p-employers"); clear(root);
     root.appendChild(el("div",{class:"eyebrow",text:"Employers · in-play research"}));
     root.appendChild(el("h2",{class:"sec",text:"Austin employers to win as broker of record"}));
-    root.appendChild(el("div",{class:"sub"}, "Research candidates for the broker model. Names and approximate headcounts are public. ",
+    root.appendChild(el("div",{class:"sub"}, "Non-tech mid-market employers across Austin / Central Texas: the fully-insured, commission-rich groups the venture brokers ignore. Names and approximate headcounts are public. ",
       el("b",{text:"Renewal month, carrier, cost-per-head, and the In-Play Score come from each employer's DOL Form 5500 filing once the ingest is pointed at this list."})));
-    root.appendChild(el("div",{class:"sub",style:"margin-top:6px;",text:EMPLOYERS.length+" candidates · Austin / Central Texas · mid-market (roughly 100 to 2,000 employees)"}));
+    root.appendChild(el("div",{class:"sub",style:"margin-top:6px;",text:EMPLOYERS.length+" candidates · manufacturing, healthcare, construction, distribution, restaurants, services · roughly 500 to 2,000 employees"}));
     var t=el("table",{style:"width:100%;border-collapse:collapse;margin-top:18px;"});
     var hr=el("tr",{});
-    ["Company","Industry","Metro","~Headcount","Why a candidate","Status"].forEach(function(h){
+    ["Company","Sector","Metro","~Headcount","Likely trigger (to confirm via 5500)","Status"].forEach(function(h){
       hr.appendChild(el("th",{style:"text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);color:var(--ink-soft);font-weight:500;font-size:11px;letter-spacing:.05em;text-transform:uppercase;",text:h})); });
     t.appendChild(hr);
     var cell="padding:11px 10px;border-bottom:1px solid var(--line-soft);font-size:13px;vertical-align:top;";
