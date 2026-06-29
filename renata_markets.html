@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Renata — Markets, TAM/SAM &amp; Disruptive Pricing</title>
+<link rel="icon" type="image/svg+xml" href="brand/renata-favicon.svg">
+<link rel="apple-touch-icon" href="brand/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F2EC; --paper-2:#F7F6F2; --card:#FFFFFF;
+    --ink:#16161F; --ink-soft:#5A5A6A; --line:#E4E1D8; --line-soft:#EFEDE6;
+    --violet:#574FC7; --violet-lt:#8B83F0; --violet-soft:#EEECFB; --violet-ink:#332C8A;
+    --teal:#0F7256; --teal-soft:#E2F4ED; --amber:#8A5A0C; --amber-soft:#FAF0DC; --alert:#A6342E;
+    --r:16px; --r-sm:10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+  .mono{font-family:"IBM Plex Mono",monospace;}
+  .serif{font-family:"Newsreader",Georgia,serif;}
+  h1,h2,h3{font-family:"Newsreader",serif;font-weight:500;letter-spacing:-.015em;margin:0;}
+
+  header{padding:60px 0 40px;border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);margin-bottom:16px;}
+  h1{font-size:42px;line-height:1.06;max-width:20ch;}
+  .lede{font-family:"Newsreader",serif;font-size:19px;color:var(--ink-soft);max-width:62ch;margin-top:16px;line-height:1.5;}
+  .lede em{font-style:italic;color:var(--violet-ink);}
+
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .sec-num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--violet);letter-spacing:.1em;}
+  h2{font-size:26px;}
+  .sec-sub{font-family:"Newsreader",serif;font-size:17px;color:var(--ink-soft);max-width:64ch;margin-top:10px;line-height:1.5;}
+
+  .note{background:var(--violet-soft);border:1px solid #DAD6F4;border-radius:var(--r);padding:18px 22px;margin-top:22px;font-size:13.5px;line-height:1.55;}
+  .note b{color:var(--violet-ink);}
+
+  .tablewrap{overflow-x:auto;margin-top:26px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:840px;}
+  th{text-align:left;padding:13px 14px;border-bottom:2px solid var(--line);font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;vertical-align:bottom;}
+  td{padding:14px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  .mkt{font-weight:600;font-size:14px;font-family:"Newsreader",serif;}
+  .mkt .sm{display:block;font-family:"Inter",sans-serif;font-weight:400;font-size:11.5px;color:var(--ink-soft);margin-top:2px;}
+  .num{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:14px;}
+  .num .sm{display:block;font-size:10.5px;color:var(--ink-soft);font-weight:400;margin-top:2px;}
+  .fit{display:inline-flex;gap:1px;font-size:13px;}
+  .pick td{background:#FBFBFE;}
+  .pill{display:inline-block;font-size:10px;font-family:"IBM Plex Mono",monospace;letter-spacing:.04em;padding:2px 7px;border-radius:20px;text-transform:uppercase;}
+  .pill.win{background:var(--violet);color:#fff;}
+  .star{color:var(--violet);} .star.off{color:var(--line);}
+
+  .price{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px;}
+  @media(min-width:760px){.price{grid-template-columns:1fr 1fr;}}
+  .pc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;}
+  .pc h3{font-size:16px;}
+  .pc .inc{font-size:12.5px;color:var(--alert);margin:8px 0 4px;}
+  .pc .dis{font-size:12.5px;color:var(--teal);}
+  .pc .inc b,.pc .dis b{font-family:"IBM Plex Mono",monospace;font-size:11.5px;}
+  .pc .body{font-size:13px;color:var(--ink-soft);margin-top:8px;line-height:1.5;}
+
+  .reco{background:var(--ink);color:var(--paper-2);border-radius:var(--r);padding:30px 32px;margin-top:26px;}
+  .reco .k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet-lt);}
+  .reco h3{color:var(--paper-2);font-size:23px;margin:12px 0 14px;max-width:30ch;}
+  .reco p{color:#A6A5B4;font-size:14px;line-height:1.6;margin:0;}
+  .reco b{color:#B7B2EC;}
+
+  .caveats{margin-top:24px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+  .caveats b{color:var(--ink);}
+  .src{margin-top:18px;font-size:11.5px;color:var(--ink-soft);line-height:1.8;}
+  .src a{color:var(--violet-ink);}
+  footer{padding:36px 0 64px;text-align:center;color:var(--ink-soft);font-size:13px;}
+  footer .mono{font-size:11.5px;letter-spacing:.04em;margin-top:8px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Renata · Markets &amp; Pricing</div>
+    <h1>One engine, many markets. Where it pays.</h1>
+    <p class="lede">Renata's build is a pattern: a public dataset reveals a timed switching trigger, the deal is high-value and recurring, the incumbent is sleepy, and you win by outbound at the right moment. This is the TAM, the serviceable mid-market, and the <em>disruptive price</em> for each market the same engine can re-skin into.</p>
+  </div>
+</header>
+
+<!-- 01 TAM / SAM TABLE -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>TAM, SAM, and re-skin fit</h2></div>
+    <p class="sec-sub">TAM here is the annual revenue pool for the <em>operator</em> (the commissions or fees, not the underlying premium or asset base). SAM is the mid-market slice the public-data engine can realistically target. Beachhead is Central Texas, where we would start.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="min-width:170px;">Market</th>
+            <th>Operator TAM<br>(US, /yr)</th>
+            <th>Mid-market SAM<br>(US, /yr)</th>
+            <th>Beachhead SAM<br>(Central TX)</th>
+            <th>Trigger data</th>
+            <th>Re-skin fit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="pick">
+            <td><span class="mkt">401(k) advisory <span class="pill win">#1</span><span class="sm">Retirement plan fiduciary / advisor</span></span></td>
+            <td><span class="num">~$5–8B<span class="sm">advisor comp on DC plans</span></span></td>
+            <td><span class="num">~$1.5–3B<span class="sm">$5M–$100M plans</span></span></td>
+            <td><span class="num">~$25–50M</span></td>
+            <td>Form 5500 (Sch C/H/R)<span class="sm" style="display:block;color:var(--teal);font-size:10.5px;font-family:'IBM Plex Mono';">free · same file</span></td>
+            <td><span class="fit"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></span></td>
+          </tr>
+          <tr>
+            <td><span class="mkt">Property-tax appeals<span class="sm">Commercial assessment protest</span></span></td>
+            <td><span class="num">~$2–3B<span class="sm">appeal-services segment</span></span></td>
+            <td><span class="num">~$1.5–2.5B<span class="sm">commercial contingency</span></span></td>
+            <td><span class="num">~$150–300M<span class="sm">TX is a top protest state</span></span></td>
+            <td>County assessment rolls<span class="sm" style="display:block;color:var(--amber);font-size:10.5px;font-family:'IBM Plex Mono';">free · county by county</span></td>
+            <td><span class="fit"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star off">★</span></span></td>
+          </tr>
+          <tr>
+            <td><span class="mkt">Employee benefits<span class="sm">The core (current)</span></span></td>
+            <td><span class="num">~$13B<span class="sm">benefits broker pool</span></span></td>
+            <td><span class="num">~$3–5B<span class="sm">100–2,000 employees</span></span></td>
+            <td><span class="num">~$40–80M</span></td>
+            <td>Form 5500 (Sch A)<span class="sm" style="display:block;color:var(--teal);font-size:10.5px;font-family:'IBM Plex Mono';">free · in production</span></td>
+            <td><span class="fit"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></span></td>
+          </tr>
+          <tr>
+            <td><span class="mkt">Commercial P&amp;C<span class="sm">Workers' comp, GL, property</span></span></td>
+            <td><span class="num">~$50–70B<span class="sm">commercial broker rev</span></span></td>
+            <td><span class="num">~$10–20B<span class="sm">mid-market commercial</span></span></td>
+            <td><span class="num">~$100–200M</span></td>
+            <td>Mixed (5500 only for insured benefits)<span class="sm" style="display:block;color:var(--amber);font-size:10.5px;font-family:'IBM Plex Mono';">partly free · messier</span></td>
+            <td><span class="fit"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star off">★</span><span class="star off">★</span></span></td>
+          </tr>
+          <tr>
+            <td><span class="mkt">CRE lease renewals<span class="sm">Tenant representation</span></span></td>
+            <td><span class="num">~$30–40B<span class="sm">US CRE brokerage</span></span></td>
+            <td><span class="num">~$5–10B<span class="sm">mid-market office/industrial</span></span></td>
+            <td><span class="num">~$50–100M</span></td>
+            <td>Lease-expiry (CompStak)<span class="sm" style="display:block;color:var(--alert);font-size:10.5px;font-family:'IBM Plex Mono';">gated · proprietary</span></td>
+            <td><span class="fit"><span class="star">★</span><span class="star">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td>
+          </tr>
+          <tr>
+            <td><span class="mkt">Govcon recompetes<span class="sm">Capture / bid support</span></span></td>
+            <td><span class="num">~$3–5B<span class="sm">capture &amp; proposal svcs</span></span></td>
+            <td><span class="num">~$1–2B<span class="sm">small/mid contractors</span></span></td>
+            <td><span class="num">small / national</span></td>
+            <td>SAM.gov (API only)<span class="sm" style="display:block;color:var(--alert);font-size:10.5px;font-family:'IBM Plex Mono';">free API · scraping banned</span></td>
+            <td><span class="fit"><span class="star">★</span><span class="star">★</span><span class="star off">★</span><span class="star off">★</span><span class="star off">★</span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>How to read this.</b> These are directional estimates synthesized from the market reports cited below, not audited figures. Operator TAM is the fee/commission pool, which is a fraction of the underlying market (for example commercial P&amp;C brokerage revenue is a slice of ~$1T in premium). SAM assumes we can only serve the mid-market the public-data engine surfaces. Beachhead SAM is the realistically winnable Central-Texas slice in the first 12 to 24 months, not the whole metro.</div>
+  </div>
+</section>
+
+<!-- 02 DISRUPTIVE PRICING -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Disruptive pricing, market by market</h2></div>
+    <p class="sec-sub">Every one of these incumbents hides the price or charges in a way that grows their fee as the client's cost grows. The disruption is the same in each: make it transparent and align the fee to delivered savings.</p>
+    <div class="price">
+
+      <div class="pc">
+        <h3>401(k) advisory <span class="pill win" style="vertical-align:middle;">#1</span></h3>
+        <div class="inc">Incumbent: <b>0.2–0.5% of plan assets</b>, asset-based, conflicted</div>
+        <div class="dis">Disruption: <b>flat annual fiduciary fee</b> (3(38)), decoupled from assets</div>
+        <div class="body">Asset-based fees punish the client as their balance grows and reward the advisor for doing nothing. A flat fee (for example $12k–$40k/yr by plan size) is a hard transparency wedge, and the bigger and more overpaying the plan, the more obvious the savings. Renata flags the high-fee plans; the flat fee closes them.</div>
+      </div>
+
+      <div class="pc">
+        <h3>Property-tax appeals</h3>
+        <div class="inc">Incumbent: <b>~50% contingency</b> of year-one savings</div>
+        <div class="dis">Disruption: <b>30–40% contingency</b>, or flat per-property, AI-evidenced</div>
+        <div class="body">The 50% no-win-no-fee model is standard and sticky. Automated comp-pulling and evidence generation lets us undercut to 30–40% (or a flat fee per parcel) and still profit on volume. The pitch stays "you pay nothing unless we cut your bill," just cheaper and faster.</div>
+      </div>
+
+      <div class="pc">
+        <h3>Employee benefits (core)</h3>
+        <div class="inc">Incumbent: <b>hidden commission</b> baked into premium</div>
+        <div class="dis">Disruption: <b>disclosed fee, paid on delivered savings</b></div>
+        <div class="body">Higher premium means a higher hidden commission, so the incumbent has no reason to lower your cost. We disclose exactly what we make and tie it to the savings we find. The free audit is the top of the funnel.</div>
+      </div>
+
+      <div class="pc">
+        <h3>Commercial P&amp;C</h3>
+        <div class="inc">Incumbent: <b>embedded commission</b>, 10–15% of premium</div>
+        <div class="dis">Disruption: <b>flat or fee-based</b>, transparent broker of record</div>
+        <div class="body">Same transparency play as benefits, larger premiums, but the trigger data is messier (Form 5500 only covers insured benefits, not workers' comp or property). Strong economics, harder data. A later arm, not the wedge.</div>
+      </div>
+
+      <div class="pc">
+        <h3>CRE lease renewals</h3>
+        <div class="inc">Incumbent: <b>landlord-paid commission</b> (the conflict)</div>
+        <div class="dis">Disruption: <b>tenant-side, rebate or flat fee</b></div>
+        <div class="body">The tenant rep is usually paid by the landlord, which is the conflict. A transparent tenant-only model that rebates part of the commission is the disruption. But the lease-expiry trigger data is proprietary and gated, so our free-data edge does not transfer. Park it unless we buy data.</div>
+      </div>
+
+      <div class="pc">
+        <h3>Govcon recompetes</h3>
+        <div class="inc">Incumbent: <b>expensive capture consultants</b>, day rates</div>
+        <div class="dis">Disruption: <b>success fee on awards</b>, or AI capture intel</div>
+        <div class="body">Recompete dates are a clean trigger, but SAM.gov bans UI scraping (sanctioned API only), and the operator path means becoming a bid shop, a different business. Interesting, compliance-boxed, lowest fit.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 03 RECOMMENDATION -->
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Where the math points</h2></div>
+    <div class="reco">
+      <div class="k">The recommendation</div>
+      <h3>401(k) advisory is the cheapest re-skin with real economics, off the file we already ingest.</h3>
+      <p>It is the same Form 5500 dataset, just different schedules, so nearly the whole ingestion, scoring, outbound, and CRM stack transfers in about a week. A <b>~$1.5–3B mid-market SAM</b>, recurring fees of <b>$15k–$80k per plan</b>, and a flat-fee transparency wedge against asset-based incumbents. Property-tax appeals is the strongest license-free second move (pure contingency, public rolls, huge in Texas). The deeper point for Andrew and for investors: <b>the engine is the asset, and the data is nearly free across a whole family of verticals</b>. One 5500 pipeline can run a benefits brokerage, a 401(k) advisory, and a commercial P&amp;C arm, with a property-tax contingency play on the side.</p>
+    </div>
+    <div class="caveats">
+      <b>Caveats and honesty.</b> Numbers are directional estimates, not audited. Form 5500 is a <b>lagging</b> signal (filed roughly 7 months after plan-year end), so it surfaces who is overpaying or who already switched, not a live, real-time moment; the durable edge is mispricing-versus-peers plus renewal timing, not switch prediction. The viral "80% of 401(k) plans overpay" stat was refuted in our research and is not used here. Commercial P&amp;C and CRE re-skins do not run cleanly off Form 5500, so their data cost is higher than the headline fit suggests. SAM and beachhead figures are our assumptions about a winnable slice, and the beta exists to test the trigger's real conversion before scaling spend.</div>
+    <div class="src">
+      <b>Sources.</b>
+      <a href="https://www.precedenceresearch.com/employee-benefit-broker-market">Precedence — benefits broker market</a> ·
+      <a href="https://www.mordorintelligence.com/industry-reports/united-states-insurance-brokerage-market">Mordor — US insurance brokerage</a> ·
+      <a href="https://www.napa-net.org/news/2024/2/advisor-comp-rk-admin-data-among-new-features-401k-averages-book/">NAPA — 401(k) advisor comp / fees</a> ·
+      <a href="https://www.employeefiduciary.com/blog/401k-advisor-fee-study">Employee Fiduciary — 401(k) advisor fee study</a> ·
+      <a href="https://www.marketresearchfuture.com/reports/property-tax-service-market-36777">MRFR — property-tax service market</a> ·
+      <a href="https://www.poconnor.com/property-tax-fiduciary-1-11/">O'Connor — contingency terms</a> ·
+      <a href="https://straitsresearch.com/report/commercial-real-estate-brokerage-and-management-market">Straits — CRE brokerage market</a> ·
+      <a href="https://compstak.com/exchange">CompStak — lease data</a> ·
+      <a href="https://sam.gov/about/terms-of-use">SAM.gov — terms of use</a> ·
+      <a href="https://www.dol.gov/agencies/ebsa/about-ebsa/our-activities/public-disclosure/foia/form-5500-datasets">DOL EBSA — Form 5500 datasets</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="serif" style="font-size:17px;color:var(--ink);">Renata. One engine, many markets.</div>
+    <div class="mono">markets &amp; pricing · directional estimates · 2026</div>
+  </div>
+</footer>
+
+</body>
+</html>
